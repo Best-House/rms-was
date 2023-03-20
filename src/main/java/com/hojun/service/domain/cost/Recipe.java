@@ -1,17 +1,30 @@
 package com.hojun.service.domain.cost;
 
-public class Recipe {
-    private Ingredient ingredient;
+import java.util.HashMap;
+import java.util.Map;
 
-    public int calculatePrice() {
-        if (ingredient == null) {
+public class Recipe {
+    private Map<Ingredient, Integer> ingredientQuantities;
+
+    public Recipe() {
+        ingredientQuantities = new HashMap<>();
+    }
+
+    public int calculatePrice(Map<Ingredient, Integer> priceList) {
+        if (ingredientQuantities.isEmpty()) {
             return 0;
         } else {
-            return 1;
+            int result = 0;
+            for(Map.Entry<Ingredient, Integer> entry :ingredientQuantities.entrySet()) {
+                int pricePerQuantity = priceList.get(entry.getKey());
+                int price = pricePerQuantity * entry.getValue();
+                result += price;
+            }
+            return result;
         }
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void addIngredient(int quantity, Ingredient ingredient) {
+        ingredientQuantities.put(ingredient, quantity);
     }
 }
