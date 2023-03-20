@@ -34,9 +34,9 @@ public class RecipePriceCalculatorTest {
         Recipe recipe = new Recipe();
 
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
-        PriceCalculation priceCalculation = recipePriceCalculator.calculatePrice(recipe, priceList);
-        assertEquals(0, priceCalculation.getResult());
-        assertTrue(priceCalculation.getIngredientsWithoutPriceTag().isEmpty());
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
+        assertEquals(0, recipePrice.getPrice());
+        assertTrue(recipePrice.getIngredientsWithoutPriceTag().isEmpty());
     }
 
     @Test
@@ -48,10 +48,10 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient4, 2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        PriceCalculation priceCalculation = recipePriceCalculator.calculatePrice(recipe, priceList);
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
 
-        assertEquals(5, priceCalculation.getResult());
-        assertTrue(priceCalculation.getIngredientsWithoutPriceTag().contains(ingredient3));
-        assertTrue(priceCalculation.getIngredientsWithoutPriceTag().contains(ingredient4));
+        assertEquals(5, recipePrice.getPrice());
+        assertTrue(recipePrice.getIngredientsWithoutPriceTag().contains(ingredient3));
+        assertTrue(recipePrice.getIngredientsWithoutPriceTag().contains(ingredient4));
     }
 }

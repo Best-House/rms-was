@@ -3,22 +3,22 @@ package com.hojun.service.domain.cost;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PriceCalculation {
-    private int result;
+public class RecipePrice {
+    private int price;
 
     private Set<Ingredient> ingredientsWithoutPriceTag;
 
-    public PriceCalculation() {
-        result = 0;
+    public RecipePrice() {
+        price = 0;
         ingredientsWithoutPriceTag = new HashSet<>();
     }
 
-    public void setResult(int result) {
-        this.result = result;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public int getResult() {
-        return result;
+    public int getPrice() {
+        return price;
     }
 
     public void setIngredientWithoutPriceTag(Ingredient ingredientWithoutPriceTag) {

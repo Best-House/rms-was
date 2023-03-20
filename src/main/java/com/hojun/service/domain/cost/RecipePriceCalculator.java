@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class RecipePriceCalculator {
 
-    public PriceCalculation calculatePrice(Recipe recipe, Map<Ingredient, Integer> priceList) {
+    public RecipePrice calculatePrice(Recipe recipe, Map<Ingredient, Integer> priceList) {
         if (recipe.isEmpty()) {
-            return new PriceCalculation();
+            return new RecipePrice();
         } else {
-            PriceCalculation priceCalculation = new PriceCalculation();
+            RecipePrice recipePrice = new RecipePrice();
 
             int result = 0;
             for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientQuantities().entrySet()) {
@@ -17,12 +17,12 @@ public class RecipePriceCalculator {
                     int price = pricePerQuantity * entry.getValue();
                     result += price;
                 } else {
-                    priceCalculation.setIngredientWithoutPriceTag(entry.getKey());
+                    recipePrice.setIngredientWithoutPriceTag(entry.getKey());
                 }
             }
 
-            priceCalculation.setResult(result);
-            return priceCalculation;
+            recipePrice.setPrice(result);
+            return recipePrice;
         }
     }
 }
