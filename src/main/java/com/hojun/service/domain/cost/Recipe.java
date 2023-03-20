@@ -10,17 +10,25 @@ public class Recipe {
         ingredientQuantities = new HashMap<>();
     }
 
-    public int calculatePrice(Map<Ingredient, Integer> priceList) {
+    public PriceCalculation calculatePrice(Map<Ingredient, Integer> priceList) {
         if (ingredientQuantities.isEmpty()) {
-            return 0;
+            return new PriceCalculation();
         } else {
+            PriceCalculation priceCalculation = new PriceCalculation();
+
             int result = 0;
             for(Map.Entry<Ingredient, Integer> entry :ingredientQuantities.entrySet()) {
-                int pricePerQuantity = priceList.get(entry.getKey());
-                int price = pricePerQuantity * entry.getValue();
-                result += price;
+                if(priceList.containsKey(entry.getKey())) {
+                    int pricePerQuantity = priceList.getOrDefault(entry.getKey(), 0);
+                    int price = pricePerQuantity * entry.getValue();
+                    result += price;
+                } else {
+                    priceCalculation.setIngredientWithoutPriceTag(entry.getKey());
+                }
             }
-            return result;
+
+            priceCalculation.setResult(result);
+            return priceCalculation;
         }
     }
 
