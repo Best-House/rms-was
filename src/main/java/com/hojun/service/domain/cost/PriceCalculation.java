@@ -9,6 +9,7 @@ public class PriceCalculation {
     private Set<Ingredient> ingredientsWithoutPriceTag;
 
     public PriceCalculation() {
+        result = 0;
         ingredientsWithoutPriceTag = new HashSet<>();
     }
 
