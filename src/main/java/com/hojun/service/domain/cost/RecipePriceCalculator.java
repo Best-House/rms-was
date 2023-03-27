@@ -1,13 +1,12 @@
 package com.hojun.service.domain.cost;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class RecipePriceCalculator {
 
-    public RecipePrice calculatePrice(Recipe recipe, Map<Ingredient, Integer> priceMap) {
+    public RecipePrice calculatePrice(Recipe recipe, MarketPrice marketPrice) {
         if (recipe.isEmpty()) {
             return RecipePrice.ZERO_PRICE;
         } else {
@@ -15,8 +14,8 @@ public class RecipePriceCalculator {
             final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
 
             for(Ingredient ingredient : recipe.getIngredients()) {
-                if(priceMap.containsKey(ingredient)) {
-                    final int pricePerQuantity = priceMap.get(ingredient);
+                if(marketPrice.contains(ingredient)) {
+                    final int pricePerQuantity = marketPrice.getPrice(ingredient);
                     final int price = pricePerQuantity * ingredient.getAmount();
                     result += price;
                 } else {

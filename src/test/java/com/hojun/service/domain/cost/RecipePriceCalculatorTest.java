@@ -3,26 +3,22 @@ package com.hojun.service.domain.cost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RecipePriceCalculatorTest {
     private Ingredient ingredient1;
     private Ingredient ingredient2;
-    private Map<Ingredient, Integer> priceList;
+    private MarketPrice marketPrice;
 
     @BeforeEach
     void setup() {
         ingredient1 = new Ingredient(1);
         ingredient2 = new Ingredient(2);
 
-        priceList = new HashMap<>();
-        priceList.put(ingredient1, 1);
-        priceList.put(ingredient2, 2);
+        marketPrice = new MarketPrice();
+        marketPrice.register(ingredient1, 1);
+        marketPrice.register(ingredient2, 2);
     }
 
     @Test
@@ -30,7 +26,7 @@ public class RecipePriceCalculatorTest {
         Recipe recipe = new Recipe();
 
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, marketPrice);
         assertEquals(0, recipePrice.price());
         assertTrue(recipePrice.unknownPriceIngredients().isEmpty());
     }
@@ -42,7 +38,7 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, marketPrice);
 
         assertEquals(5, recipePrice.price());
     }
@@ -54,7 +50,7 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, Collections.emptyMap());
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, new MarketPrice());
 
         assertEquals(0, recipePrice.price());
         assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient1));
