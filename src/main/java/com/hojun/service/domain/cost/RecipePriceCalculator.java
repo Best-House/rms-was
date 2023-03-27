@@ -1,28 +1,32 @@
 package com.hojun.service.domain.cost;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class RecipePriceCalculator {
 
-    public RecipePrice calculatePrice(Recipe recipe, Map<Ingredient, Integer> priceList) {
+    public RecipePrice calculatePrice(Recipe recipe, Map<Ingredient, Integer> priceMap) {
         if (recipe.isEmpty()) {
-            return new RecipePrice();
+            return RecipePrice.ZERO_PRICE;
         } else {
-            RecipePrice recipePrice = new RecipePrice();
-
             int result = 0;
+            final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
+
             for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientQuantities().entrySet()) {
-                if(priceList.containsKey(entry.getKey())) {
-                    int pricePerQuantity = priceList.getOrDefault(entry.getKey(), 0);
-                    int price = pricePerQuantity * entry.getValue();
+                final Ingredient ingredient = entry.getKey();
+                final int amount = entry.getValue();
+
+                if(priceMap.containsKey(ingredient)) {
+                    final int pricePerQuantity = priceMap.get(ingredient);
+                    final int price = pricePerQuantity * amount;
                     result += price;
                 } else {
-                    recipePrice.setIngredientWithoutPriceTag(entry.getKey());
+                    unknownPriceIngredients.add(ingredient);
                 }
             }
-
-            recipePrice.setPrice(result);
-            return recipePrice;
+            return new RecipePrice(result, unknownPriceIngredients);
         }
     }
 }

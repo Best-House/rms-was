@@ -3,6 +3,7 @@ package com.hojun.service.domain.cost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,6 @@ public class RecipePriceCalculatorTest {
         priceList = new HashMap<>();
         priceList.put(ingredient1, 1);
         priceList.put(ingredient2, 2);
-
     }
 
     @Test
@@ -35,8 +35,8 @@ public class RecipePriceCalculatorTest {
 
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
         RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
-        assertEquals(0, recipePrice.getPrice());
-        assertTrue(recipePrice.getIngredientsWithoutPriceTag().isEmpty());
+        assertEquals(0, recipePrice.price());
+        assertTrue(recipePrice.unknownPriceIngredients().isEmpty());
     }
 
     @Test
@@ -44,14 +44,24 @@ public class RecipePriceCalculatorTest {
         Recipe recipe = new Recipe();
         recipe.addIngredient(ingredient1, 1);
         recipe.addIngredient(ingredient2, 2);
-        recipe.addIngredient(ingredient3, 1);
-        recipe.addIngredient(ingredient4, 2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
         RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
 
-        assertEquals(5, recipePrice.getPrice());
-        assertTrue(recipePrice.getIngredientsWithoutPriceTag().contains(ingredient3));
-        assertTrue(recipePrice.getIngredientsWithoutPriceTag().contains(ingredient4));
+        assertEquals(5, recipePrice.price());
+    }
+
+    @Test
+    void calculateRecipePriceWithUnknownPriceTest() {
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(ingredient1, 1);
+        recipe.addIngredient(ingredient2, 2);
+        RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
+
+        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, Collections.emptyMap());
+
+        assertEquals(0, recipePrice.price());
+        assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient1));
+        assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient2));
     }
 }

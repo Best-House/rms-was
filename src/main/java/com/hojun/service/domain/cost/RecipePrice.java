@@ -1,30 +1,8 @@
 package com.hojun.service.domain.cost;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
 
-public class RecipePrice {
-    private int price;
-
-    private Set<Ingredient> ingredientsWithoutPriceTag;
-
-    public RecipePrice() {
-        price = 0;
-        ingredientsWithoutPriceTag = new HashSet<>();
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setIngredientWithoutPriceTag(Ingredient ingredientWithoutPriceTag) {
-        ingredientsWithoutPriceTag.add(ingredientWithoutPriceTag);
-    }
-    public Set<Ingredient> getIngredientsWithoutPriceTag() {
-        return ingredientsWithoutPriceTag;
-    }
+public record RecipePrice(int price, List<Ingredient> unknownPriceIngredients) {
+    public final static RecipePrice ZERO_PRICE = new RecipePrice(0, Collections.emptyList());
 }
