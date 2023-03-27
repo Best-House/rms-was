@@ -14,13 +14,10 @@ public class RecipePriceCalculator {
             int result = 0;
             final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
 
-            for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredientQuantities().entrySet()) {
-                final Ingredient ingredient = entry.getKey();
-                final int amount = entry.getValue();
-
+            for(Ingredient ingredient : recipe.getIngredients()) {
                 if(priceMap.containsKey(ingredient)) {
                     final int pricePerQuantity = priceMap.get(ingredient);
-                    final int price = pricePerQuantity * amount;
+                    final int price = pricePerQuantity * ingredient.getAmount();
                     result += price;
                 } else {
                     unknownPriceIngredients.add(ingredient);

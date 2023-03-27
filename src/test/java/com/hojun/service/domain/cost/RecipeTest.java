@@ -3,8 +3,7 @@ package com.hojun.service.domain.cost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +12,7 @@ class RecipeTest {
 
     @BeforeEach
     void setup() {
-        ingredient1 = new Ingredient();
+        ingredient1 = new Ingredient(1);
     }
 
     @Test
@@ -25,15 +24,24 @@ class RecipeTest {
     @Test
     void isNotEmptyRecipeTest() {
         Recipe recipe = new Recipe();
-        recipe.addIngredient(ingredient1, 1);
+        recipe.addIngredient(ingredient1);
         assertFalse(recipe.isEmpty());
+    }
+
+    @Test
+    void countIngredientsTest() {
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(new Ingredient(1));
+        recipe.addIngredient(new Ingredient(2));
+        recipe.addIngredient(new Ingredient(3));
+        assertEquals(3, recipe.getNumberOfIngredients());
     }
 
     @Test
     void immutabilityTest() {
         Recipe recipe = new Recipe();
-        Map<Ingredient, Integer> ingredientQuantities = recipe.getIngredientQuantities();
-        ingredientQuantities.put(ingredient1, 1);
+        List<Ingredient> ingredientQuantities = recipe.getIngredients();
+        ingredientQuantities.add(ingredient1);
 
         assertTrue(recipe.isEmpty());
     }

@@ -13,16 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class RecipePriceCalculatorTest {
     private Ingredient ingredient1;
     private Ingredient ingredient2;
-    private Ingredient ingredient3;
-    private Ingredient ingredient4;
     private Map<Ingredient, Integer> priceList;
 
     @BeforeEach
     void setup() {
-        ingredient1 = new Ingredient();
-        ingredient2 = new Ingredient();
-        ingredient3 = new Ingredient();
-        ingredient4 = new Ingredient();
+        ingredient1 = new Ingredient(1);
+        ingredient2 = new Ingredient(2);
 
         priceList = new HashMap<>();
         priceList.put(ingredient1, 1);
@@ -42,8 +38,8 @@ public class RecipePriceCalculatorTest {
     @Test
     void calculateRecipePriceTest() {
         Recipe recipe = new Recipe();
-        recipe.addIngredient(ingredient1, 1);
-        recipe.addIngredient(ingredient2, 2);
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
         RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, priceList);
@@ -54,8 +50,8 @@ public class RecipePriceCalculatorTest {
     @Test
     void calculateRecipePriceWithUnknownPriceTest() {
         Recipe recipe = new Recipe();
-        recipe.addIngredient(ingredient1, 1);
-        recipe.addIngredient(ingredient2, 2);
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
         RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, Collections.emptyMap());

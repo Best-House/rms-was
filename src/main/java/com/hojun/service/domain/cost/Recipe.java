@@ -1,24 +1,28 @@
 package com.hojun.service.domain.cost;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Recipe {
-    private Map<Ingredient, Integer> ingredientQuantities;
+    private List<Ingredient> ingredients;
 
     public Recipe() {
-        ingredientQuantities = new HashMap<>();
+        ingredients = new ArrayList<>();
     }
 
-    public void addIngredient(Ingredient ingredient, int quantity) {
-        ingredientQuantities.put(ingredient, quantity);
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
     }
 
     public boolean isEmpty() {
-        return ingredientQuantities.isEmpty();
+        return ingredients.isEmpty();
     }
 
-    public Map<Ingredient, Integer> getIngredientQuantities() {
-        return new HashMap<>(ingredientQuantities);
+    public List<Ingredient> getIngredients() {
+        return new ArrayList<>(ingredients);
+    }
+
+    public int getNumberOfIngredients() {
+        return ingredients.size();
     }
 }
