@@ -14,6 +14,6 @@ class IngredientTest {
     @Test
     public void amountTest() {
         Ingredient ingredient = new Ingredient(1);
-        assertEquals(1, ingredient.getAmount());
+        assertEquals(1, ingredient.amount());
     }
 }

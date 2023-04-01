@@ -23,10 +23,11 @@ public class RecipePriceCalculatorTest {
 
     @Test
     void calculateEmptyRecipePriceTest() {
-        Recipe recipe = new Recipe();
-
+        Recipe emptyRecipe = new Recipe();
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, marketPrice);
+
+        RecipePrice recipePrice = recipePriceCalculator.calculate(emptyRecipe, marketPrice);
+
         assertEquals(0, recipePrice.price());
         assertTrue(recipePrice.unknownPriceIngredients().isEmpty());
     }
@@ -38,7 +39,7 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, marketPrice);
+        RecipePrice recipePrice = recipePriceCalculator.calculate(recipe, marketPrice);
 
         assertEquals(5, recipePrice.price());
     }
@@ -50,7 +51,7 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculatePrice(recipe, new MarketPrice());
+        RecipePrice recipePrice = recipePriceCalculator.calculate(recipe, new MarketPrice());
 
         assertEquals(0, recipePrice.price());
         assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient1));

@@ -10,8 +10,8 @@ class MarketPriceTest {
     public void containsTest() {
         Ingredient ingredient = new Ingredient(1);
         MarketPrice marketPrice = new MarketPrice();
-
         marketPrice.register(ingredient, 1);
+
         assertTrue(marketPrice.contains(ingredient));
     }
 
@@ -19,8 +19,8 @@ class MarketPriceTest {
     public void getPriceTest() {
         Ingredient ingredient = new Ingredient(1);
         MarketPrice marketPrice = new MarketPrice();
-
         marketPrice.register(ingredient, 1);
+
         assertEquals(1, marketPrice.getPrice(ingredient));
     }
 
@@ -29,5 +29,9 @@ class MarketPriceTest {
         MarketPrice marketPrice = new MarketPrice();
 
         assertEquals(0, marketPrice.getPrice(new Ingredient(0)));
+    }
+
+    @Test
+    public void getUnknownMaterials() {
     }
 }

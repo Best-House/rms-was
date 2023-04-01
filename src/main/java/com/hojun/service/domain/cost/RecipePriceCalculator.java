@@ -2,21 +2,20 @@ package com.hojun.service.domain.cost;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RecipePriceCalculator {
 
-    public RecipePrice calculatePrice(Recipe recipe, MarketPrice marketPrice) {
+    public RecipePrice calculate(Recipe recipe, MarketPrice marketPrice) {
         if (recipe.isEmpty()) {
-            return RecipePrice.ZERO_PRICE;
+            return RecipePrice.EMPTY_RECIPE_PRICE;
         } else {
             int result = 0;
             final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
 
             for(Ingredient ingredient : recipe.getIngredients()) {
                 if(marketPrice.contains(ingredient)) {
-                    final int pricePerQuantity = marketPrice.getPrice(ingredient);
-                    final int price = pricePerQuantity * ingredient.getAmount();
+                    final int pricePerAmount = marketPrice.getPrice(ingredient);
+                    final int price = pricePerAmount * ingredient.amount();
                     result += price;
                 } else {
                     unknownPriceIngredients.add(ingredient);
