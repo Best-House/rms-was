@@ -23,8 +23,6 @@ public class RecipePriceCalculatorTest {
         marketPrice = new MarketPrice();
         marketPrice.register(material1, 1);
         marketPrice.register(material2, 2);
-        marketPrice.register(ingredient1, 1);
-        marketPrice.register(ingredient2, 2);
     }
 
     @Test

@@ -13,8 +13,8 @@ public class RecipePriceCalculator {
             final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
 
             for(Ingredient ingredient : recipe.getIngredients()) {
-                if(marketPrice.contains(ingredient)) {
-                    final int pricePerAmount = marketPrice.getPrice(ingredient);
+                if(marketPrice.contains(ingredient.material())) {
+                    final int pricePerAmount = marketPrice.getPrice(ingredient.material());
                     final int price = pricePerAmount * ingredient.amount();
                     result += price;
                 } else {
