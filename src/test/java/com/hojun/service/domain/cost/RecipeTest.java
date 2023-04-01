@@ -12,7 +12,7 @@ class RecipeTest {
 
     @BeforeEach
     void setup() {
-        ingredient1 = new Ingredient(1);
+        ingredient1 = new Ingredient(new Material(), 1);
     }
 
     @Test
@@ -31,9 +31,9 @@ class RecipeTest {
     @Test
     void countIngredientsTest() {
         Recipe recipe = new Recipe();
-        recipe.addIngredient(new Ingredient(1));
-        recipe.addIngredient(new Ingredient(2));
-        recipe.addIngredient(new Ingredient(3));
+        recipe.addIngredient(new Ingredient(new Material(), 1));
+        recipe.addIngredient(new Ingredient(new Material(), 2));
+        recipe.addIngredient(new Ingredient(new Material(), 3));
         assertEquals(3, recipe.getNumberOfIngredients());
     }
 

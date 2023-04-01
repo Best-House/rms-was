@@ -7,16 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RecipePriceCalculatorTest {
+    private Material material1;
+    private Material material2;
     private Ingredient ingredient1;
     private Ingredient ingredient2;
     private MarketPrice marketPrice;
 
     @BeforeEach
     void setup() {
-        ingredient1 = new Ingredient(1);
-        ingredient2 = new Ingredient(2);
+        material1 = new Material();
+        material2 = new Material();
+        ingredient1 = new Ingredient(material1, 1);
+        ingredient2 = new Ingredient(material2, 2);
 
         marketPrice = new MarketPrice();
+        marketPrice.register(material1, 1);
+        marketPrice.register(material2, 2);
         marketPrice.register(ingredient1, 1);
         marketPrice.register(ingredient2, 2);
     }

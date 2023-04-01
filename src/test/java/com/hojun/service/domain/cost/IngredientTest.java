@@ -13,7 +13,15 @@ class IngredientTest {
 
     @Test
     public void amountTest() {
-        Ingredient ingredient = new Ingredient(1);
+        Material material = new Material();
+        Ingredient ingredient = new Ingredient(material, 1);
         assertEquals(1, ingredient.amount());
+    }
+
+    @Test
+    public void materialTest() {
+        Material material = new Material();
+        Ingredient ingredient = new Ingredient(material, 1);
+        assertEquals(material, ingredient.material());
     }
 }
