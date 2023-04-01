@@ -8,27 +8,27 @@ class MarketPriceTest {
 
     @Test
     public void containsTest() {
-        Ingredient ingredient = new Ingredient(1);
+        Material material = new Material();
         MarketPrice marketPrice = new MarketPrice();
-        marketPrice.register(ingredient, 1);
+        marketPrice.register(material, 1);
 
-        assertTrue(marketPrice.contains(ingredient));
+        assertTrue(marketPrice.contains(material));
     }
 
     @Test
     public void getPriceTest() {
-        Ingredient ingredient = new Ingredient(1);
+        Material material = new Material();
         MarketPrice marketPrice = new MarketPrice();
-        marketPrice.register(ingredient, 1);
+        marketPrice.register(material, 1);
 
-        assertEquals(1, marketPrice.getPrice(ingredient));
+        assertEquals(1, marketPrice.getPrice(material));
     }
 
     @Test
-    public void getPriceWithUnknownItem() {
+    public void getPriceWithUnknownMaterial() {
         MarketPrice marketPrice = new MarketPrice();
 
-        assertEquals(0, marketPrice.getPrice(new Ingredient(0)));
+        assertEquals(0, marketPrice.getPrice(new Material()));
     }
 
     @Test
