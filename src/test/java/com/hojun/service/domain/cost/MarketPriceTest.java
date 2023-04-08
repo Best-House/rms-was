@@ -2,6 +2,9 @@ package com.hojun.service.domain.cost;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketPriceTest {
@@ -33,5 +36,15 @@ class MarketPriceTest {
 
     @Test
     public void getUnknownMaterials() {
+        Material unknownMaterial = new Material();
+        Material knownMaterial = new Material();
+        MarketPrice marketPrice = new MarketPrice();
+        marketPrice.register(knownMaterial, 1);
+        List<Material> materials = List.of(unknownMaterial, knownMaterial);
+
+        List<Material> unknownMaterials = marketPrice.getUnknownMaterials(materials);
+
+        assertTrue(unknownMaterials.contains(unknownMaterial));
+        assertFalse(unknownMaterials.contains(knownMaterial));
     }
 }

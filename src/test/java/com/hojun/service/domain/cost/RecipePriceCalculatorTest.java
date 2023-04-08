@@ -33,7 +33,7 @@ public class RecipePriceCalculatorTest {
         RecipePrice recipePrice = recipePriceCalculator.calculate(emptyRecipe, marketPrice);
 
         assertEquals(0, recipePrice.price());
-        assertTrue(recipePrice.unknownPriceIngredients().isEmpty());
+        assertTrue(recipePrice.unknownMaterials().isEmpty());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RecipePriceCalculatorTest {
         RecipePrice recipePrice = recipePriceCalculator.calculate(recipe, new MarketPrice());
 
         assertEquals(0, recipePrice.price());
-        assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient1));
-        assertTrue(recipePrice.unknownPriceIngredients().contains(ingredient2));
+        assertTrue(recipePrice.unknownMaterials().contains(material1));
+        assertTrue(recipePrice.unknownMaterials().contains(material2));
     }
 }

@@ -2,6 +2,7 @@ package com.hojun.service.domain.cost;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RecipePriceCalculator {
 
@@ -10,18 +11,20 @@ public class RecipePriceCalculator {
             return RecipePrice.EMPTY_RECIPE_PRICE;
         } else {
             int result = 0;
-            final List<Ingredient> unknownPriceIngredients = new ArrayList<>();
+            final List<Material> unknownMaterials = marketPrice.getUnknownMaterials(
+                    recipe.getIngredients().stream()
+                            .map(Ingredient::material)
+                            .collect(Collectors.toList())
+            );
 
             for(Ingredient ingredient : recipe.getIngredients()) {
                 if(marketPrice.contains(ingredient.material())) {
                     final int pricePerAmount = marketPrice.getPrice(ingredient.material());
                     final int price = pricePerAmount * ingredient.amount();
                     result += price;
-                } else {
-                    unknownPriceIngredients.add(ingredient);
                 }
             }
-            return new RecipePrice(result, unknownPriceIngredients);
+            return new RecipePrice(result, unknownMaterials);
         }
     }
 }
