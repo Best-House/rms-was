@@ -1,4 +1,4 @@
-package com.hojun.service.domain.cost;
+package com.hojun.service.domain;
 
 public class Material {
 }

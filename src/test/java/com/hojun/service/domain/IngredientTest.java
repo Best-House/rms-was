@@ -1,5 +1,7 @@
-package com.hojun.service.domain.cost;
+package com.hojun.service.domain;
 
+import com.hojun.service.domain.Ingredient;
+import com.hojun.service.domain.Material;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
