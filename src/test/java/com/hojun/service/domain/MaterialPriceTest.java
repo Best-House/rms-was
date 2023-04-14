@@ -1,7 +1,5 @@
 package com.hojun.service.domain;
 
-import com.hojun.service.domain.Material;
-import com.hojun.service.domain.MaterialPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -43,7 +41,7 @@ class MaterialPriceTest {
         materialPrice.register(knownMaterial, 1);
         List<Material> materials = List.of(unknownMaterial, knownMaterial);
 
-        List<Material> unknownMaterials = materialPrice.getUnknownMaterials(materials);
+        List<Material> unknownMaterials = materialPrice.getUnknownPriceMaterials(materials);
 
         assertTrue(unknownMaterials.contains(unknownMaterial));
         assertFalse(unknownMaterials.contains(knownMaterial));

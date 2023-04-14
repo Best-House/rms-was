@@ -1,7 +1,9 @@
 package com.hojun.service.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Recipe {
     private List<Ingredient> ingredients;
@@ -36,5 +38,11 @@ public class Recipe {
             }
             return result;
         }
+    }
+
+    public List<Material> getContainedMaterials() {
+        return ingredients.stream()
+                .map(Ingredient::material)
+                .collect(Collectors.toList());
     }
 }

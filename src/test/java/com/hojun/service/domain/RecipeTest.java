@@ -78,4 +78,14 @@ class RecipeTest {
         recipe.addIngredient(ingredient2);
         assertEquals(2, recipe.getNumberOfIngredients());
     }
+
+    @Test
+    void getContainedMaterialsTest() {
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+
+        assertTrue(recipe.getContainedMaterials().contains(ingredient1.material()));
+        assertTrue(recipe.getContainedMaterials().contains(ingredient2.material()));
+    }
 }
