@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RecipePriceCalculatorTest {
     private Material material1;
@@ -26,26 +25,25 @@ public class RecipePriceCalculatorTest {
     }
 
     @Test
-    void calculateEmptyRecipePriceTest() {
-        Recipe emptyRecipe = new Recipe();
-        RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
-
-        RecipePrice recipePrice = recipePriceCalculator.calculate(emptyRecipe, marketPrice);
-
-        assertEquals(0, recipePrice.price());
-        assertTrue(recipePrice.unknownMaterials().isEmpty());
-    }
-
-    @Test
     void calculateRecipePriceTest() {
         Recipe recipe = new Recipe();
         recipe.addIngredient(ingredient1);
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculate(recipe, marketPrice);
+        int recipePrice = recipePriceCalculator.calculate(recipe, marketPrice);
 
-        assertEquals(5, recipePrice.price());
+        assertEquals(5, recipePrice);
+    }
+
+    @Test
+    void calculateEmptyRecipePriceTest() {
+        Recipe emptyRecipe = new Recipe();
+        RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
+
+        int recipePrice = recipePriceCalculator.calculate(emptyRecipe, marketPrice);
+
+        assertEquals(0, recipePrice);
     }
 
     @Test
@@ -55,10 +53,8 @@ public class RecipePriceCalculatorTest {
         recipe.addIngredient(ingredient2);
         RecipePriceCalculator recipePriceCalculator = new RecipePriceCalculator();
 
-        RecipePrice recipePrice = recipePriceCalculator.calculate(recipe, new MarketPrice());
+        int recipePrice = recipePriceCalculator.calculate(recipe, new MarketPrice());
 
-        assertEquals(0, recipePrice.price());
-        assertTrue(recipePrice.unknownMaterials().contains(material1));
-        assertTrue(recipePrice.unknownMaterials().contains(material2));
+        assertEquals(0, recipePrice);
     }
 }

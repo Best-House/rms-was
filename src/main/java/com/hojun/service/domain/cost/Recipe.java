@@ -25,4 +25,8 @@ public class Recipe {
     public int getNumberOfIngredients() {
         return ingredients.size();
     }
+
+    public int calculate(MarketPrice marketPrice) {
+        return 0;
+    }
 }
