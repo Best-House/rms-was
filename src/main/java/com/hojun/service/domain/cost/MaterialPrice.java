@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MarketPrice {
+public class MaterialPrice {
     private final HashMap<Material, Integer> priceMap;
 
-    public MarketPrice() {
+    public MaterialPrice() {
         this.priceMap = new HashMap<>();
     }
 

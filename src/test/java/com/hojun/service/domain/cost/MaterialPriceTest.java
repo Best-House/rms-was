@@ -2,47 +2,46 @@ package com.hojun.service.domain.cost;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MarketPriceTest {
+class MaterialPriceTest {
 
     @Test
     public void containsTest() {
         Material material = new Material();
-        MarketPrice marketPrice = new MarketPrice();
-        marketPrice.register(material, 1);
+        MaterialPrice materialPrice = new MaterialPrice();
+        materialPrice.register(material, 1);
 
-        assertTrue(marketPrice.contains(material));
+        assertTrue(materialPrice.contains(material));
     }
 
     @Test
     public void getPriceTest() {
         Material material = new Material();
-        MarketPrice marketPrice = new MarketPrice();
-        marketPrice.register(material, 1);
+        MaterialPrice materialPrice = new MaterialPrice();
+        materialPrice.register(material, 1);
 
-        assertEquals(1, marketPrice.getPrice(material));
+        assertEquals(1, materialPrice.getPrice(material));
     }
 
     @Test
     public void getPriceWithUnknownMaterial() {
-        MarketPrice marketPrice = new MarketPrice();
+        MaterialPrice materialPrice = new MaterialPrice();
 
-        assertEquals(0, marketPrice.getPrice(new Material()));
+        assertEquals(0, materialPrice.getPrice(new Material()));
     }
 
     @Test
     public void getUnknownMaterials() {
         Material unknownMaterial = new Material();
         Material knownMaterial = new Material();
-        MarketPrice marketPrice = new MarketPrice();
-        marketPrice.register(knownMaterial, 1);
+        MaterialPrice materialPrice = new MaterialPrice();
+        materialPrice.register(knownMaterial, 1);
         List<Material> materials = List.of(unknownMaterial, knownMaterial);
 
-        List<Material> unknownMaterials = marketPrice.getUnknownMaterials(materials);
+        List<Material> unknownMaterials = materialPrice.getUnknownMaterials(materials);
 
         assertTrue(unknownMaterials.contains(unknownMaterial));
         assertFalse(unknownMaterials.contains(knownMaterial));

@@ -18,15 +18,23 @@ public class Recipe {
         return ingredients.isEmpty();
     }
 
-    public List<Ingredient> getIngredients() {
-        return new ArrayList<>(ingredients);
-    }
-
     public int getNumberOfIngredients() {
         return ingredients.size();
     }
 
-    public int calculate(MarketPrice marketPrice) {
-        return 0;
+    public int getPrice(MaterialPrice materialPrice) {
+        if (isEmpty()) {
+            return 0;
+        } else {
+            int result = 0;
+            for(Ingredient ingredient : ingredients) {
+                if(materialPrice.contains(ingredient.material())) {
+                    final int pricePerAmount = materialPrice.getPrice(ingredient.material());
+                    final int price = pricePerAmount * ingredient.amount();
+                    result += price;
+                }
+            }
+            return result;
+        }
     }
 }

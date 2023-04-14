@@ -3,8 +3,6 @@ package com.hojun.service.domain.cost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RecipeTest {
@@ -12,17 +10,17 @@ class RecipeTest {
     private Material material2;
     private Ingredient ingredient1;
     private Ingredient ingredient2;
-    private MarketPrice marketPrice;
+    private MaterialPrice materialPrice;
 
     @BeforeEach
     void setup() {
         material1 = new Material();
         material2 = new Material();
         ingredient1 = new Ingredient(material1, 1);
-        ingredient2 = new Ingredient(material2, 1);
-        marketPrice = new MarketPrice();
-        marketPrice.register(material1, 1);
-        marketPrice.register(material2, 2);
+        ingredient2 = new Ingredient(material2, 2);
+        materialPrice = new MaterialPrice();
+        materialPrice.register(material1, 1);
+        materialPrice.register(material2, 2);
     }
 
     @Test
@@ -31,9 +29,29 @@ class RecipeTest {
         recipe.addIngredient(ingredient1);
         recipe.addIngredient(ingredient2);
 
-        int recipePrice = recipe.calculate(marketPrice);
+        int recipePrice = recipe.getPrice(materialPrice);
 
         assertEquals(5, recipePrice);
+    }
+
+    @Test
+    void calculateEmptyRecipePriceTest() {
+        Recipe emptyRecipe = new Recipe();
+
+        int recipePrice = emptyRecipe.getPrice(materialPrice);
+
+        assertEquals(0, recipePrice);
+    }
+
+    @Test
+    void calculateRecipePriceWithUnknownPriceTest() {
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+
+        int recipePrice = recipe.getPrice(new MaterialPrice());
+
+        assertEquals(0, recipePrice);
     }
 
     @Test
@@ -52,9 +70,8 @@ class RecipeTest {
     @Test
     void countIngredientsTest() {
         Recipe recipe = new Recipe();
-        recipe.addIngredient(new Ingredient(new Material(), 1));
-        recipe.addIngredient(new Ingredient(new Material(), 2));
-        recipe.addIngredient(new Ingredient(new Material(), 3));
-        assertEquals(3, recipe.getNumberOfIngredients());
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+        assertEquals(2, recipe.getNumberOfIngredients());
     }
 }
