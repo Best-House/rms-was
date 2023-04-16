@@ -2,28 +2,23 @@ package com.hojun.service.domain.recipe;
 
 import com.hojun.service.domain.material.Material;
 import com.hojun.service.domain.material_price.MaterialPrice;
+import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Recipe {
-    private List<Ingredient> ingredients;
+    @Getter
+    private final String name;
+    private final List<Ingredient> ingredients;
 
-    public Recipe() {
-        ingredients = new ArrayList<>();
+    public Recipe(String name, List<Ingredient> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
-    }
-
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         return ingredients.isEmpty();
-    }
-
-    public int getNumberOfIngredients() {
-        return ingredients.size();
     }
 
     public int getPrice(MaterialPrice materialPrice) {
