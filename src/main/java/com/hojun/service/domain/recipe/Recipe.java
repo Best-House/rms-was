@@ -1,4 +1,7 @@
-package com.hojun.service.domain.model;
+package com.hojun.service.domain.recipe;
+
+import com.hojun.service.domain.material.Material;
+import com.hojun.service.domain.material_price.MaterialPrice;
 
 import java.util.ArrayList;
 import java.util.List;

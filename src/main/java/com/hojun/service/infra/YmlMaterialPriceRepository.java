@@ -1,7 +1,7 @@
 package com.hojun.service.infra;
 
-import com.hojun.service.domain.model.MaterialPrice;
-import com.hojun.service.domain.repository.MaterialPriceRepository;
+import com.hojun.service.domain.material_price.MaterialPrice;
+import com.hojun.service.domain.material_price.infra.MaterialPriceRepository;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

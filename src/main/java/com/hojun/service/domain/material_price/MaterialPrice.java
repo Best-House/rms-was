@@ -1,4 +1,6 @@
-package com.hojun.service.domain.model;
+package com.hojun.service.domain.material_price;
+
+import com.hojun.service.domain.material.Material;
 
 import java.util.HashMap;
 import java.util.List;

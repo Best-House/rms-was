@@ -1,7 +1,7 @@
-package com.hojun.service.domain.model;
+package com.hojun.service.domain.material_price;
 
-import com.hojun.service.domain.model.Material;
-import com.hojun.service.domain.model.MaterialPrice;
+import com.hojun.service.domain.material.Material;
+import com.hojun.service.domain.material_price.MaterialPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,10 +1,9 @@
 package com.hojun.service.infra;
 
-import com.hojun.service.domain.exception.NotFoundRecipeException;
-import com.hojun.service.domain.model.Recipe;
-import com.hojun.service.domain.repository.RecipeRepository;
+import com.hojun.service.domain.recipe.exception.NotFoundRecipeException;
+import com.hojun.service.domain.recipe.Recipe;
+import com.hojun.service.domain.recipe.infra.RecipeRepository;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Repository;
