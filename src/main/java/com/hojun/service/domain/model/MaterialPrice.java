@@ -1,4 +1,4 @@
-package com.hojun.service.domain;
+package com.hojun.service.domain.model;
 
 import java.util.HashMap;
 import java.util.List;

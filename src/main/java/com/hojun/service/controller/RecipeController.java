@@ -1,8 +1,8 @@
 package com.hojun.service.controller;
 
-import com.hojun.service.domain.Material;
-import com.hojun.service.domain.MaterialPrice;
-import com.hojun.service.domain.Recipe;
+import com.hojun.service.domain.model.Material;
+import com.hojun.service.domain.model.MaterialPrice;
+import com.hojun.service.domain.model.Recipe;
 import com.hojun.service.domain.repository.MaterialPriceRepository;
 import com.hojun.service.domain.repository.RecipeRepository;
 import lombok.AllArgsConstructor;
@@ -18,8 +18,8 @@ public class RecipeController {
     private final RecipeRepository recipeRepository;
     private final MaterialPriceRepository materialPriceRepository;
 
-    public RecipeController() {
-        recipeRepository = recipeId -> new Recipe();
+    public RecipeController(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
         materialPriceRepository = MaterialPrice::new;
     }
 

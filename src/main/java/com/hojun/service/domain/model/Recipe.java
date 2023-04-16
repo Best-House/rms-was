@@ -1,7 +1,6 @@
-package com.hojun.service.domain;
+package com.hojun.service.domain.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,0 +1,6 @@
+recipe:
+  recipeMap:
+    coffee:
+      ingredients:
+        - 10
+        - 10
