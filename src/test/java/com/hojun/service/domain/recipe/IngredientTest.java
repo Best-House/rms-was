@@ -15,14 +15,14 @@ class IngredientTest {
 
     @Test
     public void amountTest() {
-        Material material = new Material();
+        Material material = new Material("material1", "material1");
         Ingredient ingredient = new Ingredient(material, 1);
         assertEquals(1, ingredient.amount());
     }
 
     @Test
     public void materialTest() {
-        Material material = new Material();
+        Material material = new Material("material1", "material1");
         Ingredient ingredient = new Ingredient(material, 1);
         assertEquals(material, ingredient.material());
     }

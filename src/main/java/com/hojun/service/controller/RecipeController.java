@@ -18,9 +18,9 @@ public class RecipeController {
     private final RecipeRepository recipeRepository;
     private final MaterialPriceRepository materialPriceRepository;
 
-    public RecipeController(RecipeRepository recipeRepository) {
+    public RecipeController(RecipeRepository recipeRepository, MaterialPriceRepository materialPriceRepository) {
         this.recipeRepository = recipeRepository;
-        materialPriceRepository = MaterialPrice::new;
+        this.materialPriceRepository = materialPriceRepository;
     }
 
 
@@ -38,7 +38,7 @@ public class RecipeController {
     @AllArgsConstructor
     @Data
     public static class GetRecipePriceResponse {
-        private int price;
+        private double price;
         private List<Material> unknownPriceMaterials;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @EnableConfigurationProperties(YmlRecipeRepository.RecipeProperties.class)
@@ -21,7 +22,11 @@ public class YmlRecipeRepository implements RecipeRepository {
 
     @Override
     public Recipe getRecipe(String recipeId) throws NotFoundRecipeException {
-        Recipe recipe = recipeProperties.getRecipeMap().get(recipeId);
+        Recipe recipe = recipeProperties.getRecipes()
+                .stream()
+                .filter(r -> r.getId().equals(recipeId))
+                .findFirst()
+                .orElse(null);
         if (recipe == null) {
             throw new NotFoundRecipeException();
         }
@@ -31,6 +36,6 @@ public class YmlRecipeRepository implements RecipeRepository {
     @Data
     @ConfigurationProperties("recipe")
     public static class RecipeProperties {
-        private Map<String, Recipe> recipeMap;
+        private List<Recipe> recipes;
     }
 }
