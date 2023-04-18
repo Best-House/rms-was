@@ -24,6 +24,6 @@ class IngredientTest {
     public void materialTest() {
         Material material = new Material("material1", "material1");
         Ingredient ingredient = new Ingredient(material, 1);
-        assertEquals(material, ingredient.material());
+        assertEquals(new Material("material1", ""), ingredient.material());
     }
 }

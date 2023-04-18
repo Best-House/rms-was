@@ -4,7 +4,6 @@ import com.hojun.service.domain.material.Material;
 import com.hojun.service.domain.material_price.MaterialPrice;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
@@ -24,12 +23,8 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    private boolean isEmpty() {
-        return ingredients.isEmpty();
-    }
-
-    public double getPrice(MaterialPrice materialPrice) {
-        if (isEmpty()) {
+    public double getCost(MaterialPrice materialPrice) {
+        if (ingredients.isEmpty()) {
             return 0;
         } else {
             int result = 0;

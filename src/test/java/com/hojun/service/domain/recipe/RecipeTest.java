@@ -2,8 +2,6 @@ package com.hojun.service.domain.recipe;
 
 import com.hojun.service.domain.material.Material;
 import com.hojun.service.domain.material_price.MaterialPrice;
-import com.hojun.service.domain.recipe.Ingredient;
-import com.hojun.service.domain.recipe.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,29 +30,29 @@ class RecipeTest {
     }
 
     @Test
-    void calculateRecipePriceTest() {
+    void calculateRecipeCostTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
 
-        double recipePrice = recipe.getPrice(materialPrice);
+        double recipeCost = recipe.getCost(materialPrice);
 
-        assertEquals(5.0, recipePrice);
+        assertEquals(5.0, recipeCost);
     }
 
     @Test
-    void calculateEmptyRecipePriceTest() {
+    void calculateEmptyRecipeCostTest() {
         Recipe emptyRecipe = new Recipe("", "emptyRecipe", Collections.EMPTY_LIST);
 
-        double recipePrice = emptyRecipe.getPrice(materialPrice);
+        double recipeCost = emptyRecipe.getCost(materialPrice);
 
-        assertEquals(0.0, recipePrice);
+        assertEquals(0.0, recipeCost);
     }
 
     @Test
-    void calculateRecipePriceWithUnknownPriceTest() {
+    void calculateRecipeCostWithUnknownPriceTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
-        double recipePrice = recipe.getPrice(new MaterialPrice(Collections.EMPTY_MAP));
+        double recipeCost = recipe.getCost(new MaterialPrice(Collections.EMPTY_MAP));
 
-        assertEquals(0.0, recipePrice);
+        assertEquals(0.0, recipeCost);
     }
 
     @Test

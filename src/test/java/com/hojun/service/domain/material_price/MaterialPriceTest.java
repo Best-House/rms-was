@@ -1,7 +1,6 @@
 package com.hojun.service.domain.material_price;
 
 import com.hojun.service.domain.material.Material;
-import com.hojun.service.domain.material_price.MaterialPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -18,6 +17,7 @@ class MaterialPriceTest {
         MaterialPrice materialPrice = new MaterialPrice(Map.of(material, 1.0));
 
         assertTrue(materialPrice.contains(material));
+        assertFalse(materialPrice.contains(new Material("", "")));
     }
 
     @Test

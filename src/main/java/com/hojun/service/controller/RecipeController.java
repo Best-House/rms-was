@@ -24,21 +24,21 @@ public class RecipeController {
     }
 
 
-    @GetMapping("/recipe/{recipeId}/price")
-    public GetRecipePriceResponse getRecipePrice(@PathVariable String recipeId) {
+    @GetMapping("/recipe/{recipeId}/cost")
+    public GetRecipeCostResponse getRecipeCost(@PathVariable String recipeId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
         MaterialPrice materialPrice = materialPriceRepository.getCommonMaterialPrice();
 
-        return new GetRecipePriceResponse(
-                recipe.getPrice(materialPrice),
+        return new GetRecipeCostResponse(
+                recipe.getCost(materialPrice),
                 materialPrice.getUnknownPriceMaterials(recipe.getContainedMaterials())
         );
     }
 
     @AllArgsConstructor
     @Data
-    public static class GetRecipePriceResponse {
-        private double price;
+    public static class GetRecipeCostResponse {
+        private double cost;
         private List<Material> unknownPriceMaterials;
     }
 }
