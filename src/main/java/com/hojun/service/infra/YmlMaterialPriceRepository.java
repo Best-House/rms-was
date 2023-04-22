@@ -1,6 +1,7 @@
 package com.hojun.service.infra;
 
 import com.hojun.service.domain.material.Material;
+import com.hojun.service.domain.material_price.FixedMaterialPrice;
 import com.hojun.service.domain.material_price.MaterialPrice;
 import com.hojun.service.domain.material_price.infra.MaterialPriceRepository;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class YmlMaterialPriceRepository implements MaterialPriceRepository {
         private Map<String, Double> priceMap;
 
         public MaterialPrice getMaterialPrice() {
-            return new MaterialPrice(
+            return new FixedMaterialPrice(
                     priceMap.entrySet().stream()
                     .collect(
                             Collectors.toMap(e-> new Material(e.getKey(), ""), Map.Entry::getValue)

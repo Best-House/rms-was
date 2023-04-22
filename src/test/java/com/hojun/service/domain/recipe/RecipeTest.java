@@ -1,6 +1,7 @@
 package com.hojun.service.domain.recipe;
 
 import com.hojun.service.domain.material.Material;
+import com.hojun.service.domain.material_price.FixedMaterialPrice;
 import com.hojun.service.domain.material_price.MaterialPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class RecipeTest {
         ingredients = new ArrayList<>();
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        materialPrice = new MaterialPrice(Map.of(material1, 1.0, material2, 2.0));
+        materialPrice = new FixedMaterialPrice(Map.of(material1, 1.0, material2, 2.0));
     }
 
     @Test
@@ -50,7 +51,7 @@ class RecipeTest {
     @Test
     void calculateRecipeCostWithUnknownPriceTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
-        double recipeCost = recipe.getCost(new MaterialPrice(Collections.EMPTY_MAP));
+        double recipeCost = recipe.getCost(new FixedMaterialPrice(Collections.EMPTY_MAP));
 
         assertEquals(0.0, recipeCost);
     }

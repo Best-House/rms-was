@@ -1,28 +1,23 @@
 package com.hojun.service.domain.material_price;
 
 import com.hojun.service.domain.material.Material;
-import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-@ToString
-public class MaterialPrice {
-    private final Map<Material, Double> priceMap;
 
-    public MaterialPrice(Map<Material, Double> priceMap) {
-        this.priceMap = priceMap;
-    }
+public abstract class MaterialPrice {
+    protected abstract Map<Material, Double>  getPriceMap();
     public boolean contains(Material material) {
-        return priceMap.containsKey(material);
+        return getPriceMap().containsKey(material);
     }
     public Double getPrice(Material material) {
-        return priceMap.getOrDefault(material, 0.0);
+        return getPriceMap().getOrDefault(material, 0.0);
     }
 
     public List<Material> getUnknownPriceMaterials(List<Material> materialList) {
         return materialList.stream()
-                .filter(material -> !priceMap.containsKey(material))
+                .filter(material -> !getPriceMap().containsKey(material))
                 .collect(Collectors.toList());
     }
 }
