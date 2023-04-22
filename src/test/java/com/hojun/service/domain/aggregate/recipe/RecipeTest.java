@@ -1,8 +1,9 @@
-package com.hojun.service.domain.recipe;
+package com.hojun.service.domain.aggregate.recipe;
 
-import com.hojun.service.domain.material.Material;
-import com.hojun.service.domain.material_price.FixedMaterialPrice;
-import com.hojun.service.domain.material_price.MaterialPrice;
+import com.hojun.service.domain.aggregate.material.Material;
+import com.hojun.service.domain.vo.ingredient.Ingredient;
+import com.hojun.service.domain.vo.material_price.FixedMaterialPrice;
+import com.hojun.service.domain.vo.material_price.MaterialPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

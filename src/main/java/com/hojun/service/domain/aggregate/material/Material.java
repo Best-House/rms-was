@@ -1,4 +1,4 @@
-package com.hojun.service.domain.material;
+package com.hojun.service.domain.aggregate.material;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package com.hojun.service.domain.recipe.exception;
+package com.hojun.service.domain.aggregate.recipe.exception;
 
 import com.hojun.service.domain.common.exception.DomainException;
 
