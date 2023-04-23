@@ -1,7 +1,7 @@
 package com.hojun.service.domain.aggregate.recipe;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
+import com.hojun.service.domain.not_aggregate.material_price.MaterialUnitPrice;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;

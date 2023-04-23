@@ -1,6 +1,7 @@
-package com.hojun.service.domain.aggregate.material_price;
+package com.hojun.service.domain.not_aggregate.material_price;
 
 import com.hojun.service.domain.aggregate.material.Material;
+import com.hojun.service.domain.not_aggregate.material_price.MaterialUnitPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

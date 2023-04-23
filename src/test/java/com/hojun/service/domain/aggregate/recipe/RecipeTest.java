@@ -1,7 +1,7 @@
 package com.hojun.service.domain.aggregate.recipe;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
+import com.hojun.service.domain.not_aggregate.material_price.MaterialUnitPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +31,14 @@ class RecipeTest {
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
         materialUnitPrice = new MaterialUnitPrice(Map.of(material1, 1.0, material2, 2.0));
+    }
+
+    @Test
+    void entityEqualityTest() {
+        Recipe recipe1 = new Recipe("recipe1", "a", null);
+        Recipe recipe2 = new Recipe("recipe1", "b", null);
+
+        assertEquals(recipe1, recipe2);
     }
 
     @Test

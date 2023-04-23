@@ -1,10 +1,10 @@
 package com.hojun.service.controller;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
-import com.hojun.service.domain.aggregate.material_price.infra.MaterialPriceRepository;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
+import com.hojun.service.domain.not_aggregate.material_price.MaterialUnitPrice;
+import com.hojun.service.domain.not_aggregate.material_price.infra.MaterialPriceRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
