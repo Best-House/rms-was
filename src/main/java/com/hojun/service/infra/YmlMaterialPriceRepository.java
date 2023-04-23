@@ -1,11 +1,10 @@
 package com.hojun.service.infra;
 
-import com.hojun.service.domain.material.Material;
-import com.hojun.service.domain.material_price.FixedMaterialPrice;
-import com.hojun.service.domain.material_price.MaterialPrice;
-import com.hojun.service.domain.material_price.infra.MaterialPriceRepository;
+import com.hojun.service.domain.aggregate.material.Material;
+import com.hojun.service.domain.aggregate.material_price.FixedMaterialPrice;
+import com.hojun.service.domain.aggregate.material_price.MaterialPrice;
+import com.hojun.service.domain.aggregate.material_price.infra.MaterialPriceRepository;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Repository;
