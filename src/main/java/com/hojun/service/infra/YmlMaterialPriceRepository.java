@@ -1,8 +1,8 @@
 package com.hojun.service.infra;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.FixedMaterialPrice;
-import com.hojun.service.domain.aggregate.material_price.MaterialPrice;
+import com.hojun.service.domain.aggregate.material_price.FixedMaterialUnitPrice;
+import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 import com.hojun.service.domain.aggregate.material_price.infra.MaterialPriceRepository;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,7 +23,7 @@ public class YmlMaterialPriceRepository implements MaterialPriceRepository {
     }
 
     @Override
-    public MaterialPrice getCommonMaterialPrice() {
+    public MaterialUnitPrice getCommonMaterialPrice() {
         return materialPriceProperties.getMaterialPrice();
     }
 
@@ -32,8 +32,8 @@ public class YmlMaterialPriceRepository implements MaterialPriceRepository {
     public static class MaterialPriceProperties {
         private Map<String, Double> priceMap;
 
-        public MaterialPrice getMaterialPrice() {
-            return new FixedMaterialPrice(
+        public MaterialUnitPrice getMaterialPrice() {
+            return new FixedMaterialUnitPrice(
                     priceMap.entrySet().stream()
                     .collect(
                             Collectors.toMap(e-> new Material(e.getKey(), ""), Map.Entry::getValue)

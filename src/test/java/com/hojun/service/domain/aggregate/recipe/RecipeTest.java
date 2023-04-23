@@ -1,10 +1,8 @@
 package com.hojun.service.domain.aggregate.recipe;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.FixedMaterialPrice;
-import com.hojun.service.domain.aggregate.material_price.MaterialPrice;
-import com.hojun.service.domain.aggregate.recipe.Ingredient;
-import com.hojun.service.domain.aggregate.recipe.Recipe;
+import com.hojun.service.domain.aggregate.material_price.FixedMaterialUnitPrice;
+import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,7 @@ class RecipeTest {
     private Ingredient ingredient1;
     private Ingredient ingredient2;
     private List<Ingredient> ingredients;
-    private MaterialPrice materialPrice;
+    private MaterialUnitPrice materialUnitPrice;
 
     @BeforeEach
     void setup() {
@@ -29,14 +27,14 @@ class RecipeTest {
         ingredients = new ArrayList<>();
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        materialPrice = new FixedMaterialPrice(Map.of(material1, 1.0, material2, 2.0));
+        materialUnitPrice = new FixedMaterialUnitPrice(Map.of(material1, 1.0, material2, 2.0));
     }
 
     @Test
     void calculateRecipeCostTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
 
-        double recipeCost = recipe.getCost(materialPrice);
+        double recipeCost = recipe.getCost(materialUnitPrice);
 
         assertEquals(5.0, recipeCost);
     }
@@ -45,7 +43,7 @@ class RecipeTest {
     void calculateEmptyRecipeCostTest() {
         Recipe emptyRecipe = new Recipe("", "emptyRecipe", Collections.EMPTY_LIST);
 
-        double recipeCost = emptyRecipe.getCost(materialPrice);
+        double recipeCost = emptyRecipe.getCost(materialUnitPrice);
 
         assertEquals(0.0, recipeCost);
     }
@@ -53,7 +51,7 @@ class RecipeTest {
     @Test
     void calculateRecipeCostWithUnknownPriceTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
-        double recipeCost = recipe.getCost(new FixedMaterialPrice(Collections.EMPTY_MAP));
+        double recipeCost = recipe.getCost(new FixedMaterialUnitPrice(Collections.EMPTY_MAP));
 
         assertEquals(0.0, recipeCost);
     }

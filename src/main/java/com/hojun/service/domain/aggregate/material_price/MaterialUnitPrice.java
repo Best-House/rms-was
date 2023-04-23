@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class MaterialPrice {
+public abstract class MaterialUnitPrice {
     protected abstract Map<Material, Double>  getPriceMap();
     public boolean contains(Material material) {
         return getPriceMap().containsKey(material);

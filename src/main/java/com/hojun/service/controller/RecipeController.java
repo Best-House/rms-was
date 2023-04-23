@@ -1,7 +1,7 @@
 package com.hojun.service.controller;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.MaterialPrice;
+import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
 import com.hojun.service.domain.aggregate.material_price.infra.MaterialPriceRepository;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
@@ -27,11 +27,11 @@ public class RecipeController {
     @GetMapping("/recipe/{recipeId}/cost")
     public GetRecipeCostResponse getRecipeCost(@PathVariable String recipeId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
-        MaterialPrice materialPrice = materialPriceRepository.getCommonMaterialPrice();
+        MaterialUnitPrice materialUnitPrice = materialPriceRepository.getCommonMaterialPrice();
 
         return new GetRecipeCostResponse(
-                recipe.getCost(materialPrice),
-                materialPrice.getUnknownPriceMaterials(recipe.getContainedMaterials())
+                recipe.getCost(materialUnitPrice),
+                materialUnitPrice.getUnknownPriceMaterials(recipe.getContainedMaterials())
         );
     }
 

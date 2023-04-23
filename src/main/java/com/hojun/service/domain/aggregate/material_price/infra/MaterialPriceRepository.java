@@ -1,7 +1,7 @@
 package com.hojun.service.domain.aggregate.material_price.infra;
 
-import com.hojun.service.domain.aggregate.material_price.MaterialPrice;
+import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 
 public interface MaterialPriceRepository {
-    MaterialPrice getCommonMaterialPrice();
+    MaterialUnitPrice getCommonMaterialPrice();
 }
