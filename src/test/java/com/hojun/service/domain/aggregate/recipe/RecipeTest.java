@@ -1,14 +1,17 @@
 package com.hojun.service.domain.aggregate.recipe;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.aggregate.material_price.UserMaterialUnitPrice;
 import com.hojun.service.domain.aggregate.material_price.MaterialUnitPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RecipeTest {
     private Material material1;
@@ -27,7 +30,7 @@ class RecipeTest {
         ingredients = new ArrayList<>();
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        materialUnitPrice = new UserMaterialUnitPrice(Map.of(material1, 1.0, material2, 2.0));
+        materialUnitPrice = new MaterialUnitPrice(Map.of(material1, 1.0, material2, 2.0));
     }
 
     @Test
@@ -51,7 +54,7 @@ class RecipeTest {
     @Test
     void calculateRecipeCostWithUnknownPriceTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
-        double recipeCost = recipe.getCost(new UserMaterialUnitPrice(Collections.EMPTY_MAP));
+        double recipeCost = recipe.getCost(new MaterialUnitPrice(Collections.EMPTY_MAP));
 
         assertEquals(0.0, recipeCost);
     }

@@ -6,18 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class MaterialUnitPrice {
-    protected abstract Map<Material, Double>  getPriceMap();
+public class MaterialUnitPrice {
+    private final Map<Material, Double> priceMap;
+
+    public MaterialUnitPrice(Map<Material, Double> priceMap) {
+        this.priceMap = priceMap;
+    }
+
     public boolean contains(Material material) {
-        return getPriceMap().containsKey(material);
+        return priceMap.containsKey(material);
     }
     public Double getPrice(Material material) {
-        return getPriceMap().getOrDefault(material, 0.0);
+        return priceMap.getOrDefault(material, 0.0);
     }
 
     public List<Material> getUnknownPriceMaterials(List<Material> materialList) {
         return materialList.stream()
-                .filter(material -> !getPriceMap().containsKey(material))
+                .filter(material -> !priceMap.containsKey(material))
                 .collect(Collectors.toList());
     }
 }
