@@ -6,10 +6,10 @@ import lombok.ToString;
 import java.util.Map;
 
 @ToString
-public class FixedMaterialUnitPrice extends MaterialUnitPrice {
+public class UserMaterialUnitPrice extends MaterialUnitPrice {
     private final Map<Material, Double> priceMap;
 
-    public FixedMaterialUnitPrice(Map<Material, Double> priceMap) {
+    public UserMaterialUnitPrice(Map<Material, Double> priceMap) {
         this.priceMap = priceMap;
     }
     @Override

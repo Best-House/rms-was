@@ -9,12 +9,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FixedMaterialUnitPriceTest {
+class UserMaterialUnitPriceTest {
 
     @Test
     public void containsTest() {
         Material material = new Material("material1","material1");
-        MaterialUnitPrice materialUnitPrice = new FixedMaterialUnitPrice(Map.of(material, 1.0));
+        MaterialUnitPrice materialUnitPrice = new UserMaterialUnitPrice(Map.of(material, 1.0));
 
         assertTrue(materialUnitPrice.contains(material));
         assertFalse(materialUnitPrice.contains(new Material("", "")));
@@ -23,14 +23,14 @@ class FixedMaterialUnitPriceTest {
     @Test
     public void getPriceTest() {
         Material material = new Material("material1", "material1");
-        MaterialUnitPrice materialUnitPrice = new FixedMaterialUnitPrice(Map.of(material, 1.0));
+        MaterialUnitPrice materialUnitPrice = new UserMaterialUnitPrice(Map.of(material, 1.0));
 
         assertEquals(1, materialUnitPrice.getPrice(material));
     }
 
     @Test
     public void getPriceWithUnknownMaterial() {
-        MaterialUnitPrice materialUnitPrice = new FixedMaterialUnitPrice(Collections.EMPTY_MAP);
+        MaterialUnitPrice materialUnitPrice = new UserMaterialUnitPrice(Collections.EMPTY_MAP);
 
         assertEquals(0, materialUnitPrice.getPrice(new Material("material1", "material1")));
     }
@@ -39,7 +39,7 @@ class FixedMaterialUnitPriceTest {
     public void getUnknownMaterials() {
         Material unknownMaterial = new Material("material1", "material1");
         Material knownMaterial = new Material("material2", "material2");
-        MaterialUnitPrice materialUnitPrice = new FixedMaterialUnitPrice(Map.of(knownMaterial, 1.0));
+        MaterialUnitPrice materialUnitPrice = new UserMaterialUnitPrice(Map.of(knownMaterial, 1.0));
         List<Material> materials = List.of(unknownMaterial, knownMaterial);
 
         List<Material> unknownMaterials = materialUnitPrice.getUnknownPriceMaterials(materials);
