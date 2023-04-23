@@ -1,9 +1,11 @@
-package com.hojun.service.domain.vo.material_price;
+package com.hojun.service.domain.material_price;
 
-import com.hojun.service.domain.aggregate.material.Material;
+import com.hojun.service.domain.material.Material;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ToString
 public class FixedMaterialPrice extends MaterialPrice{

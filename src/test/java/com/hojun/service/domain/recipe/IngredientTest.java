@@ -1,7 +1,7 @@
-package com.hojun.service.domain.vo.ingredient;
+package com.hojun.service.domain.recipe;
 
-import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.vo.ingredient.Ingredient;
+import com.hojun.service.domain.material.Material;
+import com.hojun.service.domain.recipe.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
