@@ -1,4 +1,4 @@
-package com.hojun.service.domain.not_aggregate.material_price;
+package com.hojun.service.domain.record;
 
 import com.hojun.service.domain.aggregate.material.Material;
 

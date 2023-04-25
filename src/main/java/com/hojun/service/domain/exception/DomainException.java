@@ -1,4 +1,4 @@
-package com.hojun.service.domain.common.exception;
+package com.hojun.service.domain.exception;
 
 public class DomainException extends RuntimeException{
 }

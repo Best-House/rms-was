@@ -1,8 +1,8 @@
 package com.hojun.service.infra;
 
 import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.not_aggregate.material_price.MaterialUnitPrice;
-import com.hojun.service.domain.not_aggregate.material_price.infra.MaterialUnitPriceRepository;
+import com.hojun.service.domain.record.MaterialUnitPrice;
+import com.hojun.service.domain.aggregate.user_material_price.infra.MaterialUnitPriceRepository;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
