@@ -11,7 +11,7 @@ public class UserMaterialPriceTest {
     @Test
     public void entityEqualityTest() {
         UserMaterialPrice userMaterialPrice1 = new UserMaterialPrice("userMaterialPrice1");
-        UserMaterialPrice userMaterialPrice2 = new UserMaterialPrice("userMaterialPrice1");
+        UserMaterialPrice userMaterialPrice2 = new UserMaterialPrice("userM aterialPrice1");
         assertEquals(userMaterialPrice1, userMaterialPrice2);
     }
 
@@ -25,5 +25,15 @@ public class UserMaterialPriceTest {
         MaterialUnitPrice materialUnitPrice = userMaterialPrice.getMaterialUnitPrice();
         assertTrue(materialUnitPrice.contains(material1));
         assertEquals(16, materialUnitPrice.getPrice(material1));
+    }
+
+    @Test
+    void addZeroAmountMaterialTest() {
+        Material material1 = new Material("material1", "");
+        UserMaterialPrice userMaterialPrice = new UserMaterialPrice("");
+
+        assertThrows(InvalidAmountException.class, ()->{
+            userMaterialPrice.addMaterial(material1, 16000, 0);
+        });
     }
 }

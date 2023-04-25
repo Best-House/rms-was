@@ -22,6 +22,9 @@ public class UserMaterialPrice {
     }
 
     public void addMaterial(Material material, double price, double amount) {
+        if(amount == 0) {
+            throw new InvalidAmountException();
+        }
         materialPriceAmountMap.put(material, new PriceAmount(price, amount));
     }
 
