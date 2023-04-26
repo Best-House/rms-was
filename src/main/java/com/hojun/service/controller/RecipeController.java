@@ -3,8 +3,9 @@ package com.hojun.service.controller;
 import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
+import com.hojun.service.domain.aggregate.user_material_price.UserMaterialPrice;
 import com.hojun.service.domain.record.MaterialUnitPrice;
-import com.hojun.service.domain.aggregate.user_material_price.infra.MaterialUnitPriceRepository;
+import com.hojun.service.domain.aggregate.user_material_price.infra.UserMaterialPriceRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +17,19 @@ import java.util.List;
 @RestController
 public class RecipeController {
     private final RecipeRepository recipeRepository;
-    private final MaterialUnitPriceRepository materialUnitPriceRepository;
+    private final UserMaterialPriceRepository userMaterialPriceRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, MaterialUnitPriceRepository materialUnitPriceRepository) {
+    public RecipeController(RecipeRepository recipeRepository, UserMaterialPriceRepository userMaterialPriceRepository) {
         this.recipeRepository = recipeRepository;
-        this.materialUnitPriceRepository = materialUnitPriceRepository;
+        this.userMaterialPriceRepository = userMaterialPriceRepository;
     }
 
 
     @GetMapping("/recipe/{recipeId}/cost")
-    public GetRecipeCostResponse getRecipeCost(@PathVariable String recipeId) {
+    public GetRecipeCostResponse getRecipeCost(@PathVariable String recipeId, String userMaterialPriceId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
-        MaterialUnitPrice materialUnitPrice = materialUnitPriceRepository.getCommonMaterialUnitPrice();
+        UserMaterialPrice userMaterialPrice = userMaterialPriceRepository.getUserMaterialPrice(userMaterialPriceId);
+        MaterialUnitPrice materialUnitPrice = userMaterialPrice.getMaterialUnitPrice();
 
         return new GetRecipeCostResponse(
                 recipe.getCost(materialUnitPrice),

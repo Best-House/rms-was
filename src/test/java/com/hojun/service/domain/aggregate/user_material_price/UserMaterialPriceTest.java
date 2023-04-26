@@ -11,7 +11,7 @@ public class UserMaterialPriceTest {
     @Test
     public void entityEqualityTest() {
         UserMaterialPrice userMaterialPrice1 = new UserMaterialPrice("userMaterialPrice1");
-        UserMaterialPrice userMaterialPrice2 = new UserMaterialPrice("userM aterialPrice1");
+        UserMaterialPrice userMaterialPrice2 = new UserMaterialPrice("userMaterialPrice1");
         assertEquals(userMaterialPrice1, userMaterialPrice2);
     }
 

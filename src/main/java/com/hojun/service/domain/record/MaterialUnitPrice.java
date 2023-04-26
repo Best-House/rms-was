@@ -21,8 +21,9 @@ public class MaterialUnitPrice {
     }
 
     public List<Material> getUnknownPriceMaterials(List<Material> materialList) {
-        return materialList.stream()
+        List<Material> unknownPriceMaterials = materialList.stream()
                 .filter(material -> !priceMap.containsKey(material))
                 .collect(Collectors.toList());
+        return unknownPriceMaterials;
     }
 }

@@ -51,10 +51,18 @@ recipe:
         - amount: 35
           material:
             id: caramel_syrup
-material-price:
-  priceMap:
-    brazil_coffee_bean_1: 26
-    ice_1: 30
-    milk_1: 1.68
-    vanilla_syrup: 13.96
-    caramel_syrup: 16
+user-material-price:
+  userMaterialPriceMap:
+    user1:
+      - materialId: brazil_coffee_bean_1
+        price: 26000
+        amount: 1000
+      - materialId: ice_1
+        price : 30
+        amount: 1
+      - materialId: milk_1
+        price: 1680
+        amount: 1000
+      - materialId: vanilla_syrup
+        price: 13960
+        amount: 1000
