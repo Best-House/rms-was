@@ -22,10 +22,8 @@ jobs:
         with:
           arguments: build
           gradle-version: 7.5.1
-
-#  docker-build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Build the Docker image
-#        run: docker build . --file Dockerfile --tag rms:$(date +%s)
+      - name: Build the Docker image
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest
