@@ -13,8 +13,10 @@ import java.util.stream.Collectors;
 public class Recipe {
     @Getter
     private final String id;
+    // TODO: 식별자를 제외한 필드들은 수정 가능하도록 한다.
     @Getter
     private final String name;
+    // TODO: VO로 감싸서 immutable하도록 만든다.
     private final List<Ingredient> ingredients;
 
     public Recipe(String id, String name, List<Ingredient> ingredients) {
