@@ -33,7 +33,7 @@ class UserMaterialUnitPriceTest {
     public void getPriceWithUnknownMaterial() {
         MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Collections.EMPTY_MAP);
 
-        assertNotEquals(0, materialUnitPrice.getPrice(new Material("material1", "material1")));
+        assertEquals(0, materialUnitPrice.getPrice(new Material("material1", "material1")));
     }
 
     @Test
