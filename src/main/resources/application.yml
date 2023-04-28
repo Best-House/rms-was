@@ -1,0 +1,68 @@
+recipe:
+  recipes:
+    - id: common_coffee_1
+      name: coffee
+      ingredients:
+        - amount: 20
+          material:
+            id: brazil_coffee_bean_1
+        - amount: 10
+          material:
+            id: ice_1
+    - id: common_latte_1
+      name: latte
+      ingredients:
+        - material:
+            id: brazil_coffee_bean_1
+          amount: 20
+        - amount: 10
+          material:
+            id: ice_1
+        - amount: 175
+          material:
+            id: milk_1
+    - id: common_vanilla_latte_1
+      name: vanilla_latte
+      ingredients:
+        - amount: 20
+          material:
+            id: brazil_coffee_bean_1
+        - amount: 10
+          material:
+            id: ice_1
+        - amount: 170
+          material:
+            id: milk_1
+        - amount: 35
+          material:
+            id: vanilla_syrup
+    - id: common_caramel_macchiato_1
+      name: caramel_macchiato
+      ingredients:
+        - amount: 20
+          material:
+            id: brazil_coffee_bean_1
+        - amount: 10
+          material:
+            id: ice_1
+        - amount: 150
+          material:
+            id: milk_1
+        - amount: 35
+          material:
+            id: caramel_syrup
+user-material-price:
+  userMaterialPriceMap:
+    user1:
+      - materialId: brazil_coffee_bean_1
+        price: 26000
+        amount: 1000
+      - materialId: ice_1
+        price : 30
+        amount: 1
+      - materialId: milk_1
+        price: 1680
+        amount: 1000
+      - materialId: vanilla_syrup
+        price: 13960
+        amount: 1000
