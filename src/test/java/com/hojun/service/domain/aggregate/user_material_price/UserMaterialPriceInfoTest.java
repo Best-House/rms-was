@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserMaterialPriceTest {
+public class UserMaterialPriceInfoTest {
 
     @Test
     public void entityEqualityTest() {
