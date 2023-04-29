@@ -1,6 +1,5 @@
 package com.hojun.service.domain.aggregate.recipe;
 
-import com.hojun.service.domain.record.MaterialUnitPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +15,17 @@ class RecipeTest {
     private Ingredient ingredient1;
     private Ingredient ingredient2;
     private List<Ingredient> ingredients;
-    private MaterialUnitPrice materialUnitPrice;
+    private Map<String, Double> materialUnitPriceMap;
 
     @BeforeEach
     void setup() {
+        materialUnitPriceMap = Map.of("material1", 1.0, "material2", 2.0);
+
         ingredient1 = new Ingredient("material1", 1);
         ingredient2 = new Ingredient("material2", 2);
         ingredients = new ArrayList<>();
         ingredients.add(ingredient1);
         ingredients.add(ingredient2);
-        materialUnitPrice = new MaterialUnitPrice(Map.of("material1", 1.0, "material2", 2.0));
     }
 
     @Test
@@ -40,7 +40,7 @@ class RecipeTest {
     void calculateRecipeCostTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
 
-        double recipeCost = recipe.getCost(materialUnitPrice);
+        double recipeCost = recipe.getCost(materialUnitPriceMap);
 
         assertEquals(5.0, recipeCost);
     }
@@ -49,7 +49,7 @@ class RecipeTest {
     void calculateEmptyRecipeCostTest() {
         Recipe emptyRecipe = new Recipe("", "emptyRecipe", Collections.EMPTY_LIST);
 
-        double recipeCost = emptyRecipe.getCost(materialUnitPrice);
+        double recipeCost = emptyRecipe.getCost(materialUnitPriceMap);
 
         assertEquals(0.0, recipeCost);
     }
@@ -57,7 +57,7 @@ class RecipeTest {
     @Test
     void calculateRecipeCostWithUnknownPriceTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
-        double recipeCost = recipe.getCost(new MaterialUnitPrice(Collections.EMPTY_MAP));
+        double recipeCost = recipe.getCost(Collections.EMPTY_MAP);
 
         assertEquals(0.0, recipeCost);
     }
@@ -66,7 +66,7 @@ class RecipeTest {
     void getContainedMaterialsTest() {
         Recipe recipe = new Recipe("", "recipe", ingredients);
 
-        assertTrue(recipe.getContainedMaterials().contains(ingredient1.materialId()));
-        assertTrue(recipe.getContainedMaterials().contains(ingredient2.materialId()));
+        assertTrue(recipe.getContainedMaterialIds().contains(ingredient1.materialId()));
+        assertTrue(recipe.getContainedMaterialIds().contains(ingredient2.materialId()));
     }
 }

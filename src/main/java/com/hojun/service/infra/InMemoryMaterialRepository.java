@@ -5,7 +5,9 @@ import com.hojun.service.domain.aggregate.material.exception.NotExistMaterialExc
 import com.hojun.service.domain.aggregate.material.infra.MaterialRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -30,6 +32,17 @@ public class InMemoryMaterialRepository implements MaterialRepository {
             throw new NotExistMaterialException();
         }
         return material;
+    }
+
+    @Override
+    public List<Material> findMaterials(List<String> materialIds) {
+        final List<Material> materials = new ArrayList<>();
+        for(String materialId : materialIds) {
+            if(materialMap.containsKey(materialId)) {
+                materials.add(materialMap.get(materialId));
+            }
+        }
+        return materials;
     }
 
     @Override

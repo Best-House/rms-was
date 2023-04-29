@@ -1,11 +1,11 @@
 package com.hojun.service.domain.aggregate.recipe;
 
-import com.hojun.service.domain.record.MaterialUnitPrice;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 @ToString
 @EqualsAndHashCode(of = "id")
@@ -24,14 +24,14 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public double getCost(MaterialUnitPrice materialUnitPrice) {
+    public double getCost(Map<String, Double> materialUnitPriceMap) {
         if (ingredients.isEmpty()) {
             return 0;
         } else {
             int result = 0;
             for(Ingredient ingredient : ingredients) {
-                if(materialUnitPrice.contains(ingredient.materialId())) {
-                    final double pricePerAmount = materialUnitPrice.getPrice(ingredient.materialId());
+                if(materialUnitPriceMap.containsKey(ingredient.materialId())) {
+                    final double pricePerAmount = materialUnitPriceMap.get(ingredient.materialId());
                     final double price = pricePerAmount * ingredient.amount();
                     result += price;
                 }
@@ -40,7 +40,7 @@ public class Recipe {
         }
     }
 
-    public List<String> getContainedMaterials() {
+    public List<String> getContainedMaterialIds() {
         return ingredients.stream()
                 .map(Ingredient::materialId)
                 .collect(Collectors.toList());
