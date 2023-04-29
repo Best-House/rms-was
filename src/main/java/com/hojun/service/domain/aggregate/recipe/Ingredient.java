@@ -1,6 +1,4 @@
 package com.hojun.service.domain.aggregate.recipe;
 
-import com.hojun.service.domain.aggregate.material.Material;
-
-public record Ingredient(Material material, int amount) {
+public record Ingredient(String materialId, int amount) {
 }

@@ -1,6 +1,5 @@
 package com.hojun.service.domain.aggregate.user_material_price;
 
-import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.record.MaterialUnitPrice;
 import org.junit.jupiter.api.Test;
 
@@ -17,23 +16,21 @@ public class UserMaterialPriceInfoTest {
 
     @Test
     void getMaterialUnitPriceTest() {
-        Material material1 = new Material("material1", "");
 
         UserMaterialPrice userMaterialPrice = new UserMaterialPrice("");
-        userMaterialPrice.addMaterial(material1, 16000, 1000);
+        userMaterialPrice.addMaterial("material1", 16000, 1000);
 
         MaterialUnitPrice materialUnitPrice = userMaterialPrice.getMaterialUnitPrice();
-        assertTrue(materialUnitPrice.contains(material1));
-        assertEquals(16, materialUnitPrice.getPrice(material1));
+        assertTrue(materialUnitPrice.contains("material1"));
+        assertEquals(16, materialUnitPrice.getPrice("material1"));
     }
 
     @Test
     void addZeroAmountMaterialTest() {
-        Material material1 = new Material("material1", "");
         UserMaterialPrice userMaterialPrice = new UserMaterialPrice("");
 
         assertThrows(InvalidAmountException.class, ()->{
-            userMaterialPrice.addMaterial(material1, 16000, 0);
+            userMaterialPrice.addMaterial("material1", 16000, 0);
         });
     }
 }

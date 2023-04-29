@@ -43,7 +43,7 @@ public class YmlUserMaterialPriceRepository implements UserMaterialPriceReposito
             UserMaterialPrice userMaterialPrice = new UserMaterialPrice(userMaterialPriceId);
             for(MaterialPriceAmount materialPriceAmount : materialPriceAmounts) {
                 userMaterialPrice.addMaterial(
-                        new Material(materialPriceAmount.getMaterialId(), null),
+                        materialPriceAmount.getMaterialId(),
                         materialPriceAmount.getPrice(),
                         materialPriceAmount.getAmount()
                 );

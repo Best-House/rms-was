@@ -1,6 +1,5 @@
 package com.hojun.service.controller;
 
-import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
 import com.hojun.service.domain.aggregate.user_material_price.UserMaterialPrice;
@@ -33,7 +32,7 @@ public class RecipeController {
 
         return new GetRecipeCostResponse(
                 recipe.getCost(materialUnitPrice),
-                materialUnitPrice.getUnknownPriceMaterials(recipe.getContainedMaterials())
+                materialUnitPrice.getUnknownPriceMaterialIds(recipe.getContainedMaterials())
         );
     }
 
@@ -41,6 +40,6 @@ public class RecipeController {
     @Data
     public static class GetRecipeCostResponse {
         private double cost;
-        private List<Material> unknownPriceMaterials;
+        private List<String> unknownPriceMaterialIds;
     }
 }

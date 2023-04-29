@@ -1,29 +1,26 @@
 package com.hojun.service.domain.record;
 
-import com.hojun.service.domain.aggregate.material.Material;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MaterialUnitPrice {
-    private final Map<Material, Double> priceMap;
+    private final Map<String, Double> priceMap;
 
-    public MaterialUnitPrice(Map<Material, Double> priceMap) {
+    public MaterialUnitPrice(Map<String, Double> priceMap) {
         this.priceMap = priceMap;
     }
 
-    public boolean contains(Material material) {
-        return priceMap.containsKey(material);
+    public boolean contains(String materialId) {
+        return priceMap.containsKey(materialId);
     }
-    public Double getPrice(Material material) {
-        return priceMap.getOrDefault(material, 0.0);
+    public Double getPrice(String materialId) {
+        return priceMap.getOrDefault(materialId, 0.0);
     }
 
-    public List<Material> getUnknownPriceMaterials(List<Material> materialList) {
-        List<Material> unknownPriceMaterials = materialList.stream()
-                .filter(material -> !priceMap.containsKey(material))
+    public List<String> getUnknownPriceMaterialIds(List<String> materialList) {
+        return materialList.stream()
+                .filter(materialId -> !priceMap.containsKey(materialId))
                 .collect(Collectors.toList());
-        return unknownPriceMaterials;
     }
 }

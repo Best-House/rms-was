@@ -1,7 +1,5 @@
 package com.hojun.service.domain.record;
 
-import com.hojun.service.domain.aggregate.material.Material;
-import com.hojun.service.domain.record.MaterialUnitPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -14,38 +12,34 @@ class UserMaterialUnitPriceTest {
 
     @Test
     public void containsTest() {
-        Material material = new Material("material1","material1");
-        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of(material, 1.0));
+        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of("material1", 1.0));
 
-        assertTrue(materialUnitPrice.contains(material));
-        assertFalse(materialUnitPrice.contains(new Material("", "")));
+        assertTrue(materialUnitPrice.contains("material1"));
+        assertFalse(materialUnitPrice.contains(""));
     }
 
     @Test
     public void getPriceTest() {
-        Material material = new Material("material1", "material1");
-        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of(material, 1.0));
+        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of("material1", 1.0));
 
-        assertEquals(1, materialUnitPrice.getPrice(material));
+        assertEquals(1, materialUnitPrice.getPrice("material1"));
     }
 
     @Test
     public void getPriceWithUnknownMaterial() {
         MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Collections.EMPTY_MAP);
 
-        assertEquals(0, materialUnitPrice.getPrice(new Material("material1", "material1")));
+        assertEquals(0, materialUnitPrice.getPrice("material1"));
     }
 
     @Test
     public void getUnknownMaterials() {
-        Material unknownMaterial = new Material("material1", "material1");
-        Material knownMaterial = new Material("material2", "material2");
-        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of(knownMaterial, 1.0));
-        List<Material> materials = List.of(unknownMaterial, knownMaterial);
+        MaterialUnitPrice materialUnitPrice = new MaterialUnitPrice(Map.of("knownMaterial", 1.0));
+        List<String> materials = List.of("knownMaterial", "unknownMaterial");
 
-        List<Material> unknownMaterials = materialUnitPrice.getUnknownPriceMaterials(materials);
+        List<String> unknownMaterials = materialUnitPrice.getUnknownPriceMaterialIds(materials);
 
-        assertTrue(unknownMaterials.contains(unknownMaterial));
-        assertFalse(unknownMaterials.contains(knownMaterial));
+        assertTrue(unknownMaterials.contains("unknownMaterial"));
+        assertFalse(unknownMaterials.contains("knownMaterial"));
     }
 }

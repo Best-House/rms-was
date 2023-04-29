@@ -14,22 +14,22 @@ public class UserMaterialPrice {
     @Getter
     private final String id;
 
-    private final Map<Material, PriceAmount> materialPriceAmountMap;
+    private final Map<String, PriceAmount> materialIdPriceAmountMap;
 
     public UserMaterialPrice(String id) {
         this.id = id;
-        materialPriceAmountMap = new HashMap<>();
+        materialIdPriceAmountMap = new HashMap<>();
     }
 
-    public void addMaterial(Material material, double price, double amount) {
+    public void addMaterial(String materialId, double price, double amount) {
         if(amount == 0) {
             throw new InvalidAmountException();
         }
-        materialPriceAmountMap.put(material, new PriceAmount(price, amount));
+        materialIdPriceAmountMap.put(materialId, new PriceAmount(price, amount));
     }
 
     public MaterialUnitPrice getMaterialUnitPrice() {
-        final Map<Material, Double> priceMap = materialPriceAmountMap.entrySet()
+        final Map<String, Double> priceMap = materialIdPriceAmountMap.entrySet()
                 .stream()
                 .collect(
                         Collectors.toMap(

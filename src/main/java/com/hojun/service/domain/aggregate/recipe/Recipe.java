@@ -1,6 +1,5 @@
 package com.hojun.service.domain.aggregate.recipe;
 
-import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.record.MaterialUnitPrice;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,8 +30,8 @@ public class Recipe {
         } else {
             int result = 0;
             for(Ingredient ingredient : ingredients) {
-                if(materialUnitPrice.contains(ingredient.material())) {
-                    final double pricePerAmount = materialUnitPrice.getPrice(ingredient.material());
+                if(materialUnitPrice.contains(ingredient.materialId())) {
+                    final double pricePerAmount = materialUnitPrice.getPrice(ingredient.materialId());
                     final double price = pricePerAmount * ingredient.amount();
                     result += price;
                 }
@@ -41,9 +40,9 @@ public class Recipe {
         }
     }
 
-    public List<Material> getContainedMaterials() {
+    public List<String> getContainedMaterials() {
         return ingredients.stream()
-                .map(Ingredient::material)
+                .map(Ingredient::materialId)
                 .collect(Collectors.toList());
     }
 }
