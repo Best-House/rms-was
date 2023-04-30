@@ -23,7 +23,7 @@ public class Material {
         this.name = name;
     }
 
-    public void setPriceInfo(int price, int amount) {
+    public void setPriceInfo(double price, double amount) {
         this.priceInfo = new MaterialPriceInfo(price, amount);
     }
 

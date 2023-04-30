@@ -13,14 +13,21 @@ public class MaterialController {
     }
 
     @PostMapping("/material")
-    public Material create(String name) {
-        return materialRepository.save(new Material(null, name));
+    public Material create(String name, Double price, Double amount) {
+        Material material = new Material(null, name);
+        if(price != null && amount != null) {
+            material.setPriceInfo(price, amount);
+        }
+        return materialRepository.save(material);
     }
 
     @PutMapping("/materia/{materialId}l")
-    public Material update(@PathVariable String materialId, String name) {
+    public Material update(@PathVariable String materialId, String name, Double price, Double amount) {
         Material material = materialRepository.find(materialId);
         material.setName(name);
+        if(price != null && amount != null) {
+            material.setPriceInfo(price, amount);
+        }
         return materialRepository.update(materialId, material);
     }
 
