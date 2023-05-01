@@ -15,40 +15,36 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeCostService {
     private final RecipeRepository recipeRepository;
-    private final MaterialRepository materialRepository;
+    private final MaterialService materialService;
 
-    public RecipeCostService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
+
+    public RecipeCostService(RecipeRepository recipeRepository, MaterialService materialService) {
         this.recipeRepository = recipeRepository;
-        this.materialRepository = materialRepository;
+        this.materialService = materialService;
     }
+
 
     public RecipeCostResult getCost(String recipeId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
-        List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
-        Map<String, Double> materialUnitPrice = getMaterialUnitPrice(materials);
+        Map<String, Double> materialUnitPrice = materialService.getMaterialUnitPrice(recipe.getContainedMaterialIds());
+
+//        List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
+//        Map<String, Double> materialUnitPrice = getMaterialUnitPrice(materials);
         return new RecipeCostResult(
                 recipe.getCost(materialUnitPrice),
-                materials.stream()
-                        .filter(material -> !material.hasPriceInfo())
+                recipe.getContainedMaterialIds().stream()
+                        .filter(id -> !materialUnitPrice.containsKey(id))
                         .collect(Collectors.toList())
         );
-    }
-
-    private Map<String, Double> getMaterialUnitPrice(List<Material> materials) {
-        return materials.stream()
-                .filter(Material::hasPriceInfo)
-                .collect(
-                        Collectors.toMap(
-                                Material::getId,
-                                Material::getUnitPrice
-                        )
-                );
+//                materials.stream()
+//                        .filter(material -> !material.hasPriceInfo())
+//                        .collect(Collectors.toList())
     }
 
     @AllArgsConstructor
     @Data
     public static class RecipeCostResult {
         private double cost;
-        private List<Material> unknownPriceMaterials;
+        private List<String> unknownPriceMaterials;
     }
 }
