@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 class RecipeCostServiceTest {
     RecipeRepository recipeRepository;
-    MaterialService materialService;
+    MaterialRepository materialRepository;
     RecipeCostService recipeCostService;
 
     final String recipeId = "recipeId";
@@ -21,8 +21,8 @@ class RecipeCostServiceTest {
     @BeforeEach
     public void setup() {
         recipeRepository = mock(RecipeRepository.class);
-        materialService = mock(MaterialService.class);
-        recipeCostService = new RecipeCostService(recipeRepository, materialService);
+        materialRepository = mock(MaterialRepository.class);
+        recipeCostService = new RecipeCostService(recipeRepository, materialRepository);
 
         recipe = mock(Recipe.class);
         when(recipeRepository.getRecipe(recipeId)).thenReturn(recipe);

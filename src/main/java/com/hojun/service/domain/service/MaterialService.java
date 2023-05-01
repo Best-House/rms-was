@@ -10,14 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class MaterialService {
-    private final MaterialRepository materialRepository;
-
-    public MaterialService(MaterialRepository materialRepository) {
-        this.materialRepository = materialRepository;
-    }
-
-    public Map<String, Double> getMaterialUnitPrice(List<String> materialIds) {
-        List<Material> materials = materialRepository.findMaterials(materialIds);
+    public static Map<String, Double> getMaterialUnitPrice(List<Material> materials) {
         return materials.stream()
                 .filter(Material::hasPriceInfo)
                 .collect(

@@ -13,24 +13,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class MaterialServiceTest {
-    MaterialRepository materialRepository;
-    MaterialService materialService;
-
-    @BeforeEach
-    public void setup() {
-        materialRepository = mock(MaterialRepository.class);
-        materialService = new MaterialService(materialRepository);
-    }
-
     @Test
     public void getMaterialUnitPriceTest() {
         Material material1 = new Material("material1", "");
         material1.setPriceInfo(1, 1);
         Material material2 = new Material("material2", "");
-        List<String> materialIds = List.of("material1", "material2");
-        when(materialRepository.findMaterials(materialIds)).thenReturn(List.of(material1, material2));
 
-        Map<String, Double> materialUnitPrice = materialService.getMaterialUnitPrice(materialIds);
+        List<Material> materials = List.of(material1, material2);
+
+        Map<String, Double> materialUnitPrice = MaterialService.getMaterialUnitPrice(materials);
 
         assertTrue(materialUnitPrice.containsKey("material1"));
         assertEquals(1, materialUnitPrice.get("material1"));

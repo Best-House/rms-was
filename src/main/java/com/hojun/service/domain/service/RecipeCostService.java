@@ -15,36 +15,32 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeCostService {
     private final RecipeRepository recipeRepository;
-    private final MaterialService materialService;
+    private final MaterialRepository materialRepository;
 
 
-    public RecipeCostService(RecipeRepository recipeRepository, MaterialService materialService) {
+    public RecipeCostService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
         this.recipeRepository = recipeRepository;
-        this.materialService = materialService;
+        this.materialRepository = materialRepository;
     }
 
 
     public RecipeCostResult getCost(String recipeId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
-        Map<String, Double> materialUnitPrice = materialService.getMaterialUnitPrice(recipe.getContainedMaterialIds());
+        List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
+        Map<String, Double> materialUnitPrice = MaterialService.getMaterialUnitPrice(materials);
 
-//        List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
-//        Map<String, Double> materialUnitPrice = getMaterialUnitPrice(materials);
         return new RecipeCostResult(
                 recipe.getCost(materialUnitPrice),
-                recipe.getContainedMaterialIds().stream()
-                        .filter(id -> !materialUnitPrice.containsKey(id))
+                materials.stream()
+                        .filter(material -> !material.hasPriceInfo())
                         .collect(Collectors.toList())
         );
-//                materials.stream()
-//                        .filter(material -> !material.hasPriceInfo())
-//                        .collect(Collectors.toList())
     }
 
     @AllArgsConstructor
     @Data
     public static class RecipeCostResult {
         private double cost;
-        private List<String> unknownPriceMaterials;
+        private List<Material> unknownPriceMaterials;
     }
 }
