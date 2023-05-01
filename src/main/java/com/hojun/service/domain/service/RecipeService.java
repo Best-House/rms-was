@@ -9,16 +9,15 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class RecipeCostService {
+public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final MaterialRepository materialRepository;
 
 
-    public RecipeCostService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
+    public RecipeService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
         this.recipeRepository = recipeRepository;
         this.materialRepository = materialRepository;
     }
@@ -27,10 +26,9 @@ public class RecipeCostService {
     public RecipeCostResult getCost(String recipeId) {
         Recipe recipe = recipeRepository.getRecipe(recipeId);
         List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
-        Map<String, Double> materialUnitPrice = MaterialService.getMaterialUnitPrice(materials);
 
         return new RecipeCostResult(
-                recipe.getCost(materialUnitPrice),
+                recipe.getCost(MaterialService.getMaterialUnitPrice(materials)),
                 materials.stream()
                         .filter(material -> !material.hasPriceInfo())
                         .collect(Collectors.toList())
