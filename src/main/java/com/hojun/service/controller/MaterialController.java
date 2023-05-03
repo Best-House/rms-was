@@ -31,12 +31,12 @@ public class MaterialController {
         return materialRepository.update(materialId, material);
     }
 
-    @DeleteMapping("/material/{materialId}")
+    @DeleteMapping("/materials/{materialId}")
     public Material delete(@PathVariable String materialId) {
         return materialRepository.delete(materialId);
     }
 
-    @GetMapping("/material/{materialId}")
+    @GetMapping("/materials/{materialId}")
     public Material get(@PathVariable String materialId) {
         return materialRepository.findById(materialId);
     }
