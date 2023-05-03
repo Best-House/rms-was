@@ -4,17 +4,14 @@ import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.aggregate.material.infra.MaterialRepository;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
+import com.hojun.service.domain.service.exception.MaterialMismatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +30,17 @@ class RecipeServiceTest {
     void createTest() {
         Recipe createdRecipe = recipeService.create("name", Collections.EMPTY_MAP);
         verify(recipeRepository).save(any(Recipe.class));
+    }
+
+    @Test
+    void materialMismatchTest() {
+        when(materialRepository.findByIds(anyList())).thenReturn(Collections.EMPTY_LIST);
+
+        assertThrows(MaterialMismatchException.class, ()->{
+            Recipe createdRecipe = recipeService.create("name", new HashMap<>(Map.of("m1", 1.0,"m2", 1.0)));
+        });
+
+        verify(materialRepository).findByIds(List.of("m1", "m2"));
     }
 
     @Test

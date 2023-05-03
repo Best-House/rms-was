@@ -1,6 +1,7 @@
 package com.hojun.service.controller;
 
 import com.hojun.service.domain.aggregate.material.Material;
+import com.hojun.service.domain.aggregate.material.exception.MaterialNotExistException;
 import com.hojun.service.domain.aggregate.material.infra.MaterialRepository;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,11 @@ public class MaterialController {
 
     @GetMapping("/materials/{materialId}")
     public Material get(@PathVariable String materialId) {
-        return materialRepository.findById(materialId);
+        Material material = materialRepository.findById(materialId);
+        if(material == null) {
+            throw new MaterialNotExistException();
+        }
+        return material;
     }
 
     @Data

@@ -30,11 +30,7 @@ public class InMemoryMaterialRepository implements MaterialRepository {
 
     @Override
     public Material findById(String materialId) {
-        Material material = materialMap.get(materialId);
-        if(material == null) {
-            throw new MaterialNotExistException();
-        }
-        return material;
+        return materialMap.get(materialId);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.hojun.service.domain.aggregate.material;
 
-import com.hojun.service.domain.aggregate.material.exception.InvalidPriceException;
+import com.hojun.service.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +14,21 @@ class MaterialTest {
         material1.setId("material");
         material2.setId("material");
         assertEquals(material1, material2);
+    }
+
+    @Test
+    void entityIdTest() {
+        assertThrows(InvalidAggregateIdException.class, ()->{
+            Material material1 = new Material("").setId(null);
+        });
+
+        assertThrows(InvalidAggregateIdException.class, ()->{
+            Material material1 = new Material("").setId("");
+        });
+
+        assertThrows(InvalidAggregateIdException.class, ()->{
+            Material material1 = new Material("").setId(" ");
+        });
     }
 
     @Test

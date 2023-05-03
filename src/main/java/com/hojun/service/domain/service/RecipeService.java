@@ -4,6 +4,7 @@ import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.aggregate.material.infra.MaterialRepository;
 import com.hojun.service.domain.aggregate.recipe.Recipe;
 import com.hojun.service.domain.aggregate.recipe.infra.RecipeRepository;
+import com.hojun.service.domain.service.exception.MaterialMismatchException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,11 @@ public class RecipeService {
 
     public Recipe create(String name, Map<String, Double> ingredients) {
         Recipe recipe = new Recipe(name, ingredients);
-        // TODO : materials 유효성 검증
+        List<String> materialIds = recipe.getContainedMaterialIds();
+        List<Material> materials = materialRepository.findByIds(materialIds);
+        if(materialIds.size() != materials.size()) {
+            throw new MaterialMismatchException();
+        }
         return recipeRepository.save(recipe);
     }
 
