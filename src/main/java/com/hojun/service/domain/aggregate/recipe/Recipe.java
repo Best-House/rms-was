@@ -1,48 +1,36 @@
 package com.hojun.service.domain.aggregate.recipe;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import com.hojun.service.domain.exception.InvalidAggregateIdException;
+import lombok.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+@Getter
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Recipe {
-    @Getter
-    private final String id;
-    // TODO: 식별자를 제외한 필드들은 수정 가능하도록 한다.
-    @Getter
+    private String id;
     private final String name;
-    // TODO: VO로 감싸서 immutable하도록 만든다.
-    private final List<Ingredient> ingredients;
+    private final Ingredient ingredient;
 
-    public Recipe(String id, String name, List<Ingredient> ingredients) {
-        this.id = id;
+    public Recipe(String name, Map<String, Double> materialIdAmountMap) {
         this.name = name;
-        this.ingredients = ingredients;
+        this.ingredient = new Ingredient(materialIdAmountMap);
+    }
+
+    public Recipe setId(String id) {
+        if(id == null || id.isBlank()) {
+            throw  new InvalidAggregateIdException();
+        }
+        this.id = id;
+        return this;
     }
 
     public double getCost(Map<String, Double> materialUnitPriceMap) {
-        if (ingredients.isEmpty()) {
-            return 0;
-        } else {
-            int result = 0;
-            for(Ingredient ingredient : ingredients) {
-                if(materialUnitPriceMap.containsKey(ingredient.materialId())) {
-                    final double pricePerAmount = materialUnitPriceMap.get(ingredient.materialId());
-                    final double price = pricePerAmount * ingredient.amount();
-                    result += price;
-                }
-            }
-            return result;
-        }
+        return ingredient.getCost(materialUnitPriceMap);
     }
 
     public List<String> getContainedMaterialIds() {
-        return ingredients.stream()
-                .map(Ingredient::materialId)
-                .collect(Collectors.toList());
+        return ingredient.getContainedMaterialIds();
     }
 }

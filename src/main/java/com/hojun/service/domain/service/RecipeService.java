@@ -9,6 +9,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,16 +24,41 @@ public class RecipeService {
     }
 
 
+    public Recipe create(String name, Map<String, Double> ingredients) {
+        Recipe recipe = new Recipe(name, ingredients);
+        // TODO : materials 유효성 검증
+        return recipeRepository.save(recipe);
+    }
+
+    public Recipe get(String recipeId) {
+        return recipeRepository.findById(recipeId);
+    }
+
     public RecipeCostResult getCost(String recipeId) {
-        Recipe recipe = recipeRepository.getRecipe(recipeId);
-        List<Material> materials = materialRepository.findMaterials(recipe.getContainedMaterialIds());
+        Recipe recipe = recipeRepository.findById(recipeId);
+        List<Material> materials = materialRepository.findByIds(recipe.getContainedMaterialIds());
 
         return new RecipeCostResult(
-                recipe.getCost(MaterialService.getMaterialUnitPrice(materials)),
-                materials.stream()
-                        .filter(material -> !material.hasPriceInfo())
-                        .collect(Collectors.toList())
+                recipe.getCost(getMaterialUnitPriceMap(materials)),
+                getUnknownPriceMaterials(materials)
         );
+    }
+
+    private Map<String, Double> getMaterialUnitPriceMap(List<Material> materials) {
+        return materials.stream()
+                .filter(Material::hasPriceInfo)
+                .collect(
+                        Collectors.toMap(
+                                Material::getId,
+                                Material::getUnitPrice
+                        )
+                );
+    }
+
+    private List<Material> getUnknownPriceMaterials(List<Material> materials) {
+        return materials.stream()
+                .filter(material -> !material.hasPriceInfo())
+                .collect(Collectors.toList());
     }
 
     @AllArgsConstructor

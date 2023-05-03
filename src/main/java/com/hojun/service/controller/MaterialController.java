@@ -2,6 +2,7 @@ package com.hojun.service.controller;
 
 import com.hojun.service.domain.aggregate.material.Material;
 import com.hojun.service.domain.aggregate.material.infra.MaterialRepository;
+import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,21 +13,20 @@ public class MaterialController {
         this.materialRepository = materialRepository;
     }
 
-    @PostMapping("/material")
-    public Material create(String name, Double price, Double amount) {
-        Material material = new Material(null, name);
-        if(price != null && amount != null) {
-            material.setPriceInfo(price, amount);
+    @PostMapping("/materials")
+    public Material create(MaterialCreateParams params) {
+        Material material = new Material(params.getName());
+        if(params.hasPriceInfo()) {
+            material.setPriceInfo(params.getPrice(), params.getAmount());
         }
         return materialRepository.save(material);
     }
 
-    @PutMapping("/materia/{materialId}l")
-    public Material update(@PathVariable String materialId, String name, Double price, Double amount) {
-        Material material = materialRepository.find(materialId);
-        material.setName(name);
-        if(price != null && amount != null) {
-            material.setPriceInfo(price, amount);
+    @PutMapping("/materials/{materialId}l")
+    public Material update(@PathVariable String materialId, MaterialCreateParams params) {
+        Material material = new Material(params.getName());
+        if(params.hasPriceInfo()) {
+            material.setPriceInfo(params.getPrice(), params.getAmount());
         }
         return materialRepository.update(materialId, material);
     }
@@ -38,6 +38,17 @@ public class MaterialController {
 
     @GetMapping("/material/{materialId}")
     public Material get(@PathVariable String materialId) {
-        return materialRepository.find(materialId);
+        return materialRepository.findById(materialId);
+    }
+
+    @Data
+    public static class MaterialCreateParams {
+        private String name;
+        private Double price;
+        private Double amount;
+
+        public boolean hasPriceInfo() {
+            return price != null && amount != null;
+        }
     }
 }

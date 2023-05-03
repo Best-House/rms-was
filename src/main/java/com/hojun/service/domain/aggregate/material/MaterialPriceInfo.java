@@ -1,7 +1,9 @@
 package com.hojun.service.domain.aggregate.material;
 
 import com.hojun.service.domain.aggregate.material.exception.InvalidPriceException;
+import lombok.ToString;
 
+@ToString
 class MaterialPriceInfo {
     private final double price;
     private final double amount;
