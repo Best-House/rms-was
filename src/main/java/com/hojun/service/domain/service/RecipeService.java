@@ -39,6 +39,10 @@ public class RecipeService {
         return recipeRepository.findById(recipeId);
     }
 
+    public List<Recipe> getAll() {
+        return recipeRepository.findAll();
+    }
+
     public RecipeCostResult getCost(String recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId);
         List<Material> materials = materialRepository.findByIds(recipe.getContainedMaterialIds());

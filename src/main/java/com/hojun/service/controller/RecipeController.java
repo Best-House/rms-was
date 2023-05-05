@@ -5,6 +5,7 @@ import com.hojun.service.domain.service.RecipeService;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,6 +21,11 @@ public class RecipeController {
     @PostMapping("/recipes")
     public Recipe create(@RequestBody RecipeCreateParams params) {
         return recipeService.create(params.getName(), params.getIngredients());
+    }
+
+    @GetMapping("/recipes")
+    public List<Recipe> getAllRecipes() {
+        return recipeService.getAll();
     }
 
     @GetMapping("/recipes/{recipeId}")

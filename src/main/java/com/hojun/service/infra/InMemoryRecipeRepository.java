@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,6 +21,12 @@ public class InMemoryRecipeRepository implements RecipeRepository {
         recipeMap = new HashMap<>();
         atomicInteger = new AtomicInteger();
     }
+
+    @Override
+    public List<Recipe> findAll() {
+        return recipeMap.values().stream().toList();
+    }
+
     @Override
     public Recipe findById(String recipeId) throws NotFoundRecipeException {
         if(!recipeMap.containsKey(recipeId)) {
