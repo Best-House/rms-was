@@ -23,6 +23,11 @@ public class RecipeController {
         return recipeService.create(params.getName(), params.getIngredients());
     }
 
+    @DeleteMapping("/recipes/{recipeId}")
+    public void deleteRecipe(@PathVariable String recipeId) {
+        recipeService.delete(recipeId);
+    }
+
     @GetMapping("/recipes")
     public List<Recipe> getAllRecipes() {
         return recipeService.getAll();

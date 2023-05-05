@@ -23,6 +23,18 @@ public class InMemoryRecipeRepository implements RecipeRepository {
     }
 
     @Override
+    public Recipe save(Recipe recipe) {
+        recipe.setId(String.format("recipe-%d", atomicInteger.incrementAndGet()));
+        recipeMap.put(recipe.getId(), recipe);
+        return recipe;
+    }
+
+    @Override
+    public void delete(String recipeId) {
+        recipeMap.remove(recipeId);
+    }
+
+    @Override
     public List<Recipe> findAll() {
         return recipeMap.values().stream().toList();
     }
@@ -33,12 +45,5 @@ public class InMemoryRecipeRepository implements RecipeRepository {
             throw new NotFoundRecipeException();
         }
         return recipeMap.get(recipeId);
-    }
-
-    @Override
-    public Recipe save(Recipe recipe) {
-        recipe.setId(String.format("recipe-%d", atomicInteger.incrementAndGet()));
-        recipeMap.put(recipe.getId(), recipe);
-        return recipe;
     }
 }

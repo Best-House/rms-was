@@ -6,7 +6,9 @@ import com.hojun.service.domain.aggregate.recipe.exception.NotFoundRecipeExcepti
 import java.util.List;
 
 public interface RecipeRepository {
-    List<Recipe> findAll();
-    Recipe findById(String recipeId) throws NotFoundRecipeException;
     Recipe save(Recipe recipe);
+    void delete(String recipeId);
+    List<Recipe> findAll();
+
+    Recipe findById(String recipeId) throws NotFoundRecipeException;
 }

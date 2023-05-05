@@ -35,12 +35,16 @@ public class RecipeService {
         return recipeRepository.save(recipe);
     }
 
-    public Recipe get(String recipeId) {
-        return recipeRepository.findById(recipeId);
+    public void delete(String recipeId) {
+        recipeRepository.delete(recipeId);
     }
 
     public List<Recipe> getAll() {
         return recipeRepository.findAll();
+    }
+
+    public Recipe get(String recipeId) {
+        return recipeRepository.findById(recipeId);
     }
 
     public RecipeCostResult getCost(String recipeId) {
