@@ -24,7 +24,7 @@ jobs:
           # private ssh key registered on the server
           private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           # command to be executed
-          command: echo 'Hello world' # optional, default is echo 'Hello world'
+          command: echo 'Hello world' >> ~/ssh_succeed.txt # optional, default is echo 'Hello world'
   gradle-build:
     runs-on: ubuntu-latest
     steps:
