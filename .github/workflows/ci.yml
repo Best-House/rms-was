@@ -19,7 +19,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           source: "docker-compose.yml"
-          target: ~/rms-was/docker-compose.yml
+          target: ~/rms-was
   gradle-build:
     runs-on: ubuntu-latest
     steps:
