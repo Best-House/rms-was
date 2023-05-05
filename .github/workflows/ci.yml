@@ -20,9 +20,9 @@ jobs:
           # ssh port of the server
           port: ${{ secrets.SERVER_SSH_PORT }} # optional, default is 22
           # user of the server
-          user: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          user: ${{ secrets.SERVER_SSH_USER }}
           # private ssh key registered on the server
-          private_key: ${{ secrets.SERVER_SSH_USER }}
+          private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           # command to be executed
           command: echo 'Hello world' # optional, default is echo 'Hello world'
   gradle-build:
