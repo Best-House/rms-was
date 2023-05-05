@@ -6,6 +6,20 @@ on:
 permissions:
   contents: read
 jobs:
+  docker-compose-scp:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v0.1.4
+      - name: copy file via scp
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          source: "docker-compose.yml"
+          target: ~/rms-was/docker-compose.yml
   gradle-build:
     runs-on: ubuntu-latest
     steps:
