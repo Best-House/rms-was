@@ -1,0 +1,6 @@
+services:
+  was:
+    image: hjsung809/rms
+    ports:
+      - 8080:8080/tcp
+version: '3.0'
