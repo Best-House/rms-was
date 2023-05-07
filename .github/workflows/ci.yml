@@ -29,4 +29,4 @@ jobs:
           port: ${{ secrets.SERVER_SSH_PORT }}
           user: ${{ secrets.SERVER_SSH_USER }}
           private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          command: docker-compose -f ~/rms-was/docker-compose.yml up -d
+          command: whoami
