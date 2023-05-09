@@ -6,22 +6,10 @@ on:
 permissions:
   contents: read
 jobs:
-  build:
-    name: Build
+  gradle-build:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_SSH_USER }}
-          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_SSH_PORT }}
-          script: /usr/local/bin/docker --version
-#  gradle-build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 #      - name: Set up JDK 17
 #        uses: actions/setup-java@v3
 #        with:
@@ -34,32 +22,23 @@ jobs:
 #            test
 #            build
 #          gradle-version: 7.5.1
-#      - name: SSH Command
-#        uses: D3rHase/ssh-command-action@v0.2.2
-#        with:
-#          host: ${{ secrets.SERVER_HOST }}
-#          port: ${{ secrets.SERVER_SSH_PORT }}
-#          user: ${{ secrets.SERVER_SSH_USER }}
-#          private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-#          command: docker --version
-#      - name: ssh scp ssh pipelines
-#        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-#        env:
-#          WELCOME: "ssh scp ssh pipelines"
-#          LASTSSH: "Doing something after copying"
-#        with:
-#          host: ${{ secrets.SERVER_HOST }}
-#          port: ${{ secrets.SERVER_SSH_PORT }}
-#          user: ${{ secrets.SERVER_SSH_USER }}
-#          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-#          connect_timeout: 5s
-#          first_ssh: |
-#            rm -rf /home/github/test
-#            ls -la  \necho $WELCOME
-#            mkdir -p /home/github/test/test1 &&
-#            mkdir -p /home/github/test/test2 &&
-#          scp: |
-#            './deploy.sh' => ~/rms-was
-#            'docker-compose.yml' => ~/rms-was
-#          last_ssh: |
-#            sh ~/rms-was/deploy.sh
+      - name: Copy deploy script
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          source: "deploy.sh,docker-compose.yml"
+          target: ~/rms-was
+      - name: Execute Deploy Script
+        runs-on: ubuntu-latest
+        steps:
+          - name: executing remote ssh commands using password
+            uses: appleboy/ssh-action@v0.1.10
+            with:
+              host: ${{ secrets.SERVER_HOST }}
+              port: ${{ secrets.SERVER_SSH_PORT }}
+              username: ${{ secrets.SERVER_SSH_USER }}
+              key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+              script: sh ~/rms-was/deploy.sh
