@@ -32,10 +32,10 @@ jobs:
           source: "deploy.sh,docker-compose.yml"
           target: ~/rms-was
       - name: Execute deploy script
-          uses: appleboy/ssh-action@v0.1.10
-          with:
-            host: ${{ secrets.SERVER_HOST }}
-            port: ${{ secrets.SERVER_SSH_PORT }}
-            username: ${{ secrets.SERVER_SSH_USER }}
-            key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-            script: sh ~/rms-was/deploy.sh
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          script: sh ~/rms-was/deploy.sh
