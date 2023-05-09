@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.SERVER_SSH_USER }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
-          script: whereis docker
+          script: /usr/local/bin/docker --version
 #  gradle-build:
 #    runs-on: ubuntu-latest
 #    steps:
