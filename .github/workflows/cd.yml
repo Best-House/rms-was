@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-  gradle-build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest
-      - name: copy file via scp
+      - name: Copy deploy script
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -34,11 +34,11 @@ jobs:
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           source: "deploy.sh,docker-compose.yml"
           target: ~/rms-was
-      - name: SSH Command
-        uses: D3rHase/ssh-command-action@v0.2.2
+      - name: Execute deploy script
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_SSH_PORT }}
-          user: ${{ secrets.SERVER_SSH_USER }}
-          private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          command: sh ~/rms-was/deploy.sh
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          script: sh ~/rms-was/deploy.sh
