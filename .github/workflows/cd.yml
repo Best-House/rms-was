@@ -6,39 +6,39 @@ on:
 permissions:
   contents: read
 jobs:
-  gradle-build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#      - name: Build with Gradle
-#        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-#        with:
-#          arguments: build
-#          gradle-version: 7.5.1
-#      - name: Build the Docker image
-#        run: |
-#          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-#          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest .
-#          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest
-#      - name: copy file via scp
-#        uses: appleboy/scp-action@v0.1.4
-#        with:
-#          host: ${{ secrets.SERVER_HOST }}
-#          port: ${{ secrets.SERVER_SSH_PORT }}
-#          username: ${{ secrets.SERVER_SSH_USER }}
-#          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-#          source: "deploy.sh,docker-compose.yml"
-#          target: ~/rms-was
-      - name: SSH Command
-        uses: D3rHase/ssh-command-action@v0.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
+          gradle-version: 7.5.1
+      - name: Build the Docker image
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rms:latest
+      - name: Copy deploy script
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_SSH_PORT }}
-          user: ${{ secrets.SERVER_SSH_USER }}
-          private_key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          command: sh ~/rms-was/deploy.sh
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          source: "deploy.sh,docker-compose.yml"
+          target: ~/rms-was
+      - name: Execute deploy script
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          script: sh ~/rms-was/deploy.sh
