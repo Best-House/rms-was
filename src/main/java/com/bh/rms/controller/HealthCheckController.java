@@ -10,4 +10,9 @@ public class HealthCheckController {
     public boolean healthCheck() {
         return true;
     }
+
+    @GetMapping(path = {"/", "/index.html"})
+    public String main() {
+        return "Hello World";
+    }
 }
