@@ -3,4 +3,8 @@ services:
     image: hjsung809/rms
     ports:
       - 8080:8080/tcp
+networks:
+  default:
+    external:
+      name: rms_net
 version: '3.0'
