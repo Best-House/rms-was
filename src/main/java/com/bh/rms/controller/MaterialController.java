@@ -6,6 +6,8 @@ import com.bh.rms.domain.aggregate.material.Material;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class MaterialController {
     private final MaterialRepository materialRepository;
@@ -44,6 +46,11 @@ public class MaterialController {
             throw new MaterialNotExistException();
         }
         return material;
+    }
+
+    @GetMapping("/materials")
+    public List<Material> getAll() {
+        return materialRepository.getAll();
     }
 
     @Data
