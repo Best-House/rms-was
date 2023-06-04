@@ -9,10 +9,10 @@ class MaterialPriceInfo {
     private final double amount;
 
     public MaterialPriceInfo(double price, double amount) {
-        if(0 >= price) {
+        if(0 > price) {
             throw new InvalidPriceException();
         }
-        if(0 > amount) {
+        if(0 >= amount) {
             throw new InvalidPriceException();
         }
         this.price = price;
