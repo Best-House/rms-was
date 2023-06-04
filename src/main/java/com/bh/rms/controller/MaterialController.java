@@ -28,6 +28,7 @@ public class MaterialController extends AbstractApiController{
     @PutMapping("/materials/{materialId}")
     public Material update(@PathVariable String materialId, @RequestBody MaterialCreateParams params) {
         Material material = new Material(params.getName());
+        material.setId(materialId);
         if(params.hasPriceInfo()) {
             material.setPriceInfo(params.getPrice(), params.getAmount());
         }
