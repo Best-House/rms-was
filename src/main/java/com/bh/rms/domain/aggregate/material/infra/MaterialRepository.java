@@ -15,4 +15,6 @@ public interface MaterialRepository {
     Material update(String materialId, Material material) throws MaterialNotExistException;
 
     Material delete(String materialId);
+
+    List<Material> getAll();
 }

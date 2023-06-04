@@ -58,4 +58,9 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     public Material delete(String materialId) {
         return materialMap.remove(materialId);
     }
+
+    @Override
+    public List<Material> getAll() {
+        return materialMap.values().stream().toList();
+    }
 }
