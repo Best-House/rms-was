@@ -5,10 +5,7 @@ import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -17,13 +14,13 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     private final AtomicInteger atomicInteger;
 
     public InMemoryMaterialRepository() {
-        materialMap = new HashMap<>();
+        materialMap = new TreeMap<>();
         atomicInteger = new AtomicInteger();
     }
 
     @Override
     public Material save(Material material) {
-        material.setId(String.format("material-%d", atomicInteger.incrementAndGet()));
+        material.setId(String.format("material_%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
         return material;
     }
@@ -50,8 +47,8 @@ public class InMemoryMaterialRepository implements MaterialRepository {
         if(foundMaterial == null) {
             throw new MaterialNotExistException();
         }
-        materialMap.put(materialId, material);
-        return material;
+
+        return materialMap.put(materialId, material);
     }
 
     @Override
