@@ -47,7 +47,6 @@ public class InMemoryMaterialRepository implements MaterialRepository {
         if(foundMaterial == null) {
             throw new MaterialNotExistException();
         }
-
         return materialMap.put(materialId, material);
     }
 
