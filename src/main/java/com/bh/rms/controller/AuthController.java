@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
-
 @RestController
-public class AuthController {
+public class AuthController extends AbstractApiController{
 
     @RequestMapping("/signin")
     public ResponseEntity<String> login(String userName, String password) {

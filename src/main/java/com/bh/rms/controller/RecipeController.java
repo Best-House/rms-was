@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class RecipeController {
+public class RecipeController extends AbstractApiController {
     private final RecipeService recipeService;
 
     public RecipeController(

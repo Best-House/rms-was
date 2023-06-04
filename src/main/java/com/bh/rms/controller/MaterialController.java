@@ -6,8 +6,10 @@ import com.bh.rms.domain.aggregate.material.Material;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-public class MaterialController {
+public class MaterialController extends AbstractApiController{
     private final MaterialRepository materialRepository;
 
     public MaterialController(MaterialRepository materialRepository) {
@@ -15,7 +17,7 @@ public class MaterialController {
     }
 
     @PostMapping("/materials")
-    public Material create(MaterialCreateParams params) {
+    public Material create(@RequestBody MaterialCreateParams params) {
         Material material = new Material(params.getName());
         if(params.hasPriceInfo()) {
             material.setPriceInfo(params.getPrice(), params.getAmount());
@@ -23,9 +25,10 @@ public class MaterialController {
         return materialRepository.save(material);
     }
 
-    @PutMapping("/materials/{materialId}l")
-    public Material update(@PathVariable String materialId, MaterialCreateParams params) {
+    @PutMapping("/materials/{materialId}")
+    public Material update(@PathVariable String materialId, @RequestBody MaterialCreateParams params) {
         Material material = new Material(params.getName());
+        material.setId(materialId);
         if(params.hasPriceInfo()) {
             material.setPriceInfo(params.getPrice(), params.getAmount());
         }
@@ -44,6 +47,11 @@ public class MaterialController {
             throw new MaterialNotExistException();
         }
         return material;
+    }
+
+    @GetMapping("/materials")
+    public List<Material> getAll() {
+        return materialRepository.getAll();
     }
 
     @Data
