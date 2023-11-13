@@ -28,7 +28,8 @@ public class RecipeService {
     public Recipe create(String name, Map<String, Double> ingredients) {
         Recipe recipe = new Recipe(name, ingredients);
         List<String> materialIds = recipe.getContainedMaterialIds();
-        List<Material> materials = materialRepository.findByIds(materialIds);
+
+        List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         if(materialIds.size() != materials.size()) {
             throw new MaterialMismatchException();
         }

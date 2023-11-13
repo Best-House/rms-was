@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-class Ingredient {
+class Ingredients {
     private final Map<String, Double> materialIdAmountMap;
 
-    public Ingredient(Map<String, Double> materialIdAmountMap) {
+    public Ingredients(Map<String, Double> materialIdAmountMap) {
         if(materialIdAmountMap == null) {
             materialIdAmountMap = Collections.EMPTY_MAP;
         }
@@ -26,7 +26,7 @@ class Ingredient {
         return new ArrayList<>(materialIdAmountMap.keySet());
     }
 
-    public double getCost(Map<String, Double> materialUnitPriceMap) {
+    public double calculateCost(Map<String, Double> materialUnitPriceMap) {
         if (materialIdAmountMap.isEmpty()) {
             return 0;
         } else {
