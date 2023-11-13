@@ -17,27 +17,21 @@ public class MaterialController extends AbstractApiController{
     }
 
     @PostMapping("/materials")
-    public Material create(@RequestBody MaterialCreateParams params) {
+    public String create(@RequestBody MaterialCreateRequest params) {
         Material material = new Material(params.getName());
-        if(params.hasPriceInfo()) {
-            material.setPriceInfo(params.getPrice(), params.getAmount());
-        }
-        return materialRepository.save(material);
+        return materialRepository.save(material).getId();
     }
 
     @PutMapping("/materials/{materialId}")
-    public Material update(@PathVariable String materialId, @RequestBody MaterialCreateParams params) {
+    public String update(@PathVariable String materialId, @RequestBody MaterialCreateRequest params) {
         Material material = new Material(params.getName());
         material.setId(materialId);
-        if(params.hasPriceInfo()) {
-            material.setPriceInfo(params.getPrice(), params.getAmount());
-        }
-        return materialRepository.update(materialId, material);
+        return materialRepository.update(materialId, material).getId();
     }
 
     @DeleteMapping("/materials/{materialId}")
-    public Material delete(@PathVariable String materialId) {
-        return materialRepository.delete(materialId);
+    public String delete(@PathVariable String materialId) {
+        return materialRepository.delete(materialId).getId();
     }
 
     @GetMapping("/materials/{materialId}")
@@ -55,13 +49,7 @@ public class MaterialController extends AbstractApiController{
     }
 
     @Data
-    public static class MaterialCreateParams {
+    public static class MaterialCreateRequest {
         private String name;
-        private Double price;
-        private Double amount;
-
-        public boolean hasPriceInfo() {
-            return price != null && amount != null;
-        }
     }
 }

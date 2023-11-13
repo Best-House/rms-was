@@ -11,7 +11,6 @@ import lombok.ToString;
 public class Material {
     private String id;
     private final String name;
-    private MaterialPriceInfo priceInfo;
 
     public Material(String name) {
         this.name = name;
@@ -23,17 +22,5 @@ public class Material {
         }
         this.id = id;
         return this;
-    }
-
-    public void setPriceInfo(double price, double amount) {
-        this.priceInfo = new MaterialPriceInfo(price, amount);
-    }
-
-    public boolean hasPriceInfo() {
-        return priceInfo != null;
-    }
-
-    public double getUnitPrice() {
-        return priceInfo.getUnitPrice();
     }
 }

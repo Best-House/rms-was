@@ -50,26 +50,26 @@ class RecipeServiceTest {
         verify(recipeRepository).findById(recipeId);
     }
 
-    @Test
-    public void getMaterialUnitPriceMapTest() {
-        final String recipeId = "recipe-1";
-        final List<Material> materials = List.of(new Material("").setId("m1"), new Material("").setId("m2"));
-        final List<String> materialIds = materials.stream()
-                .map(Material::getId)
-                .collect(Collectors.toList());
-        materials.get(0).setPriceInfo(1, 1);
-        materials.get(1).setPriceInfo(4, 2);
-
-        Recipe recipe = mock(Recipe.class);
-        when(recipeRepository.findById(recipeId)).thenReturn(recipe);
-        when(recipe.getContainedMaterialIds()).thenReturn(materialIds);
-        when(materialRepository.findByIds(materialIds)).thenReturn(materials);
-
-        RecipeService.RecipeCostResult result = recipeService.getCost(recipeId);
-
-        verify(recipe).getCost(Map.of("m1", 1.0, "m2", 2.0));
-        assertTrue(result.getUnknownPriceMaterials().isEmpty());
-    }
+//    @Test
+//    public void getMaterialUnitPriceMapTest() {
+//        final String recipeId = "recipe-1";
+//        final List<Material> materials = List.of(new Material("").setId("m1"), new Material("").setId("m2"));
+//        final List<String> materialIds = materials.stream()
+//                .map(Material::getId)
+//                .collect(Collectors.toList());
+//
+//        Recipe recipe = mock(Recipe.class);
+//        when(recipeRepository.findById(recipeId)).thenReturn(recipe);
+//        when(recipe.getContainedMaterialIds()).thenReturn(materialIds);
+//        when(materialRepository.findByIds(materialIds)).thenReturn(materials);
+//
+//        RecipeService.RecipeCostResult result = recipeService.getCost(recipeId);
+//
+//        verify(recipe).getCost(Collections.EMPTY_MAP);
+//        assertEquals(2, result.getUnknownPriceMaterials().size());
+//        assertEquals("m1", result.getUnknownPriceMaterials().get(0).getId());
+//        assertEquals("m2", result.getUnknownPriceMaterials().get(1).getId());
+//    }
 
     @Test
     public void getUnknownPriceMaterialsTest() {

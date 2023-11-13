@@ -11,11 +11,11 @@ import java.util.Map;
 public class Recipe {
     private String id;
     private final String name;
-    private final Ingredient ingredient;
+    private final Ingredients ingredients;
 
     public Recipe(String name, Map<String, Double> materialIdAmountMap) {
         this.name = name;
-        this.ingredient = new Ingredient(materialIdAmountMap);
+        this.ingredients = new Ingredients(materialIdAmountMap);
     }
 
     public Recipe setId(String id) {
@@ -27,10 +27,10 @@ public class Recipe {
     }
 
     public double getCost(Map<String, Double> materialUnitPriceMap) {
-        return ingredient.getCost(materialUnitPriceMap);
+        return ingredients.calculateCost(materialUnitPriceMap);
     }
 
     public List<String> getContainedMaterialIds() {
-        return ingredient.getContainedMaterialIds();
+        return ingredients.getContainedMaterialIds();
     }
 }

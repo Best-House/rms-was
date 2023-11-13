@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +29,8 @@ public class RecipeService {
     public Recipe create(String name, Map<String, Double> ingredients) {
         Recipe recipe = new Recipe(name, ingredients);
         List<String> materialIds = recipe.getContainedMaterialIds();
-        List<Material> materials = materialRepository.findByIds(materialIds);
+
+        List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         if(materialIds.size() != materials.size()) {
             throw new MaterialMismatchException();
         }
@@ -58,20 +60,22 @@ public class RecipeService {
     }
 
     private Map<String, Double> getMaterialUnitPriceMap(List<Material> materials) {
-        return materials.stream()
-                .filter(Material::hasPriceInfo)
-                .collect(
-                        Collectors.toMap(
-                                Material::getId,
-                                Material::getUnitPrice
-                        )
-                );
+        return Collections.EMPTY_MAP;
+//        return materials.stream()
+//                .filter(Material::hasPriceInfo)
+//                .collect(
+//                        Collectors.toMap(
+//                                Material::getId,
+//                                Material::getUnitPrice
+//                        )
+//                );
     }
 
     private List<Material> getUnknownPriceMaterials(List<Material> materials) {
-        return materials.stream()
-                .filter(material -> !material.hasPriceInfo())
-                .collect(Collectors.toList());
+        return materials;
+//        return materials.stream()
+//                .filter(material -> !material.hasPriceInfo())
+//                .collect(Collectors.toList());
     }
 
     @AllArgsConstructor
