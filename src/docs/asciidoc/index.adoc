@@ -1,5 +1,5 @@
-= REST Docs 문서 만들기 (글의 제목)
-backtony.github.io(부제)
+= RMS API Doc
+Restaurant Management System
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
@@ -7,9 +7,9 @@ backtony.github.io(부제)
 :toclevels: 2
 :sectlinks:
 
-[[Member-API]]
-== Member API
+[[Material-API]]
+== Material API
 
-[[Member-단일-조회]]
-=== Member 단일 조회
-operation::index[snippets='http-request,http-response,response-body']
+[[Material-단일-조회]]
+=== Material 단일 조회
+operation::materials-create[snippets='http-request,http-response,response-fields']
