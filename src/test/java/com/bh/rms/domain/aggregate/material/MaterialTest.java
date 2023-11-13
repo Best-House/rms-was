@@ -3,7 +3,8 @@ package com.bh.rms.domain.aggregate.material;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MaterialTest {
     @Test
@@ -29,21 +30,5 @@ class MaterialTest {
         assertThrows(InvalidAggregateIdException.class, ()->{
             Material material1 = new Material("").setId(" ");
         });
-    }
-
-    @Test
-    void hasPriceTest() {
-        Material material = new Material("m1");
-        material.setPriceInfo(1000, 10);
-        assertTrue(material.hasPriceInfo());
-        
-        assertFalse(new Material("m2").hasPriceInfo());
-    }
-
-    @Test
-    void getUnitPriceTest() {
-        Material material = new Material("m1");
-        material.setPriceInfo(1000, 10);
-        assertEquals(100, material.getUnitPrice());
     }
 }

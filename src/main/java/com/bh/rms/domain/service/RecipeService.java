@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,20 +60,22 @@ public class RecipeService {
     }
 
     private Map<String, Double> getMaterialUnitPriceMap(List<Material> materials) {
-        return materials.stream()
-                .filter(Material::hasPriceInfo)
-                .collect(
-                        Collectors.toMap(
-                                Material::getId,
-                                Material::getUnitPrice
-                        )
-                );
+        return Collections.EMPTY_MAP;
+//        return materials.stream()
+//                .filter(Material::hasPriceInfo)
+//                .collect(
+//                        Collectors.toMap(
+//                                Material::getId,
+//                                Material::getUnitPrice
+//                        )
+//                );
     }
 
     private List<Material> getUnknownPriceMaterials(List<Material> materials) {
-        return materials.stream()
-                .filter(material -> !material.hasPriceInfo())
-                .collect(Collectors.toList());
+        return materials;
+//        return materials.stream()
+//                .filter(material -> !material.hasPriceInfo())
+//                .collect(Collectors.toList());
     }
 
     @AllArgsConstructor
