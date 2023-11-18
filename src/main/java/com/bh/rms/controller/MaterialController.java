@@ -18,24 +18,22 @@ public class MaterialController extends AbstractApiController{
     }
 
     @PostMapping("/materials")
-    public MaterialIdResponse create(@RequestBody MaterialCreateRequest params) {
+    public MaterialCreateResponse create(@RequestBody MaterialCreateRequest params) {
         Material material = new Material(params.getName());
-        Material savedMaterial = materialRepository.save(material);
-        return new MaterialIdResponse(savedMaterial.getId());
+        String materialId = materialRepository.save(material);
+        return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
-    public MaterialIdResponse update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
+    public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
         Material material = new Material(request.getName());
         material.setId(materialId);
-        Material updatedMaterial = materialRepository.update(materialId, material);
-        return new MaterialIdResponse(updatedMaterial.getId());
+        materialRepository.update(materialId, material);
     }
 
     @DeleteMapping("/materials/{materialId}")
-    public MaterialIdResponse delete(@PathVariable String materialId) {
-        Material deletedMaterial = materialRepository.delete(materialId);
-        return new MaterialIdResponse(deletedMaterial.getId());
+    public void delete(@PathVariable String materialId) {
+        materialRepository.delete(materialId);
     }
 
     @GetMapping("/materials/{materialId}")
@@ -59,7 +57,7 @@ public class MaterialController extends AbstractApiController{
 
     @AllArgsConstructor
     @Data
-    public static class MaterialIdResponse {
+    public static class MaterialCreateResponse {
         private String id;
     }
 }
