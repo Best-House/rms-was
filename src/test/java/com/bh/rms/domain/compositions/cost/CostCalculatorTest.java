@@ -1,5 +1,6 @@
-package com.bh.rms.domain.aggregate.recipe;
+package com.bh.rms.domain.compositions.cost;
 
+import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.compositions.cost.CostCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

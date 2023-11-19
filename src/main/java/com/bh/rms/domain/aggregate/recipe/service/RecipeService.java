@@ -39,7 +39,7 @@ public class RecipeService {
 
     private Recipe makeRecipe(String name, Map<String, Double> ingredients) {
         Recipe recipe = new Recipe(name, ingredients);
-        List<String> materialIds = recipe.getContainedMaterialIds();
+        List<String> materialIds = recipe.getMaterialIdsOfIngredients();
 
         List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         if(materialIds.size() != materials.size()) {
