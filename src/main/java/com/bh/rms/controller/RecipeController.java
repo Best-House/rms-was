@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,10 @@ public class RecipeController extends AbstractApiController {
         private List<MaterialAmount> materialAmounts;
 
         private Map<String, Double> getMaterialAmountMap() {
+            if(materialAmounts == null) {
+                return Collections.emptyMap();
+            }
+
             Map<String, Double> materialAmountMap = new HashMap<>();
             for(MaterialAmount materialAmount : materialAmounts) {
                 materialAmountMap.put(materialAmount.getMaterialId(), materialAmount.getAmount());
