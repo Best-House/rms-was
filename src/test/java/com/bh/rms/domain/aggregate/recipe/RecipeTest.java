@@ -1,5 +1,6 @@
 package com.bh.rms.domain.aggregate.recipe;
 
+import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,18 @@ class RecipeTest {
     }
 
 
+    @Test
+    public void validateIngredientsAmountTest() {
+        Recipe recipe = new Recipe("recip1", List.of(new Ingredient("material1", 1.0)));
+        recipe.validateIngredientsAmount();
+    }
+    @Test
+    public void validateIngredientsAmountFailureTest() {
+        Recipe recipe = new Recipe("recip1", List.of(new Ingredient("material1", -1.0)));
+        assertThrows(InvalidIngredientAmountException.class, ()->{
+            recipe.validateIngredientsAmount();
+        });
+    }
 
     @Test
     public void getContainedMaterialIdsTest() {
