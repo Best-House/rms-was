@@ -1,5 +1,6 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
@@ -35,7 +36,7 @@ class RecipeServiceTest {
     void materialMismatchTest() {
         when(materialRepository.findByIds(anyList())).thenReturn(Collections.EMPTY_LIST);
 
-        assertThrows(MaterialMismatchException.class, ()->{
+        assertThrows(MaterialNotExistException.class, ()->{
             String createdRecipeId = recipeService.create("name", new HashMap<>(Map.of("m1", 1.0,"m2", 1.0)));
         });
 
