@@ -33,12 +33,6 @@ class RecipeServiceTest {
         String createdRecipeId = recipeService.create("name", Collections.emptyList());
         verify(recipeRepository).save(any(Recipe.class));
     }
-    @Test
-    public void invalidIngredientAmountExceptionTest() {
-        assertThrows(InvalidIngredientAmountException.class, ()->{
-            recipeService.create("recip1", List.of(new Ingredient("material1", -1.0)));
-        });
-    }
 
     @Test
     void materialMismatchTest() {

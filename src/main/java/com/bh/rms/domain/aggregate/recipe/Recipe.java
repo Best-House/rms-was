@@ -1,5 +1,6 @@
 package com.bh.rms.domain.aggregate.recipe;
 
+import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.compositions.cost.CostCalculator;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import lombok.EqualsAndHashCode;
@@ -8,7 +9,6 @@ import lombok.ToString;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -24,7 +24,7 @@ public class Recipe {
         if(ingredients == null) {
             this.ingredients = Collections.emptyList();
         } else {
-            this.ingredients = ingredients;
+            this.ingredients = Collections.unmodifiableList(ingredients);
         }
     }
 
@@ -44,5 +44,13 @@ public class Recipe {
         return ingredients.stream()
                 .map(Ingredient::materialId)
                 .collect(Collectors.toList());
+    }
+
+    public void validateIngredientsAmount() {
+        for(Ingredient ingredient : ingredients) {
+            if(!ingredient.isValidAmount()) {
+                throw new InvalidIngredientAmountException();
+            }
+        }
     }
 }

@@ -5,14 +5,11 @@ import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
-import com.bh.rms.domain.service.exception.MaterialMismatchException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RecipeService {
@@ -41,12 +38,11 @@ public class RecipeService {
     }
 
     private Recipe makeRecipe(String name, List<Ingredient> ingredients) {
-        for(Ingredient ingredient : ingredients) {
-            if(!ingredient.isValidAmount()) {
-                throw new InvalidIngredientAmountException();
-            }
-        }
         Recipe recipe = new Recipe(name, ingredients);
+        // amount
+        recipe.validateIngredientsAmount();
+
+        // material
         List<String> materialIds = recipe.getMaterialIdsOfIngredients();
         List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         if(materialIds.size() != materials.size()) {
