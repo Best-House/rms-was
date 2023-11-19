@@ -38,7 +38,7 @@ public class Recipe {
         return costCalculator.calculateCost(ingredients);
     }
 
-    public List<String> getContainedMaterialIds() {
+    public List<String> getMaterialIdsOfIngredients() {
         return ingredients.stream()
                 .map(Ingredient::materialId)
                 .collect(Collectors.toList());

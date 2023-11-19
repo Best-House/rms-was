@@ -1,5 +1,6 @@
 package com.bh.rms.domain.aggregate.material;
 
+import com.bh.rms.domain.aggregate.material.exception.InvalidPriceException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.ToString;
 public class Material {
     private String id;
     private final String name;
+    private Double unitPrice;
 
     public Material(String name) {
         this.name = name;
@@ -22,5 +24,16 @@ public class Material {
         }
         this.id = id;
         return this;
+    }
+
+    public void setDefaultUnitPrice(Double unitPrice) {
+        if(unitPrice < 0) {
+            throw new InvalidPriceException();
+        }
+        this.unitPrice = unitPrice;
+    }
+
+    public boolean hasDefaultUnitPrice() {
+        return unitPrice != null;
     }
 }

@@ -31,6 +31,25 @@ public class MaterialController extends AbstractApiController{
         materialRepository.update(materialId, material);
     }
 
+    @PutMapping("/materials/{materialId}/default_unit_price")
+    public void updateDefaultUnitPrice(
+            @PathVariable String materialId,
+            @RequestParam(required = false, defaultValue = "0") Double unitPrice,
+            @RequestParam(required = false, defaultValue = "false") boolean unset
+    ) {
+        Material material = materialRepository.findById(materialId);
+        if(material == null) {
+            throw new MaterialNotExistException();
+        }
+
+        if(unset) {
+            material.setDefaultUnitPrice(null);
+        } else {
+            material.setDefaultUnitPrice(unitPrice);
+        }
+        materialRepository.update(materialId, material);
+    }
+
     @DeleteMapping("/materials/{materialId}")
     public void delete(@PathVariable String materialId) {
         materialRepository.delete(materialId);

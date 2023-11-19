@@ -44,6 +44,6 @@ class RecipeTest {
     @Test
     public void getContainedMaterialIdsTest() {
         Recipe recipe = new Recipe("recipe1", Map.of("material1", 1.0));
-        assertTrue(recipe.getContainedMaterialIds().contains("material1"));
+        assertTrue(recipe.getMaterialIdsOfIngredients().contains("material1"));
     }
 }
