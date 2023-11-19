@@ -6,7 +6,10 @@ import com.bh.rms.domain.aggregate.recipe.Recipe;
 import java.util.List;
 
 public interface RecipeRepository {
-    Recipe save(Recipe recipe);
+    String save(Recipe recipe);
+
+    void update(String recipeId, Recipe recipe);
+
     void delete(String recipeId);
     List<Recipe> findAll();
 

@@ -6,15 +6,15 @@ import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import java.util.List;
 
 public interface MaterialRepository {
-    Material save(Material material);
+    String save(Material material);
+
+    void update(String materialId, Material material) throws MaterialNotExistException;
+
+    void delete(String materialId);
 
     Material findById(String materialId);
 
     List<Material> findByIds(List<String> materialIds);
-
-    Material update(String materialId, Material material) throws MaterialNotExistException;
-
-    Material delete(String materialId);
 
     List<Material> getAll();
 }

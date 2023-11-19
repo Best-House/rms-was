@@ -19,10 +19,24 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public Material save(Material material) {
+    public String save(Material material) {
         material.setId(String.format("material_%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
-        return material;
+        return material.getId();
+    }
+
+    @Override
+    public void update(String materialId, Material material) throws MaterialNotExistException {
+        Material foundMaterial = materialMap.get(materialId);
+        if(foundMaterial == null) {
+            throw new MaterialNotExistException();
+        }
+        materialMap.put(materialId, material);
+    }
+
+    @Override
+    public void delete(String materialId) {
+        materialMap.remove(materialId);
     }
 
     @Override
@@ -39,20 +53,6 @@ public class InMemoryMaterialRepository implements MaterialRepository {
             }
         }
         return materials;
-    }
-
-    @Override
-    public Material update(String materialId, Material material) throws MaterialNotExistException {
-        Material foundMaterial = materialMap.get(materialId);
-        if(foundMaterial == null) {
-            throw new MaterialNotExistException();
-        }
-        return materialMap.put(materialId, material);
-    }
-
-    @Override
-    public Material delete(String materialId) {
-        return materialMap.remove(materialId);
     }
 
     @Override

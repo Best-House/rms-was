@@ -3,6 +3,7 @@ package com.bh.rms.controller;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,21 +18,22 @@ public class MaterialController extends AbstractApiController{
     }
 
     @PostMapping("/materials")
-    public String create(@RequestBody MaterialCreateRequest params) {
+    public MaterialCreateResponse create(@RequestBody MaterialCreateRequest params) {
         Material material = new Material(params.getName());
-        return materialRepository.save(material).getId();
+        String materialId = materialRepository.save(material);
+        return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
-    public String update(@PathVariable String materialId, @RequestBody MaterialCreateRequest params) {
-        Material material = new Material(params.getName());
+    public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
+        Material material = new Material(request.getName());
         material.setId(materialId);
-        return materialRepository.update(materialId, material).getId();
+        materialRepository.update(materialId, material);
     }
 
     @DeleteMapping("/materials/{materialId}")
-    public String delete(@PathVariable String materialId) {
-        return materialRepository.delete(materialId).getId();
+    public void delete(@PathVariable String materialId) {
+        materialRepository.delete(materialId);
     }
 
     @GetMapping("/materials/{materialId}")
@@ -51,5 +53,11 @@ public class MaterialController extends AbstractApiController{
     @Data
     public static class MaterialCreateRequest {
         private String name;
+    }
+
+    @AllArgsConstructor
+    @Data
+    public static class MaterialCreateResponse {
+        private String id;
     }
 }

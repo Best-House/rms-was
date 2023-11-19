@@ -23,10 +23,15 @@ public class InMemoryRecipeRepository implements RecipeRepository {
     }
 
     @Override
-    public Recipe save(Recipe recipe) {
+    public String save(Recipe recipe) {
         recipe.setId(String.format("recipe-%d", atomicInteger.incrementAndGet()));
         recipeMap.put(recipe.getId(), recipe);
-        return recipe;
+        return recipe.getId();
+    }
+
+    @Override
+    public void update(String recipeId, Recipe recipe) {
+        recipeMap.put(recipeId, recipe);
     }
 
     @Override
