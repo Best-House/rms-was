@@ -18,8 +18,9 @@ public class MaterialController extends AbstractApiController{
     }
 
     @PostMapping("/materials")
-    public MaterialCreateResponse create(@RequestBody MaterialCreateRequest params) {
-        Material material = new Material(params.getName());
+    public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
+        Material material = new Material(request.getName());
+        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
         String materialId = materialRepository.save(material);
         return new MaterialCreateResponse(materialId);
     }
@@ -28,27 +29,10 @@ public class MaterialController extends AbstractApiController{
     public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
         Material material = new Material(request.getName());
         material.setId(materialId);
+        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
         materialRepository.update(materialId, material);
     }
 
-    @PutMapping("/materials/{materialId}/default_unit_price")
-    public void updateDefaultUnitPrice(
-            @PathVariable String materialId,
-            @RequestParam(required = false, defaultValue = "0") Double unitPrice,
-            @RequestParam(required = false, defaultValue = "false") boolean unset
-    ) {
-        Material material = materialRepository.findById(materialId);
-        if(material == null) {
-            throw new MaterialNotExistException();
-        }
-
-        if(unset) {
-            material.setDefaultUnitPrice(null);
-        } else {
-            material.setDefaultUnitPrice(unitPrice);
-        }
-        materialRepository.update(materialId, material);
-    }
 
     @DeleteMapping("/materials/{materialId}")
     public void delete(@PathVariable String materialId) {
@@ -72,6 +56,7 @@ public class MaterialController extends AbstractApiController{
     @Data
     public static class MaterialCreateRequest {
         private String name;
+        private Double defaultUnitPrice;
     }
 
     @AllArgsConstructor
