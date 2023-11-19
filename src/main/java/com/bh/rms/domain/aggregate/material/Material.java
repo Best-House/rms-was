@@ -27,10 +27,13 @@ public class Material {
     }
 
     public void setDefaultUnitPrice(Double unitPrice) {
-        if(unitPrice < 0) {
+        if(unitPrice == null) {
+            this.unitPrice = null;
+        } else if(unitPrice < 0) {
             throw new InvalidPriceException();
+        } else {
+            this.unitPrice = unitPrice;
         }
-        this.unitPrice = unitPrice;
     }
 
     public boolean hasDefaultUnitPrice() {
