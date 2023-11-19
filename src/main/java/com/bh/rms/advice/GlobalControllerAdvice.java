@@ -14,10 +14,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(DomainException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleDomainException(Exception e) {
+
+        return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getClass().getName()), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception e) {
 
         return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getClass().getName()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Data
     @AllArgsConstructor
