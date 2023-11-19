@@ -1,5 +1,6 @@
 package com.bh.rms.domain.aggregate.material;
 
+import com.bh.rms.domain.aggregate.material.exception.InvalidPriceException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,17 @@ class MaterialTest {
 
         assertThrows(InvalidAggregateIdException.class, ()->{
             Material material1 = new Material("").setId(" ");
+        });
+    }
+
+    @Test
+    void setDefaultUnitPrice() {
+        Material material = new Material("");
+
+        material.setDefaultUnitPrice(null);
+        material.setDefaultUnitPrice(1.0);
+        assertThrows(InvalidPriceException.class, ()->{
+            material.setDefaultUnitPrice(-1.0);
         });
     }
 }

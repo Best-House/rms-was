@@ -1,5 +1,6 @@
 package com.bh.rms.controller;
 
+import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.compositions.cost.CostService;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
@@ -27,13 +28,13 @@ public class RecipeController extends AbstractApiController {
 
     @PostMapping("/recipes")
     public RecipeCreateResponse create(@RequestBody RecipeCreateRequest request) {
-        String createdRecipeId = recipeService.create(request.getName(), request.getMaterialAmountMap());
+        String createdRecipeId = recipeService.create(request.getName(), request.getIngredients());
         return new RecipeCreateResponse(createdRecipeId);
     }
 
     @PutMapping("/recipes/{recipeId}")
     public void update(@PathVariable String recipeId, @RequestBody RecipeCreateRequest request) {
-        recipeService.update(recipeId, request.getName(), request.getMaterialAmountMap());
+        recipeService.update(recipeId, request.getName(), request.getIngredients());
     }
 
     @DeleteMapping("/recipes/{recipeId}")
@@ -59,25 +60,7 @@ public class RecipeController extends AbstractApiController {
     @Data
     public static class RecipeCreateRequest {
         private String name;
-        private List<MaterialAmount> materialAmounts;
-
-        private Map<String, Double> getMaterialAmountMap() {
-            if(materialAmounts == null) {
-                return Collections.emptyMap();
-            }
-
-            Map<String, Double> materialAmountMap = new HashMap<>();
-            for(MaterialAmount materialAmount : materialAmounts) {
-                materialAmountMap.put(materialAmount.getMaterialId(), materialAmount.getAmount());
-            }
-            return materialAmountMap;
-        }
-    }
-
-    @Data
-    public static class MaterialAmount {
-        private String materialId;
-        private double amount;
+        private List<Ingredient> ingredients;
     }
 
     @AllArgsConstructor

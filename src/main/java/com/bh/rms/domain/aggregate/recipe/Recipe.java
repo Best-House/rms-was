@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,12 +19,13 @@ public class Recipe {
     private final String name;
     private final List<Ingredient> ingredients;
 
-    public Recipe(String name, Map<String, Double> materialIdAmountMap) {
+    public Recipe(String name, List<Ingredient> ingredients) {
         this.name = name;
-
-        ingredients = materialIdAmountMap.entrySet().stream()
-                .map(entry -> new Ingredient(entry.getKey(), entry.getValue()))
-                .toList();
+        if(ingredients == null) {
+            this.ingredients = Collections.emptyList();
+        } else {
+            this.ingredients = ingredients;
+        }
     }
 
     public Recipe setId(String id) {
