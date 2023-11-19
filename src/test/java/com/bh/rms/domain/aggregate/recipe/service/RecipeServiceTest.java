@@ -2,7 +2,9 @@ package com.bh.rms.domain.aggregate.recipe.service;
 
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
+import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
 import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
 import com.bh.rms.domain.service.exception.MaterialMismatchException;
@@ -28,16 +30,22 @@ class RecipeServiceTest {
 
     @Test
     void createTest() {
-        String createdRecipeId = recipeService.create("name", Collections.EMPTY_MAP);
+        String createdRecipeId = recipeService.create("name", Collections.emptyList());
         verify(recipeRepository).save(any(Recipe.class));
+    }
+    @Test
+    public void invalidIngredientAmountExceptionTest() {
+        assertThrows(InvalidIngredientAmountException.class, ()->{
+            recipeService.create("recip1", List.of(new Ingredient("material1", -1.0)));
+        });
     }
 
     @Test
     void materialMismatchTest() {
-        when(materialRepository.findByIds(anyList())).thenReturn(Collections.EMPTY_LIST);
+        when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
 
         assertThrows(MaterialNotExistException.class, ()->{
-            String createdRecipeId = recipeService.create("name", new HashMap<>(Map.of("m1", 1.0,"m2", 1.0)));
+            String createdRecipeId = recipeService.create("name", List.of(new Ingredient("m1", 1.0), new Ingredient("m2", 1.0)));
         });
 
         verify(materialRepository).findByIds(List.of("m1", "m2"));
