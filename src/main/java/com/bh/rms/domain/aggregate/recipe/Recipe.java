@@ -1,21 +1,29 @@
 package com.bh.rms.domain.aggregate.recipe;
 
+import com.bh.rms.domain.compositions.cost.CostCalculator;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Getter
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Recipe {
     private String id;
     private final String name;
-    private final Ingredients ingredients;
+    private final List<Ingredient> ingredients;
 
     public Recipe(String name, Map<String, Double> materialIdAmountMap) {
         this.name = name;
-        this.ingredients = new Ingredients(materialIdAmountMap);
+
+        ingredients = materialIdAmountMap.entrySet().stream()
+                .map(entry -> new Ingredient(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
     public Recipe setId(String id) {
@@ -26,11 +34,13 @@ public class Recipe {
         return this;
     }
 
-    public double getCost(Map<String, Double> materialUnitPriceMap) {
-        return ingredients.calculateCost(materialUnitPriceMap);
+    public double getCost(CostCalculator costCalculator) {
+        return costCalculator.calculateCost(ingredients);
     }
 
     public List<String> getContainedMaterialIds() {
-        return ingredients.getContainedMaterialIds();
+        return ingredients.stream()
+                .map(Ingredient::materialId)
+                .collect(Collectors.toList());
     }
 }
