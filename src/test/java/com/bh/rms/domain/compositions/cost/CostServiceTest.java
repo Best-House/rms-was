@@ -36,8 +36,8 @@ class CostServiceTest {
     public void getCostWithEmptyPriceMap() {
         final String recipeId = "recipe-1";
         final List<Material> materials = List.of(
-                new Material("1").setId("m1"),
-                new Material("2").setId("m2")
+                new Material("1", null).setId("m1"),
+                new Material("2", null).setId("m2")
         );
         final List<String> materialIds = materials.stream()
                 .map(Material::getId)

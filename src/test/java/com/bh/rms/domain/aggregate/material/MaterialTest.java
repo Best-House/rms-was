@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MaterialTest {
     @Test
     void entityEqualityTest() {
-        Material material1 = new Material("m1");
-        Material material2 = new Material("m2");
+        Material material1 = new Material("m1", 0.0);
+        Material material2 = new Material("m2", 0.0);
 
         material1.setId("material");
         material2.setId("material");
@@ -21,26 +21,25 @@ class MaterialTest {
     @Test
     void entityIdTest() {
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("").setId(null);
+            Material material1 = new Material("", 0.0).setId(null);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("").setId("");
+            Material material1 = new Material("", 0.0).setId("");
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("").setId(" ");
+            Material material1 = new Material("", 0.0).setId(" ");
         });
     }
 
     @Test
     void setDefaultUnitPrice() {
-        Material material = new Material("");
+        Material material1 = new Material("", null);
+        Material material2 = new Material("", 1.0);
 
-        material.setDefaultUnitPrice(null);
-        material.setDefaultUnitPrice(1.0);
         assertThrows(InvalidPriceException.class, ()->{
-            material.setDefaultUnitPrice(-1.0);
+            Material material3 = new Material("", -1.0);
         });
     }
 }

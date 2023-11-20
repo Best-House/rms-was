@@ -12,10 +12,14 @@ import lombok.ToString;
 public class Material {
     private String id;
     private final String name;
-    private Double unitPrice;
+    private final Double defaultUnitPrice;
 
-    public Material(String name) {
+    public Material(String name, Double defaultUnitPrice) {
         this.name = name;
+        this.defaultUnitPrice = defaultUnitPrice;
+        if(defaultUnitPrice != null && defaultUnitPrice < 0) {
+            throw new InvalidPriceException();
+        }
     }
 
     public Material setId(String id) {
@@ -26,17 +30,7 @@ public class Material {
         return this;
     }
 
-    public void setDefaultUnitPrice(Double unitPrice) {
-        if(unitPrice == null) {
-            this.unitPrice = null;
-        } else if(unitPrice < 0) {
-            throw new InvalidPriceException();
-        } else {
-            this.unitPrice = unitPrice;
-        }
-    }
-
     public boolean hasDefaultUnitPrice() {
-        return unitPrice != null;
+        return defaultUnitPrice != null;
     }
 }

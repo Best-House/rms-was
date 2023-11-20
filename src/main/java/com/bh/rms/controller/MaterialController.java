@@ -19,17 +19,15 @@ public class MaterialController extends AbstractApiController{
 
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
-        Material material = new Material(request.getName());
-        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
+        Material material = new Material(request.getName(), request.getDefaultUnitPrice());
         String materialId = materialRepository.save(material);
         return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
     public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
-        Material material = new Material(request.getName());
+        Material material = new Material(request.getName(), request.getDefaultUnitPrice());
         material.setId(materialId);
-        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
         materialRepository.update(materialId, material);
     }
 
@@ -57,6 +55,10 @@ public class MaterialController extends AbstractApiController{
     public static class MaterialCreateRequest {
         private String name;
         private Double defaultUnitPrice;
+
+//        public Material makeMaterial() {
+//            Material material = new Material(name, defaultUnitPrice);
+//        }
     }
 
     @AllArgsConstructor
