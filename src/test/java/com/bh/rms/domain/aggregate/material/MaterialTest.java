@@ -1,6 +1,6 @@
 package com.bh.rms.domain.aggregate.material;
 
-import com.bh.rms.domain.aggregate.material.exception.InvalidPriceException;
+import com.bh.rms.domain.aggregate.material.exception.InvalidMaterialException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
@@ -10,36 +10,43 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MaterialTest {
     @Test
     void entityEqualityTest() {
-        Material material1 = new Material("m1", 0.0);
-        Material material2 = new Material("m2", 0.0);
-
-        material1.setId("material");
-        material2.setId("material");
+        Material material1 = new Material("material","m1", 0.0);
+        Material material2 = new Material("material","m2", 0.0);
         assertEquals(material1, material2);
     }
 
     @Test
     void entityIdTest() {
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("", 0.0).setId(null);
+            new Material(null, "", 0.0);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("", 0.0).setId("");
+            new Material("","", 0.0);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            Material material1 = new Material("", 0.0).setId(" ");
+            new Material("", "", 0.0);
+        });
+    }
+
+    @Test
+    void setName() {
+        new Material("material", "m1", 1.0);
+
+        assertThrows(InvalidMaterialException.class, ()->{
+            new Material("material", null, 1.0);
+            new Material("material", "", 1.0);
         });
     }
 
     @Test
     void setDefaultUnitPrice() {
-        Material material1 = new Material("", null);
-        Material material2 = new Material("", 1.0);
+        new Material("m1", 1.0);
 
-        assertThrows(InvalidPriceException.class, ()->{
-            Material material3 = new Material("", -1.0);
+        assertThrows(InvalidMaterialException.class, ()->{
+            new Material("m1", null);
+            new Material("m1", -1.0);
         });
     }
 }

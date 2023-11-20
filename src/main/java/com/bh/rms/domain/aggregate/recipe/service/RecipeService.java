@@ -1,7 +1,7 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
@@ -46,7 +46,7 @@ public class RecipeService {
         List<String> materialIds = recipe.getMaterialIdsOfIngredients();
         List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         if(materialIds.size() != materials.size()) {
-            throw new MaterialNotExistException();
+            throw new MaterialNotFoundException();
         }
         return recipe;
     }

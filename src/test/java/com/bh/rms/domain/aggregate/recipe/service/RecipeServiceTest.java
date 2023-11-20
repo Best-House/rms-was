@@ -1,13 +1,10 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
-import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
-import com.bh.rms.domain.service.exception.MaterialMismatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +35,7 @@ class RecipeServiceTest {
     void materialMismatchTest() {
         when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
 
-        assertThrows(MaterialNotExistException.class, ()->{
+        assertThrows(MaterialNotFoundException.class, ()->{
             String createdRecipeId = recipeService.create("name", List.of(new Ingredient("m1", 1.0), new Ingredient("m2", 1.0)));
         });
 

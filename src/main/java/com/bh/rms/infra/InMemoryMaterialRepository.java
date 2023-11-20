@@ -2,7 +2,7 @@ package com.bh.rms.infra;
 
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -26,10 +26,10 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public void update(String materialId, Material material) throws MaterialNotExistException {
+    public void update(String materialId, Material material) throws MaterialNotFoundException {
         Material foundMaterial = materialMap.get(materialId);
         if(foundMaterial == null) {
-            throw new MaterialNotExistException();
+            throw new MaterialNotFoundException();
         }
         materialMap.put(materialId, material);
     }
