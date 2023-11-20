@@ -17,16 +17,17 @@ class MaterialTest {
 
     @Test
     void entityIdTest() {
+        new Material("material_1", "m1", 0.0);
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material(null, "", 0.0);
+            new Material(null, "m1", 0.0);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material("","", 0.0);
+            new Material("","m1", 0.0);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material("", "", 0.0);
+            new Material(" ", "m1", 0.0);
         });
     }
 

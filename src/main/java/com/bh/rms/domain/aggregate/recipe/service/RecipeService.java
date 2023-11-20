@@ -39,8 +39,6 @@ public class RecipeService {
 
     private Recipe makeRecipe(String name, List<Ingredient> ingredients) {
         Recipe recipe = new Recipe(name, ingredients);
-        // amount
-        recipe.validateIngredientsAmount();
 
         // material
         List<String> materialIds = recipe.getMaterialIdsOfIngredients();
