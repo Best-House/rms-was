@@ -31,17 +31,18 @@ public class InMemoryRecipeRepository implements RecipeRepository {
 
     @Override
     public void update(String recipeId, Recipe recipe) {
+        if(!recipeMap.containsKey(recipeId)) {
+            throw new NotFoundRecipeException();
+        }
         recipeMap.put(recipeId, recipe);
     }
 
     @Override
     public void delete(String recipeId) {
+        if(!recipeMap.containsKey(recipeId)) {
+            throw new NotFoundRecipeException();
+        }
         recipeMap.remove(recipeId);
-    }
-
-    @Override
-    public List<Recipe> findAll() {
-        return recipeMap.values().stream().toList();
     }
 
     @Override
@@ -50,5 +51,10 @@ public class InMemoryRecipeRepository implements RecipeRepository {
             throw new NotFoundRecipeException();
         }
         return recipeMap.get(recipeId);
+    }
+
+    @Override
+    public List<Recipe> findAll() {
+        return recipeMap.values().stream().toList();
     }
 }

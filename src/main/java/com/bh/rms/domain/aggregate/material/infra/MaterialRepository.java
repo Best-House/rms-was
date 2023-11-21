@@ -10,9 +10,9 @@ public interface MaterialRepository {
 
     void update(String materialId, Material material) throws MaterialNotFoundException;
 
-    void delete(String materialId);
+    void delete(String materialId) throws MaterialNotFoundException;
 
-    Material findById(String materialId);
+    Material findById(String materialId) throws MaterialNotFoundException;
 
     List<Material> findByIds(List<String> materialIds);
 

@@ -27,20 +27,25 @@ public class InMemoryMaterialRepository implements MaterialRepository {
 
     @Override
     public void update(String materialId, Material material) throws MaterialNotFoundException {
-        Material foundMaterial = materialMap.get(materialId);
-        if(foundMaterial == null) {
+        if(!materialMap.containsKey(materialId)) {
             throw new MaterialNotFoundException();
         }
         materialMap.put(materialId, material);
     }
 
     @Override
-    public void delete(String materialId) {
+    public void delete(String materialId) throws MaterialNotFoundException{
+        if(!materialMap.containsKey(materialId)) {
+            throw new MaterialNotFoundException();
+        }
         materialMap.remove(materialId);
     }
 
     @Override
-    public Material findById(String materialId) {
+    public Material findById(String materialId) throws MaterialNotFoundException{
+        if(!materialMap.containsKey(materialId)) {
+            throw new MaterialNotFoundException();
+        }
         return materialMap.get(materialId);
     }
 

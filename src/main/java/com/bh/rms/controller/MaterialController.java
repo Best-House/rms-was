@@ -30,7 +30,6 @@ public class MaterialController extends AbstractApiController{
         materialRepository.update(materialId, material);
     }
 
-
     @DeleteMapping("/materials/{materialId}")
     public void delete(@PathVariable String materialId) {
         materialRepository.delete(materialId);
@@ -39,9 +38,6 @@ public class MaterialController extends AbstractApiController{
     @GetMapping("/materials/{materialId}")
     public Material get(@PathVariable String materialId) {
         Material material = materialRepository.findById(materialId);
-        if(material == null) {
-            throw new MaterialNotFoundException();
-        }
         return material;
     }
 
