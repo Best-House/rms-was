@@ -1,6 +1,5 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.material.service.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
@@ -9,13 +8,15 @@ import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class RecipeServiceTest {
+    // 호출부만 있는 단순 forwarding 메서드는 테스트 하지않는다.
     RecipeRepository recipeRepository;
     MaterialService materialService;
     RecipeService recipeService;
@@ -28,6 +29,7 @@ class RecipeServiceTest {
 
     @Test
     void createTest() {
+        when(materialService.isAllExist(anyList())).thenReturn(true);
         String createdRecipeId = recipeService.create("name", Collections.emptyList());
         verify(recipeRepository).save(any(Recipe.class));
     }
