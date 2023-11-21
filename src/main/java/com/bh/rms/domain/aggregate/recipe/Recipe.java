@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +56,7 @@ public class Recipe { // root aggregate
                     throw new InvalidIngredientAmountException();
                 }
             }
-            this.ingredients = Collections.unmodifiableList(ingredients);
+            this.ingredients = List.copyOf(ingredients); // immutable list
         }
     }
 
