@@ -1,6 +1,5 @@
 package com.bh.rms.controller;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import lombok.AllArgsConstructor;
@@ -20,14 +19,14 @@ public class MaterialController extends AbstractApiController{
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
         Material material = new Material(request.getName(), request.getDefaultUnitPrice());
-        String materialId = materialRepository.save(material);
+        String materialId = materialRepository.create(material);
         return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
     public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
         Material material = new Material(materialId, request.getName(), request.getDefaultUnitPrice());
-        materialRepository.update(materialId, material);
+        materialRepository.update(material);
     }
 
     @DeleteMapping("/materials/{materialId}")

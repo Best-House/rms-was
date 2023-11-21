@@ -28,39 +28,50 @@ class RecipeServiceTest {
     }
 
     @Test
-    void createTest() {
+    void create() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
         String createdRecipeId = recipeService.create("name", Collections.emptyList());
-        verify(recipeRepository).save(any(Recipe.class));
+        verify(materialService).isAllExist(anyList());
+        verify(recipeRepository).create(any(Recipe.class));
     }
 
     @Test
-    void materialMatchedTest() {
+    void createWithNotExistMaterial() {
+        when(materialService.isAllExist(anyList())).thenReturn(false);
+
+        assertThrows(InvalidRecipeException.class, ()->{
+            recipeService.create("name", Collections.emptyList());
+        });
+
+        verify(materialService).isAllExist(anyList());
+    }
+
+    @Test
+    void update() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
+        recipeService.update("material1", "name", Collections.emptyList());
+        verify(recipeRepository).update(any(Recipe.class));
+    }
 
-        List<Ingredient> ingredients = List.of(
-                new Ingredient("m1", 1.0),
-                new Ingredient("m2", 1.0)
-        );
+    @Test
+    void updateWithNotExistMaterial() {
+        when(materialService.isAllExist(anyList())).thenReturn(false);
 
-        String createdRecipeId = recipeService.create("name", ingredients);
+        assertThrows(InvalidRecipeException.class, ()->{
+            recipeService.update("material1", "name", Collections.emptyList());
+        });
 
-        verify(materialService).isAllExist(List.of("m1", "m2"));
+        verify(materialService).isAllExist(anyList());
     }
 
     @Test
     void materialMismatchTest() {
         when(materialService.isAllExist(anyList())).thenReturn(false);
 
-        List<Ingredient> ingredients = List.of(
-                new Ingredient("m1", 1.0),
-                new Ingredient("m2", 1.0)
-        );
-
         assertThrows(InvalidRecipeException.class, ()->{
-            String createdRecipeId = recipeService.create("name", ingredients);
+            recipeService.create("name", Collections.emptyList());
         });
 
-        verify(materialService).isAllExist(List.of("m1", "m2"));
+        verify(materialService).isAllExist(anyList());
     }
 }

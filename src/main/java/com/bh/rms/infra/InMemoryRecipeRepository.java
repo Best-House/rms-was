@@ -23,18 +23,18 @@ public class InMemoryRecipeRepository implements RecipeRepository {
     }
 
     @Override
-    public String save(Recipe recipe) {
+    public String create(Recipe recipe) {
         recipe.setId(String.format("recipe-%d", atomicInteger.incrementAndGet()));
         recipeMap.put(recipe.getId(), recipe);
         return recipe.getId();
     }
 
     @Override
-    public void update(String recipeId, Recipe recipe) {
-        if(!recipeMap.containsKey(recipeId)) {
+    public void update(Recipe recipe) {
+        if(!recipeMap.containsKey(recipe.getId())) {
             throw new NotFoundRecipeException();
         }
-        recipeMap.put(recipeId, recipe);
+        recipeMap.put(recipe.getId(), recipe);
     }
 
     @Override

@@ -28,15 +28,15 @@ public class RecipeService {
         if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
             throw new InvalidRecipeException();
         }
-        return recipeRepository.save(recipe);
+        return recipeRepository.create(recipe);
     }
 
     public void update(String recipeId, String name, List<Ingredient> ingredients) {
         Recipe recipe = new Recipe(recipeId, name, ingredients);
-        if(materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
+        if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
             throw new InvalidRecipeException();
         }
-        recipeRepository.update(recipeId, recipe);
+        recipeRepository.update(recipe);
     }
 
     public void delete(String recipeId) {

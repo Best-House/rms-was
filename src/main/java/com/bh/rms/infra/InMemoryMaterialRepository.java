@@ -19,18 +19,18 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public String save(Material material) {
+    public String create(Material material) {
         material.setId(String.format("material_%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
         return material.getId();
     }
 
     @Override
-    public void update(String materialId, Material material) throws MaterialNotFoundException {
-        if(!materialMap.containsKey(materialId)) {
+    public void update(Material material) throws MaterialNotFoundException {
+        if(!materialMap.containsKey(material.getId())) {
             throw new MaterialNotFoundException();
         }
-        materialMap.put(materialId, material);
+        materialMap.put(material.getId(), material);
     }
 
     @Override

@@ -6,9 +6,9 @@ import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import java.util.List;
 
 public interface MaterialRepository {
-    String save(Material material);
+    String create(Material material);
 
-    void update(String materialId, Material material) throws MaterialNotFoundException;
+    void update(Material material) throws MaterialNotFoundException;
 
     void delete(String materialId) throws MaterialNotFoundException;
 
