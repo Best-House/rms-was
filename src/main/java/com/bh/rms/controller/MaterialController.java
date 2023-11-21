@@ -1,6 +1,6 @@
 package com.bh.rms.controller;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import lombok.AllArgsConstructor;
@@ -19,17 +19,14 @@ public class MaterialController extends AbstractApiController{
 
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
-        Material material = new Material(request.getName());
-        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
+        Material material = new Material(request.getName(), request.getDefaultUnitPrice());
         String materialId = materialRepository.save(material);
         return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
     public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
-        Material material = new Material(request.getName());
-        material.setId(materialId);
-        material.setDefaultUnitPrice(request.getDefaultUnitPrice());
+        Material material = new Material(materialId, request.getName(), request.getDefaultUnitPrice());
         materialRepository.update(materialId, material);
     }
 
@@ -43,7 +40,7 @@ public class MaterialController extends AbstractApiController{
     public Material get(@PathVariable String materialId) {
         Material material = materialRepository.findById(materialId);
         if(material == null) {
-            throw new MaterialNotExistException();
+            throw new MaterialNotFoundException();
         }
         return material;
     }

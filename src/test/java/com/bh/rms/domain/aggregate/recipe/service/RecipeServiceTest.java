@@ -1,56 +1,66 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.service.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
+import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
-import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
-import com.bh.rms.domain.service.exception.MaterialMismatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class RecipeServiceTest {
+    // 호출부만 있는 단순 forwarding 메서드는 테스트 하지않는다.
     RecipeRepository recipeRepository;
-    MaterialRepository materialRepository;
+    MaterialService materialService;
     RecipeService recipeService;
     @BeforeEach
     public void setup() {
         recipeRepository = mock(RecipeRepository.class);
-        materialRepository = mock(MaterialRepository.class);
-        recipeService = new RecipeService(recipeRepository, materialRepository);
+        materialService = mock(MaterialService.class);
+        recipeService = new RecipeService(recipeRepository, materialService);
     }
 
     @Test
     void createTest() {
+        when(materialService.isAllExist(anyList())).thenReturn(true);
         String createdRecipeId = recipeService.create("name", Collections.emptyList());
         verify(recipeRepository).save(any(Recipe.class));
     }
 
     @Test
-    void materialMismatchTest() {
-        when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
+    void materialMatchedTest() {
+        when(materialService.isAllExist(anyList())).thenReturn(true);
 
-        assertThrows(MaterialNotExistException.class, ()->{
-            String createdRecipeId = recipeService.create("name", List.of(new Ingredient("m1", 1.0), new Ingredient("m2", 1.0)));
-        });
+        List<Ingredient> ingredients = List.of(
+                new Ingredient("m1", 1.0),
+                new Ingredient("m2", 1.0)
+        );
 
-        verify(materialRepository).findByIds(List.of("m1", "m2"));
+        String createdRecipeId = recipeService.create("name", ingredients);
+
+        verify(materialService).isAllExist(List.of("m1", "m2"));
     }
 
     @Test
-    void getTest() {
-        final String recipeId = "recipe-1";
-        Recipe createdRecipe = recipeService.get(recipeId);
-        verify(recipeRepository).findById(recipeId);
+    void materialMismatchTest() {
+        when(materialService.isAllExist(anyList())).thenReturn(false);
+
+        List<Ingredient> ingredients = List.of(
+                new Ingredient("m1", 1.0),
+                new Ingredient("m2", 1.0)
+        );
+
+        assertThrows(InvalidRecipeException.class, ()->{
+            String createdRecipeId = recipeService.create("name", ingredients);
+        });
+
+        verify(materialService).isAllExist(List.of("m1", "m2"));
     }
-
-
 }
