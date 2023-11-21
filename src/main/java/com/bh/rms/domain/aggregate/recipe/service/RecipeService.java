@@ -1,10 +1,9 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
-import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.service.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
+import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
 import org.springframework.stereotype.Service;
@@ -14,16 +13,22 @@ import java.util.List;
 @Service
 public class RecipeService {
     private final RecipeRepository recipeRepository;
-    private final MaterialRepository materialRepository;
+    private final MaterialService materialService;
 
 
-    public RecipeService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
+    public RecipeService(
+            RecipeRepository recipeRepository,
+            MaterialService materialService
+    ) {
         this.recipeRepository = recipeRepository;
-        this.materialRepository = materialRepository;
+        this.materialService = materialService;
     }
 
     public String create(String name, List<Ingredient> ingredients) {
-        Recipe recipe = makeRecipe(name, ingredients);
+        Recipe recipe = new Recipe(name, ingredients);
+        if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
+            throw new InvalidRecipeException();
+        }
         return recipeRepository.save(recipe);
     }
 
@@ -33,20 +38,11 @@ public class RecipeService {
             throw new NotFoundRecipeException();
         }
 
-        Recipe recipe = makeRecipe(name, ingredients);
-        recipeRepository.update(recipeId, recipe);
-    }
-
-    private Recipe makeRecipe(String name, List<Ingredient> ingredients) {
-        Recipe recipe = new Recipe(name, ingredients);
-
-        // material
-        List<String> materialIds = recipe.getMaterialIdsOfIngredients();
-        List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
-        if(materialIds.size() != materials.size()) {
-            throw new MaterialNotFoundException();
+        Recipe recipe = new Recipe(recipeId, name, ingredients);
+        if(materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
+            throw new InvalidRecipeException();
         }
-        return recipe;
+        recipeRepository.update(recipeId, recipe);
     }
 
     public void delete(String recipeId) {

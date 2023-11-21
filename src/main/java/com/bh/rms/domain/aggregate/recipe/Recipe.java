@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 @EqualsAndHashCode(of = "id")
-public class Recipe {
-    private String id;
-    private String name;
-    private List<Ingredient> ingredients;
+public class Recipe { // root aggregate
+    private String id; // root aggregate key
+    private String name; // immutable value object
+    private List<Ingredient> ingredients; // immutable value object
 
     public Recipe(String id, String name, List<Ingredient> ingredients) {
         setId(id);
