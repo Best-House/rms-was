@@ -39,15 +39,16 @@ public class RecipeService {
         recipeRepository.update(recipe);
     }
 
+    // forward only
     public void delete(String recipeId) {
         recipeRepository.delete(recipeId);
-    }
-
-    public List<Recipe> getAll() {
-        return recipeRepository.findAll();
     }
 
     public Recipe get(String recipeId) {
         return recipeRepository.findById(recipeId);
     }
+    public List<Recipe> getAll() {
+        return recipeRepository.findAll();
+    }
+
 }

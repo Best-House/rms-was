@@ -16,5 +16,5 @@ public interface MaterialRepository {
 
     List<Material> findByIds(List<String> materialIds);
 
-    List<Material> getAll();
+    List<Material> findAll();
 }

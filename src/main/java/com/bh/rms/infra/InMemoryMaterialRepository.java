@@ -61,7 +61,7 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public List<Material> getAll() {
+    public List<Material> findAll() {
         return materialMap.values().stream().toList();
     }
 }
