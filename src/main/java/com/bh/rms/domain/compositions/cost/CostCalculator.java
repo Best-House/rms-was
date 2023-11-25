@@ -23,8 +23,8 @@ public class CostCalculator {
         }
     }
 
-    public List<String> getUnknownPriceMaterialIds(List<String> materialIdsOfIngredients) {
-        return materialIdsOfIngredients.stream()
+    public List<String> getUnknownPriceOf(List<String> materials) {
+        return materials.stream()
                 .filter(materialId -> !materialUnitPriceMap.containsKey(materialId))
                 .collect(Collectors.toList());
     }

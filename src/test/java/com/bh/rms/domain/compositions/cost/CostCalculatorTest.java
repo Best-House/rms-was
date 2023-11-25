@@ -53,7 +53,7 @@ class CostCalculatorTest {
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
 
-        List<String> unknownPriceMaterials = costCalculator.getUnknownPriceMaterialIds(
+        List<String> unknownPriceMaterials = costCalculator.getUnknownPriceOf(
                 ingredients.stream()
                         .map(Ingredient::materialId)
                         .collect(Collectors.toList())

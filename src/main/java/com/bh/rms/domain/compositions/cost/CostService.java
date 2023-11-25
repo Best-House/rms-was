@@ -9,7 +9,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CostService {
@@ -33,7 +32,7 @@ public class CostService {
 
         return new CostResult(
                 recipe.getCost(costCalculator),
-                costCalculator.getUnknownPriceMaterialIds(materialIdsOfIngredients)
+                costCalculator.getUnknownPriceOf(materialIdsOfIngredients)
         );
     }
 
