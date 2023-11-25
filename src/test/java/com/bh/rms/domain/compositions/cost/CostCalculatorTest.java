@@ -1,13 +1,13 @@
 package com.bh.rms.domain.compositions.cost;
 
+import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
-import com.bh.rms.domain.compositions.cost.CostCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,43 +18,71 @@ class CostCalculatorTest {
     }
 
     private List<Ingredient> makeIngredients() {
-        return Map.of("material1", 2.0, "material2", 3.0)
-                .entrySet().stream()
-                .map(entry -> new Ingredient(entry.getKey(), entry.getValue()))
-                .toList();
+        return List.of(
+                new Ingredient("material1", 2.0),
+                new Ingredient("material2", 3.0),
+                new Ingredient("material3", 4.0)
+        );
     }
 
-    private Map<String, Double> makeUnitPriceMap() {
-        return Map.of("material1", 1.0, "material2", 2.0);
+    private List<Material> makeMaterials() {
+        return List.of(
+                new Material("material1","m1", 1.0),
+                new Material("material3","m2", 2.0)
+                );
     }
 
     @Test
     void getCostTest() {
         List<Ingredient> ingredients = makeIngredients();
-        Map<String, Double> unitPriceMap =  makeUnitPriceMap();
+        List<Material> materials =  makeMaterials();
 
-        CostCalculator costCalculator = new CostCalculator(unitPriceMap);
+        CostCalculator costCalculator = new CostCalculator();
+        costCalculator.putDefaultUnitPriceOf(materials);
+
         double recipeCost = costCalculator.calculateCost(ingredients);
-        assertEquals(8.0, recipeCost);
+
+        assertEquals(10.0, recipeCost);
+    }
+
+    @Test
+    void getUnknownPriceMaterials() {
+        List<Ingredient> ingredients = makeIngredients();
+        List<Material> materials =  makeMaterials();
+
+        CostCalculator costCalculator = new CostCalculator();
+        costCalculator.putDefaultUnitPriceOf(materials);
+
+        List<String> unknownPriceMaterials = costCalculator.getUnknownPriceMaterialIds(
+                ingredients.stream()
+                        .map(Ingredient::materialId)
+                        .collect(Collectors.toList())
+        );
+
+        assertTrue(unknownPriceMaterials.contains("material2"));
     }
 
     @Test
     void getCostWithEmptyIngredientTest() {
         List<Ingredient> ingredients = Collections.emptyList();
-        Map<String, Double> unitPriceMap =  makeUnitPriceMap();
+        List<Material> materials =  makeMaterials();
+        CostCalculator costCalculator = new CostCalculator();
+        costCalculator.putDefaultUnitPriceOf(materials);
 
-        CostCalculator costCalculator = new CostCalculator(unitPriceMap);
         double recipeCost = costCalculator.calculateCost(ingredients);
+
         assertEquals(0.0, recipeCost);
     }
 
     @Test
     void getCostWithEmptyPriceMapTest() {
         List<Ingredient> ingredients = makeIngredients();
-        Map<String, Double> unitPriceMap =  Collections.emptyMap();
+        List<Material> materials =  Collections.emptyList();
+        CostCalculator costCalculator = new CostCalculator();
+        costCalculator.putDefaultUnitPriceOf(materials);
 
-        CostCalculator costCalculator = new CostCalculator(unitPriceMap);
         double recipeCost = costCalculator.calculateCost(ingredients);
+
         assertEquals(0.0, recipeCost);
     }
 }

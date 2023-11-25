@@ -1,15 +1,32 @@
 package com.bh.rms.domain.compositions.cost;
 
+import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CostCalculator {
     private final Map<String, Double> materialUnitPriceMap;
 
-    public CostCalculator(Map<String, Double> materialUnitPriceMap) {
-        this.materialUnitPriceMap = materialUnitPriceMap;
+    public CostCalculator() {
+        this.materialUnitPriceMap = new HashMap<>();
+    }
+
+    public void putDefaultUnitPriceOf(List<Material> materials) {
+        for(Material material : materials) {
+            if(material.hasDefaultUnitPrice()) {
+                materialUnitPriceMap.put(material.getId(), material.getDefaultUnitPrice());
+            }
+        }
+    }
+
+    public List<String> getUnknownPriceMaterialIds(List<String> materialIdsOfIngredients) {
+        return materialIdsOfIngredients.stream()
+                .filter(materialId -> !materialUnitPriceMap.containsKey(materialId))
+                .collect(Collectors.toList());
     }
 
     public double calculateCost(List<Ingredient> ingredients) {
@@ -29,4 +46,5 @@ public class CostCalculator {
             return result;
         }
     }
+
 }
