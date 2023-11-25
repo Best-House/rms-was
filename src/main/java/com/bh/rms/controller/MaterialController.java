@@ -2,6 +2,9 @@ package com.bh.rms.controller;
 
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.service.MaterialService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,7 @@ public class MaterialController extends AbstractApiController{
     }
 
     @PutMapping("/materials/{materialId}")
-    public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
+    public void update(@PathVariable String materialId,@RequestBody MaterialCreateRequest request) {
         materialService.update(materialId, request.getName(), request.getDefaultUnitPrice());
     }
 
@@ -44,7 +47,9 @@ public class MaterialController extends AbstractApiController{
 
     @Data
     public static class MaterialCreateRequest {
+        @NotBlank
         private String name;
+        @Min(0)
         private Double defaultUnitPrice;
     }
 

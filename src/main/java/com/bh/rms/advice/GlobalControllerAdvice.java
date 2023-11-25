@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,15 +16,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler(DomainException.class)
+    @ExceptionHandler({
+            DomainException.class,
+            MethodArgumentNotValidException.class
+    })
     public ResponseEntity<ErrorResponse> handleDomainException(Exception e) {
-        log.warn(e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getClass().getName()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getMessage()), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception e) {
         log.warn(e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getClass().getName()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponse("Exception: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
