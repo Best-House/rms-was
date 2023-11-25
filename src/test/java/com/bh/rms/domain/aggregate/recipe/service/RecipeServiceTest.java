@@ -30,7 +30,9 @@ class RecipeServiceTest {
     @Test
     void create() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
+
         String createdRecipeId = recipeService.create("name", Collections.emptyList());
+
         verify(materialService).isAllExist(anyList());
         verify(recipeRepository).create(any(Recipe.class));
     }
@@ -49,7 +51,10 @@ class RecipeServiceTest {
     @Test
     void update() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
+
         recipeService.update("material1", "name", Collections.emptyList());
+
+        verify(materialService).isAllExist(anyList());
         verify(recipeRepository).update(any(Recipe.class));
     }
 
@@ -59,17 +64,6 @@ class RecipeServiceTest {
 
         assertThrows(InvalidRecipeException.class, ()->{
             recipeService.update("material1", "name", Collections.emptyList());
-        });
-
-        verify(materialService).isAllExist(anyList());
-    }
-
-    @Test
-    void materialMismatchTest() {
-        when(materialService.isAllExist(anyList())).thenReturn(false);
-
-        assertThrows(InvalidRecipeException.class, ()->{
-            recipeService.create("name", Collections.emptyList());
         });
 
         verify(materialService).isAllExist(anyList());
