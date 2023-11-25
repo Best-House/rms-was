@@ -18,4 +18,27 @@ public class MaterialService {
         List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
         return materialIds.size() != materials.size();
     }
+
+    // forward only
+    public String create(String name, Double defaultUnitPrice) {
+        Material material = new Material(name, defaultUnitPrice);
+        return materialRepository.create(material);
+    }
+
+    public void update(String materialId, String name, Double defaultUnitPrice) {
+        Material material = new Material(materialId, name, defaultUnitPrice);
+        materialRepository.update(material);
+    }
+
+    public void delete(String materialId) {
+        materialRepository.delete(materialId);
+    }
+
+    public Material get(String materialId) {
+        return materialRepository.findById(materialId);
+    }
+
+    public List<Material> getAll() {
+        return materialRepository.findAll();
+    }
 }

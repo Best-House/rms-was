@@ -4,7 +4,6 @@ import com.bh.rms.domain.aggregate.material.service.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
-import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,31 +28,27 @@ public class RecipeService {
         if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
             throw new InvalidRecipeException();
         }
-        return recipeRepository.save(recipe);
+        return recipeRepository.create(recipe);
     }
 
     public void update(String recipeId, String name, List<Ingredient> ingredients) {
-        final Recipe foundRecipe = recipeRepository.findById(recipeId);
-        if(foundRecipe == null) {
-            throw new NotFoundRecipeException();
-        }
-
         Recipe recipe = new Recipe(recipeId, name, ingredients);
-        if(materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
+        if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
             throw new InvalidRecipeException();
         }
-        recipeRepository.update(recipeId, recipe);
+        recipeRepository.update(recipe);
     }
 
+    // forward only
     public void delete(String recipeId) {
         recipeRepository.delete(recipeId);
-    }
-
-    public List<Recipe> getAll() {
-        return recipeRepository.findAll();
     }
 
     public Recipe get(String recipeId) {
         return recipeRepository.findById(recipeId);
     }
+    public List<Recipe> getAll() {
+        return recipeRepository.findAll();
+    }
+
 }

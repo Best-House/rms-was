@@ -9,8 +9,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class CostService {
@@ -25,35 +23,23 @@ public class CostService {
 
     public CostResult getCost(String recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId);
-        List<Material> materials = materialRepository.findByIds(recipe.getMaterialIdsOfIngredients());
+        List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
+
+        List<Material> materials = materialRepository.findByIds(materialIdsOfIngredients);
+
+        CostCalculator costCalculator = new CostCalculator();
+        costCalculator.putDefaultUnitPriceOf(materials);
 
         return new CostResult(
-                recipe.getCost(new CostCalculator(getMaterialUnitPriceMap(materials))),
-                getUnknownPriceMaterials(materials)
+                recipe.getCost(costCalculator),
+                costCalculator.getUnknownPriceOf(materialIdsOfIngredients)
         );
-    }
-
-    private Map<String, Double> getMaterialUnitPriceMap(List<Material> materials) {
-        return materials.stream()
-                .filter(Material::hasDefaultUnitPrice)
-                .collect(
-                        Collectors.toMap(
-                                Material::getId,
-                                Material::getDefaultUnitPrice
-                        )
-                );
-    }
-
-    private List<Material> getUnknownPriceMaterials(List<Material> materials) {
-        return materials.stream()
-                .filter(material -> !material.hasDefaultUnitPrice())
-                .collect(Collectors.toList());
     }
 
     @AllArgsConstructor
     @Data
     public static class CostResult {
         private double cost;
-        private List<Material> unknownPriceMaterials;
+        private List<String> unknownPriceMaterialIds;
     }
 }

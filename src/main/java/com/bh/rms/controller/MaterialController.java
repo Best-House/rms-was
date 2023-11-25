@@ -1,8 +1,10 @@
 package com.bh.rms.controller;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
+import com.bh.rms.domain.aggregate.material.service.MaterialService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
@@ -11,48 +13,43 @@ import java.util.List;
 
 @RestController
 public class MaterialController extends AbstractApiController{
-    private final MaterialRepository materialRepository;
+    private final MaterialService materialService;
 
-    public MaterialController(MaterialRepository materialRepository) {
-        this.materialRepository = materialRepository;
+    public MaterialController(MaterialService materialService) {
+        this.materialService = materialService;
     }
 
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
-        Material material = new Material(request.getName(), request.getDefaultUnitPrice());
-        String materialId = materialRepository.save(material);
+        String materialId = materialService.create(request.getName(), request.getDefaultUnitPrice());
         return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
-    public void update(@PathVariable String materialId, @RequestBody MaterialCreateRequest request) {
-        Material material = new Material(materialId, request.getName(), request.getDefaultUnitPrice());
-        materialRepository.update(materialId, material);
+    public void update(@PathVariable String materialId,@RequestBody MaterialCreateRequest request) {
+        materialService.update(materialId, request.getName(), request.getDefaultUnitPrice());
     }
-
 
     @DeleteMapping("/materials/{materialId}")
     public void delete(@PathVariable String materialId) {
-        materialRepository.delete(materialId);
+        materialService.delete(materialId);
     }
 
     @GetMapping("/materials/{materialId}")
     public Material get(@PathVariable String materialId) {
-        Material material = materialRepository.findById(materialId);
-        if(material == null) {
-            throw new MaterialNotFoundException();
-        }
-        return material;
+        return materialService.get(materialId);
     }
 
     @GetMapping("/materials")
     public List<Material> getAll() {
-        return materialRepository.getAll();
+        return materialService.getAll();
     }
 
     @Data
     public static class MaterialCreateRequest {
+        @NotBlank
         private String name;
+        @Min(0)
         private Double defaultUnitPrice;
     }
 

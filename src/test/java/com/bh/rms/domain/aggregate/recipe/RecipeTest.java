@@ -57,6 +57,10 @@ class RecipeTest {
         Recipe recipe1 = new Recipe("r1", null);
         assertNotNull(recipe1.getIngredients());
         assertTrue(recipe1.getIngredients().isEmpty());
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+            recipe1.getIngredients().remove(0);
+        });
     }
 
 
@@ -70,15 +74,26 @@ class RecipeTest {
     }
 
     @Test
-    public void getContainedMaterialIdsTest() {
-        Recipe recipe = new Recipe("recipe_1", List.of(new Ingredient("material1", 1.0)));
+    public void getMaterialIdsOfIngredients() {
+        Recipe recipe = new Recipe(
+                "recipe_1",
+                List.of(
+                        new Ingredient("material1", 1.0),
+                        new Ingredient("material2", 2.0)
+                        )
+        );
+        assertEquals(2, recipe.getMaterialIdsOfIngredients().size());
         assertTrue(recipe.getMaterialIdsOfIngredients().contains("material1"));
+        assertTrue(recipe.getMaterialIdsOfIngredients().contains("material2"));
+
+        Recipe recipeWithEmptyIngredients = new Recipe("recipe_1", Collections.emptyList());
+        assertTrue(recipeWithEmptyIngredients.getMaterialIdsOfIngredients().isEmpty());
     }
 
     @Test
-    public void getContainedMaterialIdsWithNoIngredients() {
-        Recipe recipe = new Recipe("recipe_1", Collections.emptyList());
-        assertTrue(recipe.getMaterialIdsOfIngredients().isEmpty());
+    public void getMaterialIdsOfIngredientsWithEmptyIngredients() {
+        Recipe recipeWithEmptyIngredients = new Recipe("recipe_1", null);
+        assertTrue(recipeWithEmptyIngredients.getMaterialIdsOfIngredients().isEmpty());
     }
 
 }

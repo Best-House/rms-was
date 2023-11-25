@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Material { // root aggregate
-    private String id; // root aggregate key
+    private String id; // key
     private String name; // immutable value object
     private Double defaultUnitPrice; // immutable value object
 

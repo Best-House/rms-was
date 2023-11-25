@@ -19,28 +19,33 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public String save(Material material) {
+    public String create(Material material) {
         material.setId(String.format("material_%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
         return material.getId();
     }
 
     @Override
-    public void update(String materialId, Material material) throws MaterialNotFoundException {
-        Material foundMaterial = materialMap.get(materialId);
-        if(foundMaterial == null) {
+    public void update(Material material) throws MaterialNotFoundException {
+        if(!materialMap.containsKey(material.getId())) {
             throw new MaterialNotFoundException();
         }
-        materialMap.put(materialId, material);
+        materialMap.put(material.getId(), material);
     }
 
     @Override
-    public void delete(String materialId) {
+    public void delete(String materialId) throws MaterialNotFoundException{
+        if(!materialMap.containsKey(materialId)) {
+            throw new MaterialNotFoundException();
+        }
         materialMap.remove(materialId);
     }
 
     @Override
-    public Material findById(String materialId) {
+    public Material findById(String materialId) throws MaterialNotFoundException{
+        if(!materialMap.containsKey(materialId)) {
+            throw new MaterialNotFoundException();
+        }
         return materialMap.get(materialId);
     }
 
@@ -56,7 +61,7 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public List<Material> getAll() {
+    public List<Material> findAll() {
         return materialMap.values().stream().toList();
     }
 }

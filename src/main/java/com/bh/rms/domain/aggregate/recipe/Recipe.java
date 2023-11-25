@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Recipe { // root aggregate
-    private String id; // root aggregate key
+    private String id; // key
     private String name; // immutable value object
     private List<Ingredient> ingredients; // immutable value object
 
@@ -50,12 +51,7 @@ public class Recipe { // root aggregate
         if(ingredients == null) {
             this.ingredients = Collections.emptyList();
         } else {
-            for(Ingredient ingredient : ingredients) {
-                if(!ingredient.isValidAmount()) {
-                    throw new InvalidIngredientAmountException();
-                }
-            }
-            this.ingredients = Collections.unmodifiableList(ingredients);
+            this.ingredients = List.copyOf(ingredients); // immutable list
         }
     }
 

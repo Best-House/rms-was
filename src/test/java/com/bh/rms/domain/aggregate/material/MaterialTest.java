@@ -4,8 +4,7 @@ import com.bh.rms.domain.aggregate.material.exception.InvalidMaterialException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MaterialTest {
     @Test
@@ -49,5 +48,14 @@ class MaterialTest {
             new Material("m1", null);
             new Material("m1", -1.0);
         });
+    }
+
+    @Test
+    void hasDefaultUnitPrice() {
+        Material materialWithDefaultPrice = new Material("m1", 1.0);
+        assertTrue(materialWithDefaultPrice.hasDefaultUnitPrice());
+
+        Material materialWithoutDefaultPrice = new Material("m1", null);
+        assertFalse(materialWithoutDefaultPrice.hasDefaultUnitPrice());
     }
 }
