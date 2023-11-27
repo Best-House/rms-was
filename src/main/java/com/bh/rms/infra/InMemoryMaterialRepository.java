@@ -20,7 +20,7 @@ public class InMemoryMaterialRepository implements MaterialRepository {
 
     @Override
     public String create(Material material) {
-        material.setId(String.format("material_%d", atomicInteger.incrementAndGet()));
+        material.setId(String.format("material%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
         return material.getId();
     }
