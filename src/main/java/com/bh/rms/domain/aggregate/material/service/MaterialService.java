@@ -16,7 +16,7 @@ public class MaterialService {
 
     public boolean isAllExist(List<String> materialIds) {
         List<Material> materials = materialRepository.findByIds(materialIds); // material service 로 추상화하기
-        return materialIds.size() != materials.size();
+        return materialIds.size() == materials.size();
     }
 
     // forward only
