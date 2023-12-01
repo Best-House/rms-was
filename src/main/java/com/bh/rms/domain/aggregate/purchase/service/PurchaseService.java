@@ -17,11 +17,13 @@ public class PurchaseService {
     }
 
     public List<String> create(PurchaseCreateRequest request) {
-        List<Purchase> purchases = request.getPurchaseItems().stream()
+        final long purchaseDate = System.currentTimeMillis();
+        final List<Purchase> purchases = request.getPurchaseItems().stream()
                 .map(purchaseItem -> new Purchase(
                         purchaseItem.getMaterialId(),
                         purchaseItem.getPrice(),
-                        purchaseItem.getAmount())
+                        purchaseItem.getAmount(),
+                        purchaseDate)
                 ).toList();
         return purchaseRepository.createBulk(purchases);
     }
@@ -32,5 +34,9 @@ public class PurchaseService {
 
     public List<Purchase> findAll() {
         return purchaseRepository.findAll();
+    }
+
+    public void getAverageCost() {
+
     }
 }

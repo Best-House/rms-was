@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,19 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
     }
 
     @Override
-    public List<Purchase> findRecentByMaterialIds(List<String> materialIdsOfIngredients) {
-        return Collections.emptyList();
+    public List<Purchase> findRecentByMaterialIds(List<String> materialIds) {
+        List<Purchase> recentPurchases = new ArrayList<>();
+        for (String materialId : materialIds) {
+            List<Purchase> purchasesWithMaterialId = purchaseMap.values().stream()
+                    .filter(purchase -> purchase.getMaterialId().equals(materialId))
+                    .toList();
+            Purchase recentPurchase = Collections.max(
+                    purchasesWithMaterialId,
+                    Comparator.comparing(Purchase::getPurchaseDate)
+            );
+            recentPurchases.add(recentPurchase);
+        }
+        return recentPurchases;
     }
 
     @Override

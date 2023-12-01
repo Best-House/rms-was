@@ -21,22 +21,23 @@ public class Purchase {
 //    private long number;
     private double price;
     private double amount;
-//    private long purchaseDate;
+    private long purchaseDate;
 
 
-    public Purchase(String materialId, double price, double amount) {
+    public Purchase(String materialId, double price, double amount, long purchaseDate) {
         setMaterialId(materialId);
         setPrice(price);
         setAmount(amount);
+        setPurchaseDate(purchaseDate);
     }
 
-    public Purchase(String id, String materialId, double price, double amount) {
+    public Purchase(String id, String materialId, double price, double amount, long purchaseDate) {
         setId(id);
         setMaterialId(materialId);
 //        this.number = number;
         setPrice(price);
         setAmount(amount);
-//        this.purchaseDate = System.currentTimeMillis();
+        setPurchaseDate(purchaseDate);
     }
 
     public void setId(String id) {
@@ -64,7 +65,13 @@ public class Purchase {
         if (amount <= 0) {
             throw new InvalidPurchaseException();
         }
-        this.price = amount;
+        this.amount = amount;
+    }
+
+    public void setPurchaseDate(long purchaseDate) {
+        //TODO
+        //any validation?
+        this.purchaseDate = purchaseDate;
     }
 
     public double getUnitPrice() {

@@ -35,8 +35,8 @@ class CostCalculatorTest {
 
     private List<Purchase> makePurchases() {
         return List.of(
-                new Purchase("purchase1", "material1", 2.0, 2),
-                new Purchase("purchase2", "material3", 2.0, 1)
+                new Purchase("purchase1", "material1", 2.0, 2, 1),
+                new Purchase("purchase2", "material3", 2.0, 1, 1)
         );
     }
 
