@@ -1,11 +1,11 @@
 package com.bh.rms.controller;
 
-import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
+import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.service.PurchaseService;
 import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseCreateRequest;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,5 +30,10 @@ public class PurchaseController extends AbstractApiController {
     @DeleteMapping("/purchases/{purchaseId}")
     public void delete(@PathVariable String purchaseId) {
         purchaseService.delete(purchaseId);
+    }
+
+    @GetMapping("/purchases")
+    public List<Purchase> findAll() {
+        return purchaseService.findAll();
     }
 }

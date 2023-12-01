@@ -65,9 +65,9 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 //        }
 //        return purchaseMap.get(purchaseId);
 //    }
-//
-//    @Override
-//    public List<Purchase> findAll() {
-//        return purchaseMap.values().stream().toList();
-//    }
+
+    @Override
+    public List<Purchase> findAll() {
+        return purchaseMap.values().stream().toList();
+    }
 }

@@ -16,7 +16,7 @@ public interface PurchaseRepository {
 //
 //    List<Purchase> findByIds(List<String> purchaseIds);
 //
-//    List<Purchase> findAll();
+    List<Purchase> findAll();
 
     List<Purchase> findRecentByMaterialIds(List<String> materialIdsOfIngredients);
 

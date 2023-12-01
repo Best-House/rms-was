@@ -29,4 +29,8 @@ public class PurchaseService {
     public void delete(String purchaseId) {
         purchaseRepository.delete(purchaseId);
     }
+
+    public List<Purchase> findAll() {
+        return purchaseRepository.findAll();
+    }
 }
