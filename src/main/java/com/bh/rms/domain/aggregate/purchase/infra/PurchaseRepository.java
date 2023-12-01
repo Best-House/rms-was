@@ -1,6 +1,7 @@
 package com.bh.rms.domain.aggregate.purchase.infra;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface PurchaseRepository {
 //
 //    void update(Purchase purchase) throws PurchaseNotFoundException;
 //
-//    void delete(String purchaseId) throws PurchaseNotFoundException;
+    void delete(String purchaseId) throws PurchaseNotFoundException;
 //
 //    Purchase findById(String purchaseId) throws PurchaseNotFoundException;
 //

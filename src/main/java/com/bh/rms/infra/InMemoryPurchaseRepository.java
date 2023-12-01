@@ -50,13 +50,13 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 //        purchaseMap.put(purchase.getId(), purchase);
 //    }
 //
-//    @Override
-//    public void delete(String recipeId) {
-//        if(!purchaseMap.containsKey(recipeId)) {
-//            throw new NotFoundRecipeException();
-//        }
-//        purchaseMap.remove(recipeId);
-//    }
+    @Override
+    public void delete(String purchaseId) {
+        if(!purchaseMap.containsKey(purchaseId)) {
+            throw new NotFoundRecipeException();
+        }
+        purchaseMap.remove(purchaseId);
+    }
 //
 //    @Override
 //    public Purchase findById(String purchaseId) throws NotFoundRecipeException {

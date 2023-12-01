@@ -25,4 +25,8 @@ public class PurchaseService {
                 ).toList();
         return purchaseRepository.createBulk(purchases);
     }
+
+    public void delete(String purchaseId) {
+        purchaseRepository.delete(purchaseId);
+    }
 }
