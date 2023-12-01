@@ -7,6 +7,7 @@ import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +30,17 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
         return Collections.emptyList();
     }
 
-//    @Override
-//    public String create(Purchase purchase) {
-//        purchase.setId(String.format("purchase%d", atomicInteger.incrementAndGet()));
-//        purchaseMap.put(purchase.getId(), purchase);
-//        return purchase.getId();
-//    }
+    @Override
+    public List<String> createBulk(List<Purchase> purchases) {
+        List<String> purchaseIds = new ArrayList<>();
+
+        for(Purchase purchase : purchases) {
+            purchase.setId(String.format("purchase%d", atomicInteger.incrementAndGet()));
+            purchaseIds.add(purchase.getId());
+            purchaseMap.put(purchase.getId(), purchase);
+        }
+        return purchaseIds;
+    }
 //
 //    @Override
 //    public void update(Purchase purchase) {

@@ -1,12 +1,11 @@
 package com.bh.rms.domain.aggregate.purchase.infra;
 
-import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 
 import java.util.List;
 
 public interface PurchaseRepository {
-//    String create(Purchase purchase);
+    List<String> createBulk(List<Purchase> purchase);
 //
 //    void update(Purchase purchase) throws PurchaseNotFoundException;
 //
@@ -19,4 +18,5 @@ public interface PurchaseRepository {
 //    List<Purchase> findAll();
 
     List<Purchase> findRecentByMaterialIds(List<String> materialIdsOfIngredients);
+
 }

@@ -23,6 +23,13 @@ public class Purchase {
     private double amount;
 //    private long purchaseDate;
 
+
+    public Purchase(String materialId, double price, double amount) {
+        setMaterialId(materialId);
+        setPrice(price);
+        setAmount(amount);
+    }
+
     public Purchase(String id, String materialId, double price, double amount) {
         setId(id);
         setMaterialId(materialId);
