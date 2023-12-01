@@ -1,5 +1,8 @@
 package com.bh.rms.domain.aggregate.purchase;
 
+import com.bh.rms.domain.aggregate.purchase.exception.InvalidPurchaseException;
+import com.bh.rms.domain.exception.InvalidAggregateIdException;
+import io.micrometer.common.util.StringUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,16 +24,40 @@ public class Purchase {
 //    private long purchaseDate;
 
     public Purchase(String id, String materialId, double price, double amount) {
-        this.id = id;
-        this.materialId = materialId;
+        setId(id);
+        setMaterialId(materialId);
 //        this.number = number;
-        this.price = price;
-        this.amount = amount;
+        setPrice(price);
+        setAmount(amount);
 //        this.purchaseDate = System.currentTimeMillis();
     }
 
-    public void setId(String format) {
+    public void setId(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new InvalidAggregateIdException();
+        }
+        this.id = id;
+    }
 
+    public void setMaterialId(String materialId) {
+        if (StringUtils.isBlank(materialId)) {
+            throw new InvalidPurchaseException();
+        }
+        this.materialId = materialId;
+    }
+
+    public void setPrice(double price) {
+        if (price < 0) {
+            throw new InvalidPurchaseException();
+        }
+        this.price = price;
+    }
+
+    public void setAmount(double amount) {
+        if (amount <= 0) {
+            throw new InvalidPurchaseException();
+        }
+        this.price = amount;
     }
 
     public double getUnitPrice() {
