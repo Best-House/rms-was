@@ -5,12 +5,10 @@ import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
 import com.bh.rms.domain.compositions.cost.CostService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -58,7 +56,7 @@ public class RecipeController extends AbstractApiController {
 
     @GetMapping("/recipes/{recipeId}/cost")
     public CostService.CostResult getCost(@PathVariable String recipeId) {
-        return costService.getCost(recipeId);
+        return costService.getRecentCost(recipeId);
     }
 
     @Data

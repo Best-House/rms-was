@@ -1,6 +1,5 @@
 package com.bh.rms.domain.compositions.cost;
 
-import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
@@ -9,10 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CostServiceTest {
@@ -38,7 +34,7 @@ class CostServiceTest {
         when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
         when(purchaseRepository.findRecentByMaterialIds(anyList())).thenReturn(Collections.emptyList());
 
-        costService.getCost("recipe1");
+        costService.getRecentCost("recipe1");
 
         verify(recipe).getCost(any(CostCalculator.class));
         verify(recipe).getMaterialIdsOfIngredients();

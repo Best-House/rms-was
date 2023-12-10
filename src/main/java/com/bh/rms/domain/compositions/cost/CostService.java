@@ -26,7 +26,7 @@ public class CostService {
         this.purchaseRepository = purchaseRepository;
     }
 
-    public CostResult getCost(String recipeId) {
+    public CostResult getRecentCost(String recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId);
         List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
 
