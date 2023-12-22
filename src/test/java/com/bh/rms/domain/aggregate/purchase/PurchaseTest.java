@@ -73,4 +73,18 @@ class PurchaseTest {
 
         assertEquals(500., result);
     }
+
+    @Test
+    void update() throws Exception {
+        Purchase purchase = new Purchase("purchase", "material1", 100, 1, 1);
+
+        purchase.update("materialId2", 200, 2, 100);
+        
+        assertAll(
+                () -> assertEquals(purchase.getMaterialId(), "materialId2"),
+                () -> assertEquals(purchase.getPrice(), 200),
+                () -> assertEquals(purchase.getAmount(), 2),
+                () -> assertEquals(purchase.getPurchaseDate(), 100)
+        );
+    }
 }

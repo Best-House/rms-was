@@ -3,6 +3,7 @@ package com.bh.rms.domain.aggregate.purchase.service;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
 import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseCreateRequest;
+import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,9 @@ public class PurchaseService {
         return purchaseRepository.findAll();
     }
 
-    public void getAverageCost() {
-
+    public void update(String purchaseId, PurchaseUpdateRequest request) {
+        Purchase purchase = purchaseRepository.findById(purchaseId);
+        purchase.update(request.getMaterialId(), request.getPrice(), request.getAmount(), request.getPurchaseDate());
+        purchaseRepository.update(purchase);
     }
 }

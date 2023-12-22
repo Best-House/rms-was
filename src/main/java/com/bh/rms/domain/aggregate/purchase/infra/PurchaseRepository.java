@@ -8,11 +8,11 @@ import java.util.List;
 public interface PurchaseRepository {
     List<String> createBulk(List<Purchase> purchase);
 //
-//    void update(Purchase purchase) throws PurchaseNotFoundException;
+    void update(Purchase purchase) throws PurchaseNotFoundException;
 //
     void delete(String purchaseId) throws PurchaseNotFoundException;
 //
-//    Purchase findById(String purchaseId) throws PurchaseNotFoundException;
+    Purchase findById(String purchaseId) throws PurchaseNotFoundException;
 //
 //    List<Purchase> findByIds(List<String> purchaseIds);
 //

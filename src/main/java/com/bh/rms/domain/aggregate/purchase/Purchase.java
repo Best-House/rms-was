@@ -1,6 +1,7 @@
 package com.bh.rms.domain.aggregate.purchase;
 
 import com.bh.rms.domain.aggregate.purchase.exception.InvalidPurchaseException;
+import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseUpdateRequest;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import io.micrometer.common.util.StringUtils;
 import lombok.EqualsAndHashCode;
@@ -78,4 +79,10 @@ public class Purchase {
         return price / amount;
     }
 
+    public void update(String materialId, double price, double amount, long purchaseDate) {
+        setMaterialId(materialId);
+        setPrice(price);
+        setAmount(amount);
+        setPurchaseDate(purchaseDate);
+    }
 }

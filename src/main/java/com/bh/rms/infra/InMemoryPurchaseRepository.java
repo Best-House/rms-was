@@ -53,15 +53,15 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
         }
         return purchaseIds;
     }
-//
-//    @Override
-//    public void update(Purchase purchase) {
-//        if(!purchaseMap.containsKey(purchase.getId())) {
-//            throw new NotFoundRecipeException();
-//        }
-//        purchaseMap.put(purchase.getId(), purchase);
-//    }
-//
+
+    @Override
+    public void update(Purchase purchase) {
+        if(!purchaseMap.containsKey(purchase.getId())) {
+            throw new NotFoundRecipeException();
+        }
+        purchaseMap.put(purchase.getId(), purchase);
+    }
+
     @Override
     public void delete(String purchaseId) {
         if(!purchaseMap.containsKey(purchaseId)) {
@@ -69,14 +69,14 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
         }
         purchaseMap.remove(purchaseId);
     }
-//
-//    @Override
-//    public Purchase findById(String purchaseId) throws NotFoundRecipeException {
-//        if(!purchaseMap.containsKey(purchaseId)) {
-//            throw new NotFoundRecipeException();
-//        }
-//        return purchaseMap.get(purchaseId);
-//    }
+
+    @Override
+    public Purchase findById(String purchaseId) throws NotFoundRecipeException {
+        if(!purchaseMap.containsKey(purchaseId)) {
+            throw new NotFoundRecipeException();
+        }
+        return purchaseMap.get(purchaseId);
+    }
 
     @Override
     public List<Purchase> findAll() {

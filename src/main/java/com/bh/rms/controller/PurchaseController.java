@@ -3,6 +3,7 @@ package com.bh.rms.controller;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.service.PurchaseService;
 import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseCreateRequest;
+import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +36,10 @@ public class PurchaseController extends AbstractApiController {
     @GetMapping("/purchases")
     public List<Purchase> findAll() {
         return purchaseService.findAll();
+    }
+
+    @PostMapping("/purchases/{purchaseId}")
+    public void update(@PathVariable String purchaseId, @RequestBody @Valid PurchaseUpdateRequest request) {
+        purchaseService.update(purchaseId, request);
     }
 }
