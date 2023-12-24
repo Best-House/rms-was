@@ -1,8 +1,11 @@
 package com.bh.rms.controller;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
+import com.bh.rms.domain.aggregate.material.service.MaterialService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,58 +13,49 @@ import java.util.List;
 
 @RestController
 public class MaterialController extends AbstractApiController{
-    private final MaterialRepository materialRepository;
+    private final MaterialService materialService;
 
-    public MaterialController(MaterialRepository materialRepository) {
-        this.materialRepository = materialRepository;
+    public MaterialController(MaterialService materialService) {
+        this.materialService = materialService;
     }
 
     @PostMapping("/materials")
-    public Material create(@RequestBody MaterialCreateParams params) {
-        Material material = new Material(params.getName());
-        if(params.hasPriceInfo()) {
-            material.setPriceInfo(params.getPrice(), params.getAmount());
-        }
-        return materialRepository.save(material);
+    public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
+        String materialId = materialService.create(request.getName(), request.getDefaultUnitPrice());
+        return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
-    public Material update(@PathVariable String materialId, @RequestBody MaterialCreateParams params) {
-        Material material = new Material(params.getName());
-        material.setId(materialId);
-        if(params.hasPriceInfo()) {
-            material.setPriceInfo(params.getPrice(), params.getAmount());
-        }
-        return materialRepository.update(materialId, material);
+    public void update(@PathVariable String materialId,@RequestBody MaterialCreateRequest request) {
+        materialService.update(materialId, request.getName(), request.getDefaultUnitPrice());
     }
 
     @DeleteMapping("/materials/{materialId}")
-    public Material delete(@PathVariable String materialId) {
-        return materialRepository.delete(materialId);
+    public void delete(@PathVariable String materialId) {
+        materialService.delete(materialId);
     }
 
     @GetMapping("/materials/{materialId}")
     public Material get(@PathVariable String materialId) {
-        Material material = materialRepository.findById(materialId);
-        if(material == null) {
-            throw new MaterialNotExistException();
-        }
-        return material;
+        return materialService.get(materialId);
     }
 
     @GetMapping("/materials")
     public List<Material> getAll() {
-        return materialRepository.getAll();
+        return materialService.getAll();
     }
 
     @Data
-    public static class MaterialCreateParams {
+    public static class MaterialCreateRequest {
+        @NotBlank
         private String name;
-        private Double price;
-        private Double amount;
+        @Min(0)
+        private Double defaultUnitPrice;
+    }
 
-        public boolean hasPriceInfo() {
-            return price != null && amount != null;
-        }
+    @AllArgsConstructor
+    @Data
+    public static class MaterialCreateResponse {
+        private String id;
     }
 }

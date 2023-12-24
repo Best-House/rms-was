@@ -1,20 +1,20 @@
 package com.bh.rms.domain.aggregate.material.infra;
 
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotExistException;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 
 import java.util.List;
 
 public interface MaterialRepository {
-    Material save(Material material);
+    String create(Material material);
 
-    Material findById(String materialId);
+    void update(Material material) throws MaterialNotFoundException;
+
+    void delete(String materialId) throws MaterialNotFoundException;
+
+    Material findById(String materialId) throws MaterialNotFoundException;
 
     List<Material> findByIds(List<String> materialIds);
 
-    Material update(String materialId, Material material) throws MaterialNotExistException;
-
-    Material delete(String materialId);
-
-    List<Material> getAll();
+    List<Material> findAll();
 }
