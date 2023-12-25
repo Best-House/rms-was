@@ -7,9 +7,4 @@ Restaurant Management System
 :toclevels: 2
 :sectlinks:
 
-[[Material-API]]
-== Material API
-
-[[Material-단일-조회]]
-=== Material 단일 조회
-operation::materials-create[snippets='http-request,http-response,response-fields']
+include::Material.adoc[]
