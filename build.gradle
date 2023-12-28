@@ -33,14 +33,13 @@ jar {
 }
 
 bootJar{
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/api/docs'
+    }
     archivesBaseName = 'app'
     archiveVersion = "0.0.0"
     archiveFileName = 'app.jar'
-
-    dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
-        into 'static/api/docs'
-    }
 }
 
 asciidoctor {
@@ -49,7 +48,7 @@ asciidoctor {
     inputs.dir snippetsDir
 
     sources{
-        include("**/index.adoc","**/common/*.adoc")
+        include("**/index.adoc")
     }
     baseDirFollowsSourceFile()
 }
