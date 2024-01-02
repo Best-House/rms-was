@@ -1,5 +1,6 @@
 package com.bh.rms.controller;
 
+import com.bh.rms.config.AbstractRestDocTest;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MaterialControllerTest extends DocumentTest{
+class MaterialControllerTest extends AbstractRestDocTest {
     @Autowired
     private MaterialController materialController;
 

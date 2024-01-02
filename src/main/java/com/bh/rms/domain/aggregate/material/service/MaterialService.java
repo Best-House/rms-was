@@ -22,7 +22,8 @@ public class MaterialService {
     // forward only
     public String create(String name, Double defaultUnitPrice) {
         Material material = new Material(name, defaultUnitPrice);
-        return materialRepository.create(material);
+        materialRepository.create(material);
+        return material.getId();
     }
 
     public void update(String materialId, String name, Double defaultUnitPrice) {

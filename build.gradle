@@ -8,6 +8,10 @@ group = 'com.hojun'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+repositories {
+    mavenCentral()
+}
+
 configurations {
     asciidoctorExtensions // dependencies 에서 적용한 것 추가
     compileOnly {
@@ -15,8 +19,18 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
+dependencies {
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.mongodb:mongodb-driver-sync'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 ext {
@@ -25,7 +39,9 @@ ext {
 
 test {
     outputs.dir snippetsDir
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'prod'
+    }
 }
 
 jar {
@@ -64,14 +80,4 @@ task copyDocument(type: Copy) {
 }
 build {
     dependsOn copyDocument
-}
-
-dependencies {
-    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

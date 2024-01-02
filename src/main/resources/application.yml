@@ -1,55 +1,32 @@
-recipe:
-  recipes:
-    - id: common_coffee_1
-      name: coffee
-      ingredients:
-        - amount: 20
-          materialId: brazil_coffee_bean_1
-        - amount: 10
-          materialId: ice_1
-    - id: common_latte_1
-      name: latte
-      ingredients:
-        - amount: 20
-          materialId: brazil_coffee_bean_1
-        - amount: 10
-          materialId: ice_1
-        - amount: 175
-          materialId: milk_1
-    - id: common_vanilla_latte_1
-      name: vanilla_latte
-      ingredients:
-        - amount: 20
-          materialId: brazil_coffee_bean_1
-        - amount: 10
-          materialId: ice_1
-        - amount: 170
-          materialId: milk_1
-        - amount: 35
-          materialId: vanilla_syrup
-    - id: common_caramel_macchiato_1
-      name: caramel_macchiato
-      ingredients:
-        - amount: 20
-          materialId: brazil_coffee_bean_1
-        - amount: 10
-          materialId: ice_1
-        - amount: 150
-          materialId: milk_1
-        - amount: 35
-          materialId: caramel_syrup
-user-material-price:
-  userMaterialPriceMap:
-    user1:
-      - materialId: brazil_coffee_bean_1
-        price: 26000
-        amount: 1000
-      - materialId: ice_1
-        price : 30
-        amount: 1
-      - materialId: milk_1
-        price: 1680
-        amount: 1000
-      - materialId: vanilla_syrup
-        price: 13960
-        amount: 1000
+# default
+spring:
+  profiles:
+    active: local
+    group:
+      local:  # local, common profile을 그룹지어 함께 어플리케이션 구동    
+        - inmemory
+      prod:   # prod, common profile을 그룹지어 함께 어플리케이션 구동  
+        - mongo
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common   # application-common.yml 과 동일한 역할
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+mongo:
+  connectionString: mongodb://root:rms_was@mongo:27017/
+  databaseName: rms
+  materialCollectionName: materials

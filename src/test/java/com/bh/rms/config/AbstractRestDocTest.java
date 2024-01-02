@@ -1,4 +1,4 @@
-package com.bh.rms.controller;
+package com.bh.rms.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -6,14 +6,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
-@SpringBootTest
+@ActiveProfiles({"local"})
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-public abstract class DocumentTest {
+@SpringBootTest
+public class AbstractRestDocTest {
     @Autowired
     protected MockMvc mockMvc;
 

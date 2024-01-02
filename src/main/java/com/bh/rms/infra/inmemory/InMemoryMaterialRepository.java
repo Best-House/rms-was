@@ -1,13 +1,15 @@
-package com.bh.rms.infra;
+package com.bh.rms.infra.inmemory;
 
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Profile("inmemory")
 @Repository
 public class InMemoryMaterialRepository implements MaterialRepository {
     private final Map<String, Material> materialMap;
@@ -19,10 +21,9 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public String create(Material material) {
+    public void create(Material material) {
         material.setId(String.format("material%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
-        return material.getId();
     }
 
     @Override

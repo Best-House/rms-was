@@ -14,6 +14,9 @@ public class Material { // root aggregate
     private String name; // immutable value object
     private Double defaultUnitPrice; // immutable value object
 
+    public Material() {
+    }
+
     public Material(String name, Double defaultUnitPrice) {
         setName(name);
         setDefaultUnitPrice(defaultUnitPrice);
@@ -24,12 +27,11 @@ public class Material { // root aggregate
         setDefaultUnitPrice(defaultUnitPrice);
     }
 
-    public Material setId(String id) {
+    public void setId(String id) {
         if(id == null || id.isBlank()) {
             throw new InvalidAggregateIdException();
         }
         this.id = id;
-        return this;
     }
 
     public void setName(String name) {
