@@ -24,7 +24,7 @@ include::{snippets}/materials-update/curl-request.adoc[]
 
 [[Material-Delete]]
 === Material-Delete
-operation::materials-delete[snippets='http-request,path-parameters,request-fields,http-response']
+operation::materials-delete[snippets='http-request,path-parameters,http-response']
 
 .curl
 [%collapsible]
