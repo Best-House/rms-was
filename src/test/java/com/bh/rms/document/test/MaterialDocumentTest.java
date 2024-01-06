@@ -1,5 +1,6 @@
-package com.bh.rms.controller;
+package com.bh.rms.document.test;
 
+import com.bh.rms.controller.MaterialController;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.bh.rms.document.config.DocumentProcessor.getRequestPreprocessor;
+import static com.bh.rms.document.config.DocumentProcessor.getResponsePreprocessor;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -17,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MaterialControllerTest extends DocumentTest{
+public class MaterialDocumentTest extends AbstractDocumentTest {
     @Autowired
     private MaterialController materialController;
 
@@ -38,7 +41,7 @@ class MaterialControllerTest extends DocumentTest{
 
     @Test
     public void createMaterial() throws Exception {
-        ResultActions resultActions = this.mockMvc.perform(
+        ResultActions resultActions = getMockMvc().perform(
                         post("/api/materials")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -74,7 +77,7 @@ class MaterialControllerTest extends DocumentTest{
     public void updateMaterial() throws Exception {
         String id = createMaterialByController();
 
-        ResultActions resultActions = this.mockMvc.perform(
+        ResultActions resultActions = getMockMvc().perform(
                         put("/api/materials/{id}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -104,7 +107,7 @@ class MaterialControllerTest extends DocumentTest{
     public void deleteMaterial() throws Exception {
         String id = createMaterialByController();
 
-        ResultActions resultActions = this.mockMvc.perform(
+        ResultActions resultActions = getMockMvc().perform(
                         delete("/api/materials/{id}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
@@ -124,7 +127,7 @@ class MaterialControllerTest extends DocumentTest{
     public void getMaterial() throws Exception {
         String id = createMaterialByController();
 
-        ResultActions resultActions = this.mockMvc.perform(
+        ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials/{id}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
@@ -151,7 +154,7 @@ class MaterialControllerTest extends DocumentTest{
         String id1 = createMaterialByController();
         String id2 = createMaterialByController();
 
-        ResultActions resultActions = this.mockMvc.perform(
+        ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials")
                                 .contentType(MediaType.APPLICATION_JSON)
                 );

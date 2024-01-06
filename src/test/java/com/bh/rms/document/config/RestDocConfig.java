@@ -1,4 +1,4 @@
-package com.bh.rms.config;
+package com.bh.rms.document.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
