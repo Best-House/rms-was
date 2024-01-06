@@ -1,7 +1,7 @@
 package com.bh.rms.domain.compositions.cost;
 
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
 import lombok.AllArgsConstructor;

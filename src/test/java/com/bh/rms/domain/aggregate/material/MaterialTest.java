@@ -9,53 +9,69 @@ import static org.junit.jupiter.api.Assertions.*;
 class MaterialTest {
     @Test
     void entityEqualityTest() {
-        Material material1 = new Material("material","m1", 0.0);
-        Material material2 = new Material("material","m2", 0.0);
+        Material material1 = new Material();
+        Material material2 = new Material();
+        material1.setId("material1");
+        material1.setName("material1");
+        material2.setId("material1");
+        material2.setName("material2");
         assertEquals(material1, material2);
     }
 
     @Test
     void entityIdTest() {
-        new Material("material_1", "m1", 0.0);
+        Material material = new Material();
+        material.setId("material_1");
+
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material(null, "m1", 0.0);
+            material.setId(null);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material("","m1", 0.0);
+            material.setId("");
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Material(" ", "m1", 0.0);
+            material.setId(" ");
         });
     }
 
     @Test
     void setName() {
-        new Material("material", "m1", 1.0);
+        Material material = new Material();
+        material.setName("material1");
 
         assertThrows(InvalidMaterialException.class, ()->{
-            new Material("material", null, 1.0);
-            new Material("material", "", 1.0);
+            material.setName(null);
+        });
+
+        assertThrows(InvalidMaterialException.class, ()->{
+            material.setName("");
+        });
+
+        assertThrows(InvalidMaterialException.class, ()->{
+            material.setName(" ");
         });
     }
 
     @Test
     void setDefaultUnitPrice() {
-        new Material("m1", 1.0);
+        Material material = new Material();
+        material.setDefaultUnitPrice(1.0);
+        material.setDefaultUnitPrice(null);
 
         assertThrows(InvalidMaterialException.class, ()->{
-            new Material("m1", null);
-            new Material("m1", -1.0);
+            material.setDefaultUnitPrice(-1.0);
         });
     }
 
     @Test
     void hasDefaultUnitPrice() {
-        Material materialWithDefaultPrice = new Material("m1", 1.0);
+        Material materialWithDefaultPrice = new Material();
+        materialWithDefaultPrice.setDefaultUnitPrice(1.0);
         assertTrue(materialWithDefaultPrice.hasDefaultUnitPrice());
 
-        Material materialWithoutDefaultPrice = new Material("m1", null);
+        Material materialWithoutDefaultPrice = new Material();
         assertFalse(materialWithoutDefaultPrice.hasDefaultUnitPrice());
     }
 }

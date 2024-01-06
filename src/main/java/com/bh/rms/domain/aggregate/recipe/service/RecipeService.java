@@ -1,6 +1,6 @@
 package com.bh.rms.domain.aggregate.recipe.service;
 
-import com.bh.rms.domain.aggregate.material.service.MaterialService;
+import com.bh.rms.domain.aggregate.material.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
