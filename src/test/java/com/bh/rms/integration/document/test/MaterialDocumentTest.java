@@ -1,4 +1,4 @@
-package com.bh.rms.document.test;
+package com.bh.rms.integration.document.test;
 
 import com.bh.rms.controller.MaterialController;
 import com.jayway.jsonpath.JsonPath;
@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.bh.rms.document.config.DocumentProcessor.getRequestPreprocessor;
-import static com.bh.rms.document.config.DocumentProcessor.getResponsePreprocessor;
+import static com.bh.rms.integration.document.config.DocumentProcessor.getRequestPreprocessor;
+import static com.bh.rms.integration.document.config.DocumentProcessor.getResponsePreprocessor;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

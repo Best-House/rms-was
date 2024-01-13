@@ -1,4 +1,4 @@
-package com.bh.rms.document.config;
+package com.bh.rms.integration.document.config;
 
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;

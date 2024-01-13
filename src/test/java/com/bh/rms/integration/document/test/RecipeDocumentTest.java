@@ -1,22 +1,8 @@
-package com.bh.rms.document.test;
+package com.bh.rms.integration.document.test;
 
-import com.bh.rms.controller.RecipeController;
-import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.web.servlet.ResultActions;
-
-import static com.bh.rms.document.config.DocumentProcessor.getRequestPreprocessor;
-import static com.bh.rms.document.config.DocumentProcessor.getResponsePreprocessor;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.snippet.Attributes.key;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class RecipeDocumentTest extends AbstractDocumentTest {
 //    @Autowired

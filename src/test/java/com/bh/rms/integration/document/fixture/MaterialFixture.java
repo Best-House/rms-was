@@ -1,4 +1,4 @@
-package com.bh.rms.document.fixture;
+package com.bh.rms.integration.document.fixture;
 
 import com.bh.rms.domain.aggregate.material.Material;
 
