@@ -1,7 +1,5 @@
-package com.bh.rms.domain.aggregate.material.service;
+package com.bh.rms.domain.aggregate.material;
 
-import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +19,19 @@ public class MaterialService {
 
     // forward only
     public String create(String name, Double defaultUnitPrice) {
-        Material material = new Material(name, defaultUnitPrice);
+        Material material = MaterialFactory.forCreate()
+                .setName(name)
+                .setDefaultUnitPrice(defaultUnitPrice)
+                .build();
         return materialRepository.create(material);
     }
 
     public void update(String materialId, String name, Double defaultUnitPrice) {
-        Material material = new Material(materialId, name, defaultUnitPrice);
+        Material material = MaterialFactory.forUpdate()
+                .setId(materialId)
+                .setName(name)
+                .setDefaultUnitPrice(defaultUnitPrice)
+                .build();
         materialRepository.update(material);
     }
 
