@@ -1,6 +1,7 @@
 package com.bh.rms.integration.document.test;
 
 import com.bh.rms.controller.MaterialController;
+import com.bh.rms.integration.document.fixture.MaterialFixtureFactory;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
     @Autowired
     private MaterialController materialController;
 
-    private final String materialName = "name";
-    private final double materialDefaultUnitPrice = 3.0;
-
-    public String createMaterialByController() {
-        MaterialController.MaterialCreateRequest request = new MaterialController.MaterialCreateRequest();
-        request.setName(materialName);
-        request.setDefaultUnitPrice(materialDefaultUnitPrice);
-        MaterialController.MaterialCreateResponse response = materialController.create(request);
-        return response.getId();
-    }
+    @Autowired
+    MaterialFixtureFactory materialFixtureFactory;
 
     public void deleteMaterialByController(String id) {
         materialController.delete(id);
@@ -46,7 +39,7 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                    "name": "water",
+                                    "name": "coffee bean",
                                     "defaultUnitPrice": 2
                                 }""")
                 );
@@ -69,20 +62,20 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 )
                 .andDo(result -> {
                     String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
-                    deleteMaterialByController(id);
+                    materialFixtureFactory.deleteMaterial(id);
                 });
     }
 
     @Test
     public void updateMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureFactory.makeMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         put("/api/materials/{id}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                 {
-                                    "name": "water2",
+                                    "name": "brazil coffee bean",
                                     "defaultUnitPrice": 3
                                 }""")
                 );
@@ -100,12 +93,12 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        deleteMaterialByController(id);
+        materialFixtureFactory.deleteMaterial(id);
     }
 
     @Test
     public void deleteMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureFactory.makeMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         delete("/api/materials/{id}", id)
@@ -121,11 +114,12 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 pathParameters(parameterWithName("id").description("id of material"))
                         )
                 );
+        materialFixtureFactory.deleteMaterial(id);
     }
 
     @Test
     public void getMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureFactory.makeMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials/{id}", id)
@@ -146,13 +140,13 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        deleteMaterialByController(id);
+        materialFixtureFactory.deleteMaterial(id);
     }
 
     @Test
     public void getAllMaterial() throws Exception {
-        String id1 = createMaterialByController();
-        String id2 = createMaterialByController();
+        String id1 = materialFixtureFactory.makeMaterial();
+        String id2 = materialFixtureFactory.makeMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials")
@@ -168,7 +162,7 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                 );
 
-        deleteMaterialByController(id1);
-        deleteMaterialByController(id2);
+        materialFixtureFactory.deleteMaterial(id1);
+        materialFixtureFactory.deleteMaterial(id2);
     }
 }
