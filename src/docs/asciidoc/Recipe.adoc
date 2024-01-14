@@ -1,0 +1,12 @@
+[[Recipe-API]]
+== Recipe API
+
+[[Recipe-Create]]
+=== Recipe-Create
+operation::recipes-create[snippets='http-request,request-fields,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-create/curl-request.adoc[]
+====
