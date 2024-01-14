@@ -1,6 +1,6 @@
 package com.bh.rms.domain.aggregate.menu.service;
 
-import com.bh.rms.domain.aggregate.menu.exception.NotFoundMenuException;
+import com.bh.rms.domain.aggregate.menu.exception.MenuNotFoundException;
 import com.bh.rms.domain.aggregate.menu.infra.MenuRepository;
 import com.bh.rms.domain.aggregate.menu.request.MenuCreateRequest;
 import com.bh.rms.domain.aggregate.menu.request.MenuUpdateRequest;
@@ -38,10 +38,10 @@ class MenuServiceTest {
     @Test
     void updateWhenIdIsNotExist() {
         String nonExistentMenuId = "menu1";
-        when(menuRepository.findById(nonExistentMenuId)).thenThrow(NotFoundMenuException.class);
+        when(menuRepository.findById(nonExistentMenuId)).thenThrow(MenuNotFoundException.class);
 
         MenuUpdateRequest request = new MenuUpdateRequest();
-        assertThrows(NotFoundMenuException.class, () -> {
+        assertThrows(MenuNotFoundException.class, () -> {
             menuService.update(nonExistentMenuId ,request);
         });
     }

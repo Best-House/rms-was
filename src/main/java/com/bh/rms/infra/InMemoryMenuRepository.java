@@ -1,8 +1,7 @@
 package com.bh.rms.infra;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.menu.Menu;
-import com.bh.rms.domain.aggregate.menu.exception.NotFoundMenuException;
+import com.bh.rms.domain.aggregate.menu.exception.MenuNotFoundException;
 import com.bh.rms.domain.aggregate.menu.infra.MenuRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,25 +28,25 @@ public class InMemoryMenuRepository implements MenuRepository {
     }
 
     @Override
-    public void update(Menu menu) throws NotFoundMenuException {
+    public void update(Menu menu) throws MenuNotFoundException {
         if (!menuMap.containsKey(menu.getId())) {
-            throw new MaterialNotFoundException();
+            throw new MenuNotFoundException();
         }
         menuMap.put(menu.getId(), menu);
     }
 
     @Override
-    public void delete(String id) throws NotFoundMenuException {
+    public void delete(String id) throws MenuNotFoundException {
         if (!menuMap.containsKey(id)) {
-            throw new MaterialNotFoundException();
+            throw new MenuNotFoundException();
         }
         menuMap.remove(id);
     }
 
     @Override
-    public Menu findById(String id) throws NotFoundMenuException {
+    public Menu findById(String id) throws MenuNotFoundException {
         if (!menuMap.containsKey(id)) {
-            throw new MaterialNotFoundException();
+            throw new MenuNotFoundException();
         }
         return menuMap.get(id);
     }
