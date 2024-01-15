@@ -54,15 +54,18 @@ public class RecipeFixtureGenerator {
     }
 
     public void cleanUp() {
-        try {
-            for(String recipeId : recipeIdSet) {
-                recipeController.delete(recipeId);
-            }
-            materialFixtureGenerator.cleanUp();
-        } catch (Exception e) {
-            log.warn("recipe cleanUp. " + e.getMessage());
+        for(String recipeId : recipeIdSet) {
+            deleteRecipe(recipeId);
         }
-
+        materialFixtureGenerator.cleanUp();
         recipeIdSet = new HashSet<>();
+    }
+
+    public void deleteRecipe(String recipeId) {
+        try {
+            recipeController.delete(recipeId);
+        } catch (Exception e) {
+            log.warn("Delete recipe failed. recipeId: " + recipeId + " ,message: " + e.getMessage());
+        }
     }
 }

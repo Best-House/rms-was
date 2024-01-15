@@ -34,12 +34,8 @@ public class MaterialFixtureGenerator {
     }
 
     public void cleanUp() {
-        try {
-            for(String materialId : materialIdSet) {
-                deleteMaterial(materialId);
-            }
-        } catch (Exception e) {
-            log.warn("material cleanup. " + e.getMessage());
+        for(String materialId : materialIdSet) {
+            deleteMaterial(materialId);
         }
         materialIdSet = new HashSet<>();
     }

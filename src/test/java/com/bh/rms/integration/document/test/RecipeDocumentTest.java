@@ -1,6 +1,7 @@
 package com.bh.rms.integration.document.test;
 
 import com.bh.rms.integration.document.fixture.RecipeFixtureGenerator;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -51,7 +52,11 @@ class RecipeDocumentTest extends AbstractDocumentTest {
                                                 .description("identifier of recipe")
                                 )
                         )
-                );
+                )
+                .andDo(result -> {
+                    String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+                    recipeFixtureGenerator.deleteRecipe(id);
+                });
         recipeFixtureGenerator.cleanUp();
     }
 }
