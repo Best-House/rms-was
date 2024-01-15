@@ -1,6 +1,7 @@
 package com.bh.rms.integration.document.test;
 
 import com.bh.rms.integration.document.fixture.MaterialFixtureGenerator;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -46,7 +47,11 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                         fieldWithPath("id").type(JsonFieldType.STRING).description("identifier of material")
                                 )
                         )
-                );
+                )
+                .andDo(result -> {
+                    String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+                    materialFixtureGenerator.deleteMaterial(id);
+                });
 
         materialFixtureGenerator.cleanUp();
     }
@@ -109,6 +114,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
 
         resultActions
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").isNotEmpty())
                 .andDo(log())
                 .andDo(
                         document("materials-get",
@@ -126,8 +133,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
 
     @Test
     public void getAllMaterial() throws Exception {
-        materialFixtureGenerator.createMaterial();
-        materialFixtureGenerator.createMaterial();
+        String materialId1 = materialFixtureGenerator.createMaterial();
+        String materialId2 = materialFixtureGenerator.createMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials")
@@ -136,11 +143,23 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
 
         resultActions
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(materialId1))
+                .andExpect(jsonPath("$[0].name").isNotEmpty())
+                .andExpect(jsonPath("$[1].id").value(materialId2))
+                .andExpect(jsonPath("$[1].name").isNotEmpty())
+                .andExpect(jsonPath("$[2].id").doesNotExist())
                 .andDo(log())
                 .andDo(
                         document("materials-getAll",
-                                getRequestPreprocessor(), getResponsePreprocessor()
+                                getRequestPreprocessor(), getResponsePreprocessor(),
+                                responseFields( // response 필드 정보 입력
+                                        fieldWithPath("[]").type(JsonFieldType.ARRAY).description("all of materials"),
+                                        fieldWithPath("[].id").type(JsonFieldType.STRING).description("id of material"),
+                                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("name of material"),
+                                        fieldWithPath("[].defaultUnitPrice").type(JsonFieldType.NUMBER).optional().description("defaultUnitPrice of material")
                                 )
+                        )
                 );
 
         materialFixtureGenerator.cleanUp();

@@ -34,7 +34,7 @@ include::{snippets}/materials-delete/curl-request.adoc[]
 
 [[Material-Get]]
 === Material-Get
-operation::materials-get[snippets='http-request,path-parameters,http-response']
+operation::materials-get[snippets='http-request,path-parameters,http-response,response-fields']
 
 .curl
 [%collapsible]
@@ -45,7 +45,7 @@ include::{snippets}/materials-get/curl-request.adoc[]
 
 [[Material-GetAll]]
 === Material-GetAll
-operation::materials-getAll[snippets='http-request,http-response']
+operation::materials-getAll[snippets='http-request,http-response,response-fields']
 
 .curl
 [%collapsible]
