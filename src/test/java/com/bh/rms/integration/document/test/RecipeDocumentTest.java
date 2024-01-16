@@ -2,6 +2,7 @@ package com.bh.rms.integration.document.test;
 
 import com.bh.rms.integration.document.fixture.RecipeFixtureGenerator;
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeDocumentTest extends AbstractDocumentTest {
     @Autowired
     private RecipeFixtureGenerator recipeFixtureGenerator;
+
+    @AfterEach
+    public void afterEach() {
+        recipeFixtureGenerator.cleanUp();
+    }
 
     @Test
     void createRecipe() throws Exception {
@@ -57,6 +63,5 @@ class RecipeDocumentTest extends AbstractDocumentTest {
                     String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
                     recipeFixtureGenerator.deleteRecipe(id);
                 });
-        recipeFixtureGenerator.cleanUp();
     }
 }

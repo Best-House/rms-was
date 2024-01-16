@@ -2,6 +2,7 @@ package com.bh.rms.integration.document.test;
 
 import com.bh.rms.integration.document.fixture.MaterialFixtureGenerator;
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MaterialDocumentTest extends AbstractDocumentTest {
     @Autowired
     MaterialFixtureGenerator materialFixtureGenerator;
+
+    @AfterEach
+    public void afterEach() {
+        materialFixtureGenerator.cleanUp();
+    }
 
     @Test
     public void createMaterial() throws Exception {
@@ -52,8 +58,6 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                     String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
                     materialFixtureGenerator.deleteMaterial(id);
                 });
-
-        materialFixtureGenerator.cleanUp();
     }
 
     @Test
@@ -79,7 +83,6 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        materialFixtureGenerator.cleanUp();
     }
 
     @Test
@@ -100,7 +103,6 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 pathParameters(parameterWithName("id").description("id of material"))
                         )
                 );
-        materialFixtureGenerator.cleanUp();
     }
 
     @Test
@@ -128,7 +130,6 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        materialFixtureGenerator.cleanUp();
     }
 
     @Test
@@ -161,7 +162,5 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-
-        materialFixtureGenerator.cleanUp();
     }
 }
