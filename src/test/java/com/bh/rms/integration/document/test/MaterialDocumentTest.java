@@ -39,9 +39,9 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
+                .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andDo(log())
                 .andDo(
                         document("materials-create",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -71,8 +71,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
                 .andDo(
                         document("materials-update",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -95,8 +95,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
                 .andDo(
                         document("materials-delete",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -115,10 +115,10 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
+                .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").isNotEmpty())
-                .andDo(log())
                 .andDo(
                         document("materials-get",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -143,6 +143,7 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
+                .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(materialId1))
@@ -150,7 +151,6 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 .andExpect(jsonPath("$[1].id").value(materialId2))
                 .andExpect(jsonPath("$[1].name").isNotEmpty())
                 .andExpect(jsonPath("$[2].id").doesNotExist())
-                .andDo(log())
                 .andDo(
                         document("materials-getAll",
                                 getRequestPreprocessor(), getResponsePreprocessor(),

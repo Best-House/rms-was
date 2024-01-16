@@ -8,3 +8,16 @@ Restaurant Management System
 :sectlinks:
 
 include::Material.adoc[]
+include::Recipe.adoc[]
+
+
+// template
+// [[Recipe-GetCost]]
+// === Recipe-GetCost
+// operation::recipes-getCost[snippets='http-request,path-parameters,request-fields,http-response,response-fields']
+//
+// .curl
+// [%collapsible]
+// ====
+// include::{snippets}/recipes-getCost/curl-request.adoc[]
+// ====
