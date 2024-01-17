@@ -1,0 +1,62 @@
+[[Recipe-API]]
+== Recipe API
+
+[[Recipe-Create]]
+=== Recipe-Create
+operation::recipes-create[snippets='http-request,request-fields,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-create/curl-request.adoc[]
+====
+
+[[Recipe-Update]]
+=== Recipe-Update
+operation::recipes-update[snippets='http-request,path-parameters,request-fields,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-update/curl-request.adoc[]
+====
+
+[[Recipe-Delete]]
+=== Recipe-Delete
+operation::recipes-delete[snippets='http-request,path-parameters,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-delete/curl-request.adoc[]
+====
+
+[[Recipe-Get]]
+=== Recipe-Get
+operation::recipes-get[snippets='http-request,path-parameters,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-get/curl-request.adoc[]
+====
+
+[[Recipe-GetAll]]
+=== Recipe-GetAll
+operation::recipes-getAll[snippets='http-request,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-getAll/curl-request.adoc[]
+====
+
+[[Recipe-GetCost]]
+=== Recipe-GetCost
+operation::recipes-getCost[snippets='http-request,path-parameters,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/recipes-getCost/curl-request.adoc[]
+====

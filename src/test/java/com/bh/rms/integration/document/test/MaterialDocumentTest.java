@@ -1,7 +1,8 @@
 package com.bh.rms.integration.document.test;
 
-import com.bh.rms.controller.MaterialController;
+import com.bh.rms.integration.document.fixture.MaterialFixtureGenerator;
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,21 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class MaterialDocumentTest extends AbstractDocumentTest {
     @Autowired
-    private MaterialController materialController;
+    MaterialFixtureGenerator materialFixtureGenerator;
 
-    private final String materialName = "name";
-    private final double materialDefaultUnitPrice = 3.0;
-
-    public String createMaterialByController() {
-        MaterialController.MaterialCreateRequest request = new MaterialController.MaterialCreateRequest();
-        request.setName(materialName);
-        request.setDefaultUnitPrice(materialDefaultUnitPrice);
-        MaterialController.MaterialCreateResponse response = materialController.create(request);
-        return response.getId();
-    }
-
-    public void deleteMaterialByController(String id) {
-        materialController.delete(id);
+    @AfterEach
+    public void afterEach() {
+        materialFixtureGenerator.cleanUp();
     }
 
     @Test
@@ -44,17 +35,13 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
         ResultActions resultActions = getMockMvc().perform(
                         post("/api/materials")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                    "name": "water",
-                                    "defaultUnitPrice": 2
-                                }""")
+                        .content(makeJsonString(materialFixtureGenerator.getMaterialCreateRequest()))
                 );
 
         resultActions
+                .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andDo(log())
                 .andDo(
                         document("materials-create",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -69,27 +56,23 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 )
                 .andDo(result -> {
                     String id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
-                    deleteMaterialByController(id);
+                    materialFixtureGenerator.deleteMaterial(id);
                 });
     }
 
     @Test
     public void updateMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureGenerator.createMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         put("/api/materials/{id}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                {
-                                    "name": "water2",
-                                    "defaultUnitPrice": 3
-                                }""")
+                                .content(makeJsonString(materialFixtureGenerator.getMaterialCreateRequest()))
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
                 .andDo(
                         document("materials-update",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -100,12 +83,11 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        deleteMaterialByController(id);
     }
 
     @Test
     public void deleteMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureGenerator.createMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         delete("/api/materials/{id}", id)
@@ -113,8 +95,8 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
                 .andDo(
                         document("materials-delete",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -125,7 +107,7 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
 
     @Test
     public void getMaterial() throws Exception {
-        String id = createMaterialByController();
+        String id = materialFixtureGenerator.createMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials/{id}", id)
@@ -133,8 +115,10 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").isNotEmpty())
                 .andDo(
                         document("materials-get",
                                 getRequestPreprocessor(), getResponsePreprocessor(),
@@ -146,13 +130,12 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                                 )
                         )
                 );
-        deleteMaterialByController(id);
     }
 
     @Test
     public void getAllMaterial() throws Exception {
-        String id1 = createMaterialByController();
-        String id2 = createMaterialByController();
+        String materialId1 = materialFixtureGenerator.createMaterial();
+        String materialId2 = materialFixtureGenerator.createMaterial();
 
         ResultActions resultActions = getMockMvc().perform(
                         get("/api/materials")
@@ -160,15 +143,24 @@ public class MaterialDocumentTest extends AbstractDocumentTest {
                 );
 
         resultActions
-                .andExpect(status().isOk())
                 .andDo(log())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(materialId1))
+                .andExpect(jsonPath("$[0].name").isNotEmpty())
+                .andExpect(jsonPath("$[1].id").value(materialId2))
+                .andExpect(jsonPath("$[1].name").isNotEmpty())
+                .andExpect(jsonPath("$[2].id").doesNotExist())
                 .andDo(
                         document("materials-getAll",
-                                getRequestPreprocessor(), getResponsePreprocessor()
+                                getRequestPreprocessor(), getResponsePreprocessor(),
+                                responseFields( // response 필드 정보 입력
+                                        fieldWithPath("[]").type(JsonFieldType.ARRAY).description("all of materials"),
+                                        fieldWithPath("[].id").type(JsonFieldType.STRING).description("id of material"),
+                                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("name of material"),
+                                        fieldWithPath("[].defaultUnitPrice").type(JsonFieldType.NUMBER).optional().description("defaultUnitPrice of material")
                                 )
+                        )
                 );
-
-        deleteMaterialByController(id1);
-        deleteMaterialByController(id2);
     }
 }

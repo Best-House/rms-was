@@ -40,18 +40,18 @@ public class RecipeController extends AbstractApiController {
     }
 
     @DeleteMapping("/recipes/{recipeId}")
-    public void deleteRecipe(@PathVariable String recipeId) {
+    public void delete(@PathVariable String recipeId) {
         recipeService.delete(recipeId);
     }
 
-    @GetMapping("/recipes")
-    public List<Recipe> getAllRecipes() {
-        return recipeService.getAll();
+    @GetMapping("/recipes/{recipeId}")
+    public Recipe get(@PathVariable String recipeId) {
+        return recipeService.get(recipeId);
     }
 
-    @GetMapping("/recipes/{recipeId}")
-    public Recipe getRecipe(@PathVariable String recipeId) {
-        return recipeService.get(recipeId);
+    @GetMapping("/recipes")
+    public List<Recipe> getAll() {
+        return recipeService.getAll();
     }
 
     @GetMapping("/recipes/{recipeId}/cost")
