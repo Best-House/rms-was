@@ -1,4 +1,4 @@
-package com.bh.rms.domain.aggregate.purchase.service.dto;
+package com.bh.rms.web.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

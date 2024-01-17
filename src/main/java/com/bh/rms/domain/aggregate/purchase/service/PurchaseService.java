@@ -2,8 +2,8 @@ package com.bh.rms.domain.aggregate.purchase.service;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
-import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseCreateRequest;
-import com.bh.rms.domain.aggregate.purchase.service.dto.PurchaseUpdateRequest;
+import com.bh.rms.web.dto.PurchaseCreateRequest;
+import com.bh.rms.web.dto.PurchaseUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
