@@ -1,4 +1,4 @@
-package com.bh.rms.controller;
+package com.bh.rms.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 

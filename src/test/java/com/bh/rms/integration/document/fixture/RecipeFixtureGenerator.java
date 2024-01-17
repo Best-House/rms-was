@@ -1,6 +1,6 @@
 package com.bh.rms.integration.document.fixture;
 
-import com.bh.rms.controller.RecipeController;
+import com.bh.rms.web.controller.RecipeController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

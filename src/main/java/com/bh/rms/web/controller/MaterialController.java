@@ -1,4 +1,4 @@
-package com.bh.rms.controller;
+package com.bh.rms.web.controller;
 
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.MaterialService;

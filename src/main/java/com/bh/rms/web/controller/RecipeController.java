@@ -1,4 +1,4 @@
-package com.bh.rms.controller;
+package com.bh.rms.web.controller;
 
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;

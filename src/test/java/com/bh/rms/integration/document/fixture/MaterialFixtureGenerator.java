@@ -1,6 +1,6 @@
 package com.bh.rms.integration.document.fixture;
 
-import com.bh.rms.controller.MaterialController;
+import com.bh.rms.web.controller.MaterialController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
