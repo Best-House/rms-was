@@ -1,6 +1,5 @@
 package com.bh.rms.domain.aggregate.recipe;
 
-import com.bh.rms.domain.aggregate.recipe.exception.InvalidIngredientAmountException;
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
 import com.bh.rms.domain.compositions.cost.CostCalculator;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
@@ -8,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +19,8 @@ public class Recipe { // root aggregate
     private String name; // immutable value object
     private List<Ingredient> ingredients; // immutable value object
 
-    public Recipe(String id, String name, List<Ingredient> ingredients) {
-        setId(id);
-        setName(name);
-        setIngredients(ingredients);
-    }
-
-    public Recipe(String name, List<Ingredient> ingredients) {
-        setName(name);
-        setIngredients(ingredients);
+    public Recipe() {
+        setIngredients(Collections.emptyList());
     }
 
     public Recipe setId(String id) {

@@ -24,13 +24,15 @@ public class RecipeController{
 
     @PostMapping("/recipes")
     public RecipeCreateResponse create(@Valid @RequestBody RecipeCreateRequest request) {
-        String createdRecipeId = recipeService.create(request.getName(), request.getIngredients());
-        return new RecipeCreateResponse(createdRecipeId);
+        Recipe recipe = request.makeRecipeForCreate();
+        recipeService.create(recipe);
+        return new RecipeCreateResponse(recipe.getId());
     }
 
     @PutMapping("/recipes/{recipeId}")
     public void update(@PathVariable String recipeId, @RequestBody RecipeCreateRequest request) {
-        recipeService.update(recipeId, request.getName(), request.getIngredients());
+        Recipe recipe = request.makeRecipeForUpdate(recipeId);
+        recipeService.update(recipe);
     }
 
     @DeleteMapping("/recipes/{recipeId}")

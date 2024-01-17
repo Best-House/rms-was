@@ -2,6 +2,7 @@ package com.bh.rms.web.recipe;
 
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
+import com.bh.rms.domain.aggregate.recipe.RecipeFactory;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -28,6 +29,27 @@ public class RecipeCreateRequest {
                                 ingredientInput.getAmount()
                         )
                 ).collect(Collectors.toList());
+    }
+
+    public Recipe makeRecipeForCreate() {
+        RecipeFactory.RecipeFactoryForCreate factory = RecipeFactory.forCreate()
+                .setName(name);
+
+        for(IngredientInput ingredientInput : ingredients) {
+            factory.addIngredients(ingredientInput.getMaterialId(), ingredientInput.getAmount());
+        }
+        return factory.build();
+    }
+
+    public Recipe makeRecipeForUpdate(String recipeId) {
+        RecipeFactory.RecipeFactoryForUpdate factory = RecipeFactory.forUpdate()
+                .setId(recipeId)
+                .setName(name);
+
+        for(IngredientInput ingredientInput : ingredients) {
+            factory.addIngredients(ingredientInput.getMaterialId(), ingredientInput.getAmount());
+        }
+        return factory.build();
     }
 
     @Data
