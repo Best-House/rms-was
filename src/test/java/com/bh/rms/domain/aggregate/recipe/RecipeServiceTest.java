@@ -1,9 +1,10 @@
-package com.bh.rms.domain.aggregate.recipe.service;
+package com.bh.rms.domain.aggregate.recipe;
 
 import com.bh.rms.domain.aggregate.material.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
+import com.bh.rms.domain.aggregate.recipe.RecipeService;
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
-import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
+import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,7 @@
 package com.bh.rms.integration.document.fixture;
 
-import com.bh.rms.web.controller.MaterialController;
+import com.bh.rms.web.material.MaterialController;
+import com.bh.rms.web.material.MaterialCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,8 @@ public class MaterialFixtureGenerator {
         return materialId;
     }
 
-    public MaterialController.MaterialCreateRequest getMaterialCreateRequest() {
-        MaterialController.MaterialCreateRequest materialCreateRequest = new MaterialController.MaterialCreateRequest();
+    public MaterialCreateRequest getMaterialCreateRequest() {
+        MaterialCreateRequest materialCreateRequest = new MaterialCreateRequest();
         materialCreateRequest.setName("material" + (count++));
         materialCreateRequest.setDefaultUnitPrice(1.0);
         return materialCreateRequest;
