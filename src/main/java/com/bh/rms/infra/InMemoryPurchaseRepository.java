@@ -1,8 +1,8 @@
 package com.bh.rms.infra;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
-import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @Primary
@@ -27,31 +30,29 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
     }
 
     @Override
-    public List<Purchase> findRecentByMaterialIds(List<String> materialIds) {
-        List<Purchase> recentPurchases = new ArrayList<>();
-        for (String materialId : materialIds) {
-            List<Purchase> purchasesWithMaterialId = purchaseMap.values().stream()
-                    .filter(purchase -> purchase.getMaterialId().equals(materialId))
-                    .toList();
-            Purchase recentPurchase = Collections.max(
-                    purchasesWithMaterialId,
-                    Comparator.comparing(Purchase::getPurchaseDate)
-            );
-            recentPurchases.add(recentPurchase);
+    public List<PurchaseItem> findRecentPurchaseItemsBy(List<String> materialIds) {
+        Map<String, PurchaseItem> recentPurchaseItems = new HashMap<>();
+        for (Purchase purchase : purchaseMap.values()) {
+            Map<String, PurchaseItem> filteredMaterialIdPurchaseItems = purchase.getPurchaseItems().stream()
+                    .filter(purchaseItem -> materialIds.contains(purchaseItem.getMaterialId()))
+                    .collect(Collectors.toMap(PurchaseItem::getMaterialId, Function.identity()));
+
+            recentPurchaseItems = Stream.of(recentPurchaseItems, filteredMaterialIdPurchaseItems)
+                    .flatMap(map -> map.entrySet().stream())
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            Map.Entry::getValue,
+                            (oldVal, newVal) -> oldVal.getPurchaseDate() > newVal.getPurchaseDate() ? oldVal : newVal));
         }
-        return recentPurchases;
+        return recentPurchaseItems.values()
+                .stream()
+                .toList();
     }
-
     @Override
-    public List<String> createBulk(List<Purchase> purchases) {
-        List<String> purchaseIds = new ArrayList<>();
-
-        for(Purchase purchase : purchases) {
-            purchase.setId(String.format("purchase%d", atomicInteger.incrementAndGet()));
-            purchaseIds.add(purchase.getId());
-            purchaseMap.put(purchase.getId(), purchase);
-        }
-        return purchaseIds;
+    public String create(Purchase purchase) {
+        purchase.setId(String.format("purchase%d", atomicInteger.incrementAndGet()));
+        purchaseMap.put(purchase.getId(), purchase);
+        return purchase.getId();
     }
 
     @Override

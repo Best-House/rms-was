@@ -1,7 +1,7 @@
 package com.bh.rms.domain.compositions.cost;
 
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,10 +33,10 @@ class CostCalculatorTest {
                 );
     }
 
-    private List<Purchase> makePurchases() {
+    private List<PurchaseItem> makePurchases() {
         return List.of(
-                new Purchase("purchase1", "material1", 2.0, 2, 1),
-                new Purchase("purchase2", "material3", 2.0, 1, 1)
+                new PurchaseItem("material1", 2.0, 2, 1),
+                new PurchaseItem("material3", 2.0, 1, 1)
         );
     }
 
@@ -56,7 +56,7 @@ class CostCalculatorTest {
     @Test
     void getPurchaseWithDefaultUnitPrice() {
         List<Ingredient> ingredients = makeIngredients();
-        List<Purchase> purchases = makePurchases();
+        List<PurchaseItem> purchases = makePurchases();
 
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putPurchaseUnitPrice(purchases);

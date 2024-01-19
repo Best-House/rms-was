@@ -1,5 +1,8 @@
 package com.bh.rms.domain.aggregate.purchase.service;
 
+import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseFactory;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
 import com.bh.rms.web.dto.PurchaseCreateRequest;
@@ -30,17 +33,12 @@ class PurchaseServiceTest {
 
     @Test
     void create() {
-        PurchaseCreateRequest request = new PurchaseCreateRequest(List.of(
-                new PurchaseCreateRequest.PurchaseItem("material1", 100, 1),
-                new PurchaseCreateRequest.PurchaseItem("material2", 100, 1),
-                new PurchaseCreateRequest.PurchaseItem("material3", 100, 1)
-        ));
-        List<String> purchaseIds = List.of("purchase1", "purchase2", "purchase3");
-        when(purchaseRepository.createBulk(anyList())).thenReturn(purchaseIds);
+        String expect = "purchase1";
+        when(purchaseRepository.create(any())).thenReturn(expect);
 
-        List<String> result = purchaseService.create(request);
+        String result = purchaseService.create(any());
 
-        assertEquals(result, purchaseIds);
+        assertEquals(result, expect);
     }
 
     @Test

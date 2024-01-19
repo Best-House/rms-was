@@ -3,6 +3,7 @@ package com.bh.rms.domain.compositions.cost;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
@@ -31,11 +32,11 @@ public class CostService {
         List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
 
         List<Material> materials = materialRepository.findByIds(materialIdsOfIngredients);
-        List<Purchase> purchases = purchaseRepository.findRecentByMaterialIds(materialIdsOfIngredients);
+        List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(materialIdsOfIngredients);
 
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
-        costCalculator.putPurchaseUnitPrice(purchases);
+        costCalculator.putPurchaseUnitPrice(purchaseItems);
 
         return new CostResult(
                 recipe.getCost(costCalculator),

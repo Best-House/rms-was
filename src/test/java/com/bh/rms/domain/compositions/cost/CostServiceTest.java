@@ -32,14 +32,14 @@ class CostServiceTest {
         when(recipeRepository.findById("recipe1")).thenReturn(recipe);
         when(recipe.getMaterialIdsOfIngredients()).thenReturn(Collections.emptyList());
         when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
-        when(purchaseRepository.findRecentByMaterialIds(anyList())).thenReturn(Collections.emptyList());
+        when(purchaseRepository.findRecentPurchaseItemsBy(anyList())).thenReturn(Collections.emptyList());
 
         costService.getRecentCost("recipe1");
 
         verify(recipe).getCost(any(CostCalculator.class));
         verify(recipe).getMaterialIdsOfIngredients();
         verify(materialRepository).findByIds(anyList());
-        verify(purchaseRepository).findRecentByMaterialIds(anyList());
+        verify(purchaseRepository).findRecentPurchaseItemsBy(anyList());
     }
 
 

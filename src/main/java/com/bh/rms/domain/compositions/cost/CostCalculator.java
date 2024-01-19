@@ -1,7 +1,7 @@
 package com.bh.rms.domain.compositions.cost;
 
 import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 
 import java.util.HashMap;
@@ -24,8 +24,8 @@ public class CostCalculator {
         }
     }
 
-    public void putPurchaseUnitPrice(List<Purchase> purchases) {
-        for(Purchase purchase : purchases) {
+    public void putPurchaseUnitPrice(List<PurchaseItem> purchases) {
+        for(PurchaseItem purchase : purchases) {
             materialUnitPriceMap.put(purchase.getMaterialId(), purchase.getUnitPrice());
         }
     }

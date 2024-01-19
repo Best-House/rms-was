@@ -1,23 +1,18 @@
 package com.bh.rms.domain.aggregate.purchase.infra;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PurchaseRepository {
-    List<String> createBulk(List<Purchase> purchase);
-//
+
+    String create(Purchase purchase);
     void update(Purchase purchase) throws PurchaseNotFoundException;
-//
     void delete(String purchaseId) throws PurchaseNotFoundException;
-//
     Purchase findById(String purchaseId) throws PurchaseNotFoundException;
-//
-//    List<Purchase> findByIds(List<String> purchaseIds);
-//
     List<Purchase> findAll();
-
-    List<Purchase> findRecentByMaterialIds(List<String> materialIdsOfIngredients);
-
+    List<PurchaseItem> findRecentPurchaseItemsBy(List<String> materialIds);
 }

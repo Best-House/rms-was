@@ -1,5 +1,8 @@
 package com.bh.rms.web.dto;
 
+import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseFactory;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -14,16 +17,30 @@ import java.util.List;
 public class PurchaseCreateRequest {
 
     @Valid
-    private List<PurchaseItem> purchaseItems;
+    private List<PurchaseItemDto> purchaseItems;
 
     @AllArgsConstructor
     @Data
-    public static class PurchaseItem {
+    public static class PurchaseItemDto {
         @NotBlank
         private String materialId;
         @Min(0)
-        private double price;
+        private Double price;
         @Positive
-        private double amount;
+        private Double amount;
+    }
+
+    public Purchase toEntity() {
+        long purchaseDate = System.currentTimeMillis();
+        List<PurchaseItem> purchaseItemList = purchaseItems.stream()
+                .map(itemDto -> new PurchaseItem(
+                        itemDto.materialId,
+                        itemDto.price,
+                        itemDto.amount,
+                        purchaseDate
+                )).toList();
+        return PurchaseFactory.forCreate()
+                .setPurchaseItems(purchaseItemList)
+                .build();
     }
 }

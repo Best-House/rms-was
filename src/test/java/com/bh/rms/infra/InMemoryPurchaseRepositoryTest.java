@@ -1,11 +1,14 @@
 package com.bh.rms.infra;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
-import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,19 +22,33 @@ class InMemoryPurchaseRepositoryTest {
     }
 
     @Test
-    void findRecentByMaterialIds() {
-        long earlyCreateTime = System.currentTimeMillis();
-        long laterCreateTime = System.currentTimeMillis();
-        purchaseRepository.createBulk(List.of(
-                new Purchase("material1", 100, 10, earlyCreateTime),
-                new Purchase("material2", 100, 10, earlyCreateTime),
-                new Purchase("material2", 200, 10, laterCreateTime)
-        ));
+    void findRecentPurchaseItemsBy() {
+        long firstPurchaseDate = 100;
+        long secondPurchaseDate = 200;
+        long thirdPurchaseDate = 300;
+        Purchase purchase1 = new Purchase("purchase1", List.of(
+                new PurchaseItem("material1", 100, 10, firstPurchaseDate),
+                new PurchaseItem("material2", 100, 10, firstPurchaseDate))
+        );
+        Purchase purchase2 = new Purchase("purchase2", List.of(
+                new PurchaseItem("material2", 200, 10, secondPurchaseDate),
+                new PurchaseItem("material3", 100, 10, secondPurchaseDate))
+        );
+        Purchase purchase3 = new Purchase("purchase3", List.of(
+                new PurchaseItem("material1", 500, 10, thirdPurchaseDate),
+                new PurchaseItem("material3", 100, 10, thirdPurchaseDate))
+        );
+        purchaseRepository.create(purchase1);
+        purchaseRepository.create(purchase2);
+        purchaseRepository.create(purchase3);
 
-        List<Purchase> recentPurchases = purchaseRepository.findRecentByMaterialIds(List.of("material1", "material2"));
+        List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(List.of("material1", "material2"));
 
-        assertEquals(earlyCreateTime, recentPurchases.get(0).getPurchaseDate());
-        assertEquals(laterCreateTime, recentPurchases.get(1).getPurchaseDate());
-        assertEquals(200, recentPurchases.get(1).getPrice());
+        Map<String, PurchaseItem> result = purchaseItems.stream()
+                .collect(Collectors.toMap(PurchaseItem::getMaterialId, Function.identity()));
+        assertEquals(thirdPurchaseDate, result.get("material1").getPurchaseDate());
+        assertEquals(secondPurchaseDate, result.get("material2").getPurchaseDate());
+        assertEquals(500, result.get("material1").getPrice());
+        assertEquals(200, result.get("material2").getPrice());
     }
 }

@@ -1,6 +1,7 @@
 package com.bh.rms.controller;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.service.PurchaseService;
 import com.bh.rms.web.dto.PurchaseCreateRequest;
 import com.bh.rms.web.dto.PurchaseUpdateRequest;
@@ -24,8 +25,8 @@ public class PurchaseController extends AbstractApiController {
     }
 
     @PostMapping("/purchases")
-    public List<String> create(@RequestBody @Valid PurchaseCreateRequest request) {
-        return purchaseService.create(request);
+    public String create(@RequestBody @Valid PurchaseCreateRequest request) {
+        return purchaseService.create(request.toEntity());
     }
 
     @DeleteMapping("/purchases/{purchaseId}")
@@ -40,6 +41,6 @@ public class PurchaseController extends AbstractApiController {
 
     @PostMapping("/purchases/{purchaseId}")
     public void update(@PathVariable String purchaseId, @RequestBody @Valid PurchaseUpdateRequest request) {
-        purchaseService.update(purchaseId, request);
+        purchaseService.update(request.toEntity(purchaseId));
     }
 }
