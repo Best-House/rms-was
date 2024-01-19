@@ -1,10 +1,9 @@
 package com.bh.rms.controller;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
-import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.service.PurchaseService;
-import com.bh.rms.web.dto.PurchaseCreateRequest;
-import com.bh.rms.web.dto.PurchaseUpdateRequest;
+import com.bh.rms.web.purchase.PurchaseCreateRequest;
+import com.bh.rms.web.purchase.PurchaseUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

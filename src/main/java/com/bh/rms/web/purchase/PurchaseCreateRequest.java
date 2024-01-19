@@ -1,4 +1,4 @@
-package com.bh.rms.web.dto;
+package com.bh.rms.web.purchase;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseFactory;
