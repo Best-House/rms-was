@@ -47,4 +47,8 @@ public class PurchaseService {
         validateExistMaterialIds(purchase);
         purchaseRepository.update(purchase);
     }
+
+    public Purchase find(String purchaseId) {
+        return purchaseRepository.findById(purchaseId);
+    }
 }

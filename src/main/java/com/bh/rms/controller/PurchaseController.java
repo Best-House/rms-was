@@ -35,13 +35,19 @@ public class PurchaseController extends AbstractApiController {
         purchaseService.delete(purchaseId);
     }
 
+    @PutMapping("/purchases/{purchaseId}")
+    public void update(@PathVariable String purchaseId, @RequestBody @Valid PurchaseUpdateRequest request) {
+        purchaseService.update(request.makePurchaseForUpdate(purchaseId));
+    }
+
+    @GetMapping("/purchases/{purchaseId}")
+    public Purchase find(@PathVariable String purchaseId) {
+        return purchaseService.find(purchaseId);
+    }
+
     @GetMapping("/purchases")
     public List<Purchase> findAll() {
         return purchaseService.findAll();
     }
 
-    @PutMapping("/purchases/{purchaseId}")
-    public void update(@PathVariable String purchaseId, @RequestBody @Valid PurchaseUpdateRequest request) {
-        purchaseService.update(request.makePurchaseForUpdate(purchaseId));
-    }
 }

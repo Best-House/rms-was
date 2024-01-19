@@ -125,6 +125,44 @@ public class PurchaseDocumentTest extends AbstractDocumentTest {
     }
 
     @Test
+    void getPurchase() throws Exception {
+        String id = purchaseFixtureGenerator.createPurchase();
+
+        ResultActions resultActions = getMockMvc().perform(
+                get("/api/purchases/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.purchaseItems").isArray())
+                .andExpect(jsonPath("$.purchaseItems[0]").exists())
+                .andExpect(jsonPath("$.purchaseItems[1]").exists())
+                .andExpect(jsonPath("$.purchaseItems[2]").doesNotExist())
+                .andExpect(jsonPath("$.purchaseItems[0].materialId").exists())
+                .andExpect(jsonPath("$.purchaseItems[0].price").exists())
+                .andExpect(jsonPath("$.purchaseItems[0].amount").exists())
+                .andExpect(jsonPath("$.purchaseItems[1].materialId").exists())
+                .andExpect(jsonPath("$.purchaseItems[1].price").exists())
+                .andExpect(jsonPath("$.purchaseItems[1].amount").exists())
+                .andDo(log())
+                .andDo(
+                        document("purchases-get",
+                                getRequestPreprocessor(), getResponsePreprocessor(),
+                                responseFields(
+                                        fieldWithPath("id").type(JsonFieldType.STRING).description("id of purchase"),
+                                        fieldWithPath("purchaseItems").type(JsonFieldType.ARRAY).description("purchaseItems of purchase"),
+                                        fieldWithPath("purchaseItems[].materialId").type(JsonFieldType.STRING).description("materialId of purchaseItem"),
+                                        fieldWithPath("purchaseItems[].price").type(JsonFieldType.NUMBER).description("price of purchaseItem"),
+                                        fieldWithPath("purchaseItems[].amount").type(JsonFieldType.NUMBER).description("amount of purchaseItem"),
+                                        fieldWithPath("purchaseItems[].purchaseDate").type(JsonFieldType.NUMBER).description("amount of purchaseItem")
+                                )
+                        )
+                );
+    }
+
+    @Test
     void getAllPurchases() throws Exception {
         purchaseFixtureGenerator.createPurchase();
         purchaseFixtureGenerator.createPurchase();
@@ -136,6 +174,11 @@ public class PurchaseDocumentTest extends AbstractDocumentTest {
 
         resultActions
                 .andExpect(status().isOk())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.[0].id").exists())
+                .andExpect(jsonPath("$.[1].id").exists())
+                .andExpect(jsonPath("$.[2].id").doesNotExist())
                 .andDo(log())
                 .andDo(
                         document("purchases-getAll",
