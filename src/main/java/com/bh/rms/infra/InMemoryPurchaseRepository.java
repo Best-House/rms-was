@@ -2,14 +2,11 @@ package com.bh.rms.infra;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
-import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
+import com.bh.rms.domain.aggregate.purchase.PurchaseRepository;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

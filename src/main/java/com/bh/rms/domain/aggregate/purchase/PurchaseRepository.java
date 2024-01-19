@@ -1,4 +1,4 @@
-package com.bh.rms.domain.aggregate.purchase.infra;
+package com.bh.rms.domain.aggregate.purchase;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;

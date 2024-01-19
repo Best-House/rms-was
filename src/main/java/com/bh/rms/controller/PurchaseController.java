@@ -1,7 +1,7 @@
 package com.bh.rms.controller;
 
 import com.bh.rms.domain.aggregate.purchase.Purchase;
-import com.bh.rms.domain.aggregate.purchase.service.PurchaseService;
+import com.bh.rms.domain.aggregate.purchase.PurchaseService;
 import com.bh.rms.web.purchase.PurchaseCreateRequest;
 import com.bh.rms.web.purchase.PurchaseUpdateRequest;
 import jakarta.validation.Valid;
