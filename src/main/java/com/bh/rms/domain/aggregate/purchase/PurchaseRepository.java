@@ -1,11 +1,8 @@
 package com.bh.rms.domain.aggregate.purchase;
 
-import com.bh.rms.domain.aggregate.purchase.Purchase;
-import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PurchaseRepository {
 

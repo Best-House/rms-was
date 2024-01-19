@@ -13,7 +13,6 @@ import lombok.ToString;
 public class PurchaseItem {
 
     private String materialId;
-//    private long number;
     private double price;
     private double amount;
     private long purchaseDate;
