@@ -25,7 +25,7 @@ public class PurchaseController extends AbstractApiController {
 
     @PostMapping("/purchases")
     public String create(@RequestBody @Valid PurchaseCreateRequest request) {
-        return purchaseService.create(request.toEntity());
+        return purchaseService.create(request.makePurchaseForCreate());
     }
 
     @DeleteMapping("/purchases/{purchaseId}")
@@ -40,6 +40,6 @@ public class PurchaseController extends AbstractApiController {
 
     @PostMapping("/purchases/{purchaseId}")
     public void update(@PathVariable String purchaseId, @RequestBody @Valid PurchaseUpdateRequest request) {
-        purchaseService.update(request.toEntity(purchaseId));
+        purchaseService.update(request.makePurchaseForUpdate(purchaseId));
     }
 }

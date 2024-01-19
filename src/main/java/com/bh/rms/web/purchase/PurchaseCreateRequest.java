@@ -32,7 +32,7 @@ public class PurchaseCreateRequest {
         private Double amount;
     }
 
-    public Purchase toEntity() {
+    public Purchase makePurchaseForCreate() {
         long purchaseDate = System.currentTimeMillis();
         List<PurchaseItem> purchaseItemList = purchaseItems.stream()
                 .map(itemDto -> new PurchaseItem(

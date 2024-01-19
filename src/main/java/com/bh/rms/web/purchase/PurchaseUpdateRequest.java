@@ -34,7 +34,7 @@ public class PurchaseUpdateRequest {
         private Long purchaseDate;
     }
 
-    public Purchase toEntity(String purchaseId) {
+    public Purchase makePurchaseForUpdate(String purchaseId) {
         List<PurchaseItem> purchaseItemList = purchaseItems.stream()
                 .map(purchaseItemDto -> new PurchaseItem(
                         purchaseItemDto.materialId,
