@@ -1,7 +1,6 @@
 package com.bh.rms.domain.aggregate.purchase.service;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialService;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.PurchaseService;
@@ -29,7 +28,7 @@ class PurchaseServiceTest {
     PurchaseRepository purchaseRepository;
 
     @Mock
-    MaterialRepository materialRepository;
+    MaterialService materialService;
 
     @InjectMocks
     PurchaseService purchaseService;
@@ -40,21 +39,11 @@ class PurchaseServiceTest {
         Purchase purchase = new Purchase();
         purchase.setPurchaseItems(List.of(new PurchaseItem()));
         when(purchaseRepository.create(any())).thenReturn(expect);
-        when(materialRepository.existByIds(any())).thenReturn(true);
+        when(materialService.existById(any())).thenReturn(true);
 
         String result = purchaseService.create(purchase);
 
         assertEquals(expect, result);
-    }
-
-    @Test
-    void createWithNotExistingMaterials() {
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
-        when(materialRepository.existByIds(any())).thenReturn(false);
-
-        assertThrows(MaterialNotFoundException.class,
-                () -> purchaseService.create(purchase));
     }
 
     @Test
@@ -83,21 +72,11 @@ class PurchaseServiceTest {
     void update() {
         Purchase purchase = new Purchase();
         purchase.setPurchaseItems(List.of(new PurchaseItem()));
-        when(materialRepository.existByIds(any())).thenReturn(true);
+        when(materialService.existById(any())).thenReturn(true);
 
         purchaseService.update(purchase);
 
         verify(purchaseRepository).update(purchase);
-    }
-
-    @Test
-    void updateWithNotExistingMaterials() {
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
-        when(materialRepository.existByIds(any())).thenReturn(false);
-
-        assertThrows(MaterialNotFoundException.class,
-                () -> purchaseService.update(purchase));
     }
 
 }

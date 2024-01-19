@@ -1,7 +1,8 @@
 package com.bh.rms.domain.aggregate.purchase;
 
-import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.Material;
+import com.bh.rms.domain.aggregate.material.MaterialFactory;
+import com.bh.rms.domain.aggregate.material.MaterialService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,26 +11,38 @@ import java.util.List;
 public class PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
-    private final MaterialRepository materialRepository;
+    private final MaterialService materialService;
 
-    public PurchaseService(PurchaseRepository purchaseRepository, MaterialRepository materialRepository) {
+    public PurchaseService(PurchaseRepository purchaseRepository, MaterialService materialService) {
         this.purchaseRepository = purchaseRepository;
-        this.materialRepository = materialRepository;
+        this.materialService = materialService;
     }
 
     public String create(Purchase purchase) {
-        validateExistMaterialIds(purchase);
+        changeUnknownMaterialIds(purchase);
         return purchaseRepository.create(purchase);
     }
 
-    private void validateExistMaterialIds(Purchase purchase) {
-        // TODO 없는 materialId면 예외가 발생하는게 맞을까?
-        List<String> materialIds = purchase.getPurchaseItems().stream()
-                .map(PurchaseItem::getMaterialId)
-                .toList();
-        if (!materialRepository.existByIds(materialIds)) {
-            throw new MaterialNotFoundException();
-        }
+    public void update(Purchase purchase) {
+        changeUnknownMaterialIds(purchase);
+        purchaseRepository.update(purchase);
+    }
+
+    private void changeUnknownMaterialIds(Purchase purchase) {
+        purchase.getPurchaseItems().stream()
+                .filter(purchaseItem -> !materialService.existById(purchaseItem.getMaterialId()))
+                .forEach(purchaseItem -> {
+                    String materialId = createUnknownMaterial(purchaseItem);
+                    purchaseItem.setMaterialId(materialId);
+                });
+    }
+
+    private String createUnknownMaterial(PurchaseItem purchaseItem) {
+        Material material = MaterialFactory.forCreate()
+                .setUnknownName(purchaseItem.getMaterialId())
+                .setDefaultUnitPrice(null)
+                .build();
+        return materialService.create(material.getName(), material.getDefaultUnitPrice());
     }
 
     public void delete(String purchaseId) {
@@ -40,12 +53,8 @@ public class PurchaseService {
         return purchaseRepository.findAll();
     }
 
-    public void update(Purchase purchase) {
-        validateExistMaterialIds(purchase);
-        purchaseRepository.update(purchase);
-    }
-
     public Purchase find(String purchaseId) {
         return purchaseRepository.findById(purchaseId);
     }
+
 }

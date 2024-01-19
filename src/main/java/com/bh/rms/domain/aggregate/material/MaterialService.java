@@ -46,4 +46,8 @@ public class MaterialService {
     public List<Material> getAll() {
         return materialRepository.findAll();
     }
+
+    public boolean existById(String materialId) {
+        return materialRepository.existById(materialId);
+    }
 }

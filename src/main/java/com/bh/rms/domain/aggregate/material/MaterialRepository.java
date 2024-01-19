@@ -1,6 +1,5 @@
 package com.bh.rms.domain.aggregate.material;
 
-import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 
 import java.util.List;
@@ -18,5 +17,5 @@ public interface MaterialRepository {
 
     List<Material> findAll();
 
-    boolean existByIds(List<String> materialIds);
+    boolean existById(String materialId);
 }
