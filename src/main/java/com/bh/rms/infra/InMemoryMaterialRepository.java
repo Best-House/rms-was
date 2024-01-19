@@ -69,6 +69,6 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     @Override
     public boolean existByIds(List<String> materialIds) {
         List<Material> materials = findByIds(materialIds);
-        return materials.size() != materialIds.size();
+        return materials.size() == materialIds.size();
     }
 }
