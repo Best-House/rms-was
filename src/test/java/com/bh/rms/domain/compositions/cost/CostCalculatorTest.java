@@ -2,10 +2,12 @@ package com.bh.rms.domain.compositions.cost;
 
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
+import com.bh.rms.domain.aggregate.material.MaterialFactory;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,63 +15,60 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CostCalculatorTest {
-
+    List<Material> materialList;
     @BeforeEach
     void setUp() {
+        materialList = new ArrayList<>();
+        materialList.add(MaterialFactory.forUpdate().setId("m1").setName("m1").setDefaultUnitPrice(2.0).build());
+        materialList.add(MaterialFactory.forUpdate().setId("m2").setName("m2").setDefaultUnitPrice(3.0).build());
+        materialList.add(MaterialFactory.forUpdate().setId("m3").setName("m3").setDefaultUnitPrice(4.0).build());
     }
 
-    private List<Ingredient> makeIngredients() {
+    private List<Ingredient> getIngredients() {
         return List.of(
-                new Ingredient("material1", 2.0),
-                new Ingredient("material2", 3.0),
-                new Ingredient("material3", 4.0)
+                new Ingredient(materialList.get(0).getId(), 1.0),
+                new Ingredient(materialList.get(1).getId(), 2.0),
+                new Ingredient(materialList.get(2).getId(), 3.0)
         );
     }
 
-    private List<Material> makeMaterials() {
+    private List<PurchaseItem> makePurchaseItems() {
         return List.of(
-                new Material("material1","m1", 1.0),
-                new Material("material3","m2", 2.0)
-                );
-    }
-
-    private List<PurchaseItem> makePurchases() {
-        return List.of(
-                new PurchaseItem("material1", 2.0, 2, 1),
-                new PurchaseItem("material3", 2.0, 1, 1)
+                new PurchaseItem("m1", 2.0, 2, 1),
+                new PurchaseItem("m2", 2.0, 1, 1)
         );
     }
 
     @Test
     void getCostWithDefaultUnitPrice() {
-        List<Ingredient> ingredients = makeIngredients();
-        List<Material> materials =  makeMaterials();
+        List<Ingredient> ingredients = getIngredients();
+        List<Material> materials =  List.of(materialList.get(0), materialList.get(2));
 
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
 
         double recipeCost = costCalculator.calculateCost(ingredients);
 
-        assertEquals(10.0, recipeCost);
+        assertEquals(14.0, recipeCost);
     }
 
     @Test
     void getPurchaseWithDefaultUnitPrice() {
-        List<Ingredient> ingredients = makeIngredients();
-        List<PurchaseItem> purchases = makePurchases();
+        List<Ingredient> ingredients = getIngredients();
+        List<PurchaseItem> purchaseItems = makePurchaseItems();
 
         CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putPurchaseUnitPrice(purchases);
+        costCalculator.putPurchaseUnitPrice(purchaseItems);
 
         double recipeCost = costCalculator.calculateCost(ingredients);
 
-        assertEquals(10.0, recipeCost);
+        assertEquals(5.0, recipeCost);
     }
 
     @Test
     void getUnknownPriceMaterials() {
-        List<Ingredient> ingredients = makeIngredients();
-        List<Material> materials =  makeMaterials();
+        List<Ingredient> ingredients = getIngredients();
+        List<Material> materials = List.of(materialList.get(0), materialList.get(2));
 
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
@@ -80,13 +79,13 @@ class CostCalculatorTest {
                         .collect(Collectors.toList())
         );
 
-        assertTrue(unknownPriceMaterials.contains("material2"));
+        assertTrue(unknownPriceMaterials.contains(materialList.get(1).getId()));
     }
 
     @Test
     void getCostWithEmptyIngredientTest() {
         List<Ingredient> ingredients = Collections.emptyList();
-        List<Material> materials =  makeMaterials();
+        List<Material> materials =  List.of(materialList.get(0), materialList.get(1), materialList.get(2));
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
 
@@ -97,7 +96,7 @@ class CostCalculatorTest {
 
     @Test
     void getCostWithEmptyPriceMapTest() {
-        List<Ingredient> ingredients = makeIngredients();
+        List<Ingredient> ingredients = getIngredients();
         List<Material> materials =  Collections.emptyList();
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);

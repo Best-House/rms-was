@@ -1,7 +1,7 @@
 package com.bh.rms.domain.aggregate.purchase.service;
 
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;

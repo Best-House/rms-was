@@ -1,4 +1,4 @@
-package com.bh.rms.domain.aggregate.material.infra;
+package com.bh.rms.domain.aggregate.material;
 
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;

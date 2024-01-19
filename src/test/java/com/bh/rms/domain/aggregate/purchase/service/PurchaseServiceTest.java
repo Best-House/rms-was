@@ -1,19 +1,17 @@
 package com.bh.rms.domain.aggregate.purchase.service;
 
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.exception.PurchaseNotFoundException;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

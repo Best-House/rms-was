@@ -2,23 +2,14 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
-
 group = 'com.hojun'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-jar {
-    enabled = false
-}
-
-bootJar{
-    archivesBaseName = 'app'
-    archiveFileName = 'app.jar'
-    archiveVersion = "0.0.0"
-}
-
 configurations {
+    asciidoctorExtensions // dependencies 에서 적용한 것 추가
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -28,14 +19,63 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = false
+}
+
+bootJar{
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/api/docs'
+    }
+    archivesBaseName = 'app'
+    archiveVersion = "0.0.0"
+    archiveFileName = 'app.jar'
+}
+
+asciidoctor {
+    dependsOn test
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+
+    sources{
+        include("**/index.adoc")
+    }
+    baseDirFollowsSourceFile()
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/api/docs')
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/api/docs")
+}
+build {
+    dependsOn copyDocument
+}
+
 dependencies {
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
 
-tasks.named('test') {
-    useJUnitPlatform()
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }

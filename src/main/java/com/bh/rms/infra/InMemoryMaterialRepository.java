@@ -1,6 +1,6 @@
 package com.bh.rms.infra;
 
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
