@@ -6,6 +6,7 @@ import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PurchaseCreateRequest {
 
     @Valid
+    @NotEmpty
     private List<PurchaseItemDto> purchaseItems;
 
     @AllArgsConstructor

@@ -17,4 +17,6 @@ public interface MaterialRepository {
     List<Material> findByIds(List<String> materialIds);
 
     List<Material> findAll();
+
+    boolean existByIds(List<String> materialIds);
 }

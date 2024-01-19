@@ -1,6 +1,9 @@
 package com.bh.rms.domain.aggregate.purchase.service;
 
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
+import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.infra.PurchaseRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +13,26 @@ import java.util.List;
 public class PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+    private final MaterialRepository materialRepository;
 
-    public PurchaseService(PurchaseRepository purchaseRepository) {
+    public PurchaseService(PurchaseRepository purchaseRepository, MaterialRepository materialRepository) {
         this.purchaseRepository = purchaseRepository;
+        this.materialRepository = materialRepository;
     }
 
     public String create(Purchase purchase) {
+        validateExistMaterialIds(purchase);
         return purchaseRepository.create(purchase);
+    }
+
+    private void validateExistMaterialIds(Purchase purchase) {
+        // TODO 없는 materialId면 예외가 발생하는게 맞을까?
+        List<String> materialIds = purchase.getPurchaseItems().stream()
+                .map(PurchaseItem::getMaterialId)
+                .toList();
+        if (!materialRepository.existByIds(materialIds)) {
+            throw new MaterialNotFoundException();
+        }
     }
 
     public void delete(String purchaseId) {
@@ -28,6 +44,7 @@ public class PurchaseService {
     }
 
     public void update(Purchase purchase) {
+        validateExistMaterialIds(purchase);
         purchaseRepository.update(purchase);
     }
 }

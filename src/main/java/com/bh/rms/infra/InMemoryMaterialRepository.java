@@ -3,6 +3,7 @@ package com.bh.rms.infra;
 import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -63,5 +64,11 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     @Override
     public List<Material> findAll() {
         return materialMap.values().stream().toList();
+    }
+
+    @Override
+    public boolean existByIds(List<String> materialIds) {
+        List<Material> materials = findByIds(materialIds);
+        return materials.size() != materialIds.size();
     }
 }
