@@ -13,17 +13,15 @@ import lombok.Data;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Data
 public class PurchaseUpdateRequest {
 
     @Valid
     @NotEmpty
-    private List<PurchaseItemUpdateDto> purchaseItems;
+    private List<PurchaseItemDto> purchaseItems;
 
-    @AllArgsConstructor
     @Data
-    public static class PurchaseItemUpdateDto {
+    public static class PurchaseItemDto {
         @NotBlank
         private String materialId;
         @Min(0)

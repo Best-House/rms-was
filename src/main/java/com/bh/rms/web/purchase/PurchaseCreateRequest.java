@@ -8,12 +8,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Data
 public class PurchaseCreateRequest {
 
@@ -21,7 +19,6 @@ public class PurchaseCreateRequest {
     @NotEmpty
     private List<PurchaseItemDto> purchaseItems;
 
-    @AllArgsConstructor
     @Data
     public static class PurchaseItemDto {
         @NotBlank
