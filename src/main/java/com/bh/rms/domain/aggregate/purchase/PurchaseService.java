@@ -3,6 +3,7 @@ package com.bh.rms.domain.aggregate.purchase;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.MaterialFactory;
 import com.bh.rms.domain.aggregate.material.MaterialService;
+import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,22 +20,22 @@ public class PurchaseService {
     }
 
     public String create(Purchase purchase) {
-        changeUnknownMaterialIds(purchase);
+        validateNotExistMaterialIds(purchase);
         return purchaseRepository.create(purchase);
     }
 
-    public void update(Purchase purchase) {
-        changeUnknownMaterialIds(purchase);
-        purchaseRepository.update(purchase);
+    private void validateNotExistMaterialIds(Purchase purchase) {
+        List<String> materialIds = purchase.getPurchaseItems().stream()
+                .map(PurchaseItem::getMaterialId)
+                .toList();
+        if (!materialService.existByIds(materialIds)) {
+            throw new MaterialNotFoundException();
+        }
     }
 
-    private void changeUnknownMaterialIds(Purchase purchase) {
-        purchase.getPurchaseItems().stream()
-                .filter(purchaseItem -> !materialService.existById(purchaseItem.getMaterialId()))
-                .forEach(purchaseItem -> {
-                    String materialId = createUnknownMaterial(purchaseItem);
-                    purchaseItem.setMaterialId(materialId);
-                });
+    public void update(Purchase purchase) {
+        validateNotExistMaterialIds(purchase);
+        purchaseRepository.update(purchase);
     }
 
     private String createUnknownMaterial(PurchaseItem purchaseItem) {

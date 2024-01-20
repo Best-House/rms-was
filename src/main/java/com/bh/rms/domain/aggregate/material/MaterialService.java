@@ -47,7 +47,7 @@ public class MaterialService {
         return materialRepository.findAll();
     }
 
-    public boolean existById(String materialId) {
-        return materialRepository.existById(materialId);
+    public boolean existByIds(List<String> materialIds) {
+        return materialRepository.existByIds(materialIds);
     }
 }
