@@ -1,5 +1,6 @@
-package com.bh.rms.controller;
+package com.bh.rms.web.purchase;
 
+import com.bh.rms.controller.AbstractApiController;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseService;
 import com.bh.rms.web.purchase.PurchaseCreateRequest;
