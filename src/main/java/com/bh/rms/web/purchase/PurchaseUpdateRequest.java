@@ -17,10 +17,10 @@ public class PurchaseUpdateRequest {
 
     @Valid
     @NotEmpty
-    private List<PurchaseItemDto> purchaseItems;
+    private List<PurchaseItemInput> purchaseItems;
 
     @Data
-    public static class PurchaseItemDto {
+    public static class PurchaseItemInput {
         @NotBlank
         private String materialId;
         @Min(0)
@@ -33,11 +33,11 @@ public class PurchaseUpdateRequest {
 
     public Purchase makePurchaseForUpdate(String purchaseId) {
         List<PurchaseItem> purchaseItemList = purchaseItems.stream()
-                .map(purchaseItemDto -> new PurchaseItem(
-                        purchaseItemDto.materialId,
-                        purchaseItemDto.price,
-                        purchaseItemDto.amount,
-                        purchaseItemDto.purchaseDate
+                .map(input -> new PurchaseItem(
+                        input.materialId,
+                        input.price,
+                        input.amount,
+                        input.purchaseDate
                 )).toList();
         return PurchaseFactory.forUpdate()
                 .setId(purchaseId)

@@ -32,9 +32,9 @@ public class PurchaseFixtureGenerator {
 
     public PurchaseCreateRequest getPurchaseCreateRequest() {
         PurchaseCreateRequest purchaseCreateRequest = new PurchaseCreateRequest();
-        List<PurchaseCreateRequest.PurchaseItemDto> purchaseItems = new ArrayList<>();
+        List<PurchaseCreateRequest.PurchaseItemInput> purchaseItems = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
-            var purchaseItem = new PurchaseCreateRequest.PurchaseItemDto();
+            var purchaseItem = new PurchaseCreateRequest.PurchaseItemInput();
             String materialId = materialFixtureGenerator.createMaterial();
             purchaseItem.setMaterialId(materialId);
             purchaseItem.setPrice((double) i);
@@ -47,9 +47,9 @@ public class PurchaseFixtureGenerator {
 
     public PurchaseUpdateRequest getPurchaseUpdateRequest() {
         PurchaseUpdateRequest purchaseUpdateRequest = new PurchaseUpdateRequest();
-        List<PurchaseUpdateRequest.PurchaseItemDto> purchaseItems = new ArrayList<>();
+        List<PurchaseUpdateRequest.PurchaseItemInput> purchaseItems = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
-            var purchaseItem = new PurchaseUpdateRequest.PurchaseItemDto();
+            var purchaseItem = new PurchaseUpdateRequest.PurchaseItemInput();
             String materialId = materialFixtureGenerator.createMaterial();
             purchaseItem.setMaterialId(materialId);
             purchaseItem.setPrice((double) i);

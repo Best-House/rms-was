@@ -17,10 +17,10 @@ public class PurchaseCreateRequest {
 
     @Valid
     @NotEmpty
-    private List<PurchaseItemDto> purchaseItems;
+    private List<PurchaseItemInput> purchaseItems;
 
     @Data
-    public static class PurchaseItemDto {
+    public static class PurchaseItemInput {
         @NotBlank
         private String materialId;
         @Min(0)
