@@ -1,6 +1,6 @@
 package com.bh.rms.integration.document.fixture;
 
-import com.bh.rms.controller.PurchaseController;
+import com.bh.rms.web.purchase.PurchaseController;
 import com.bh.rms.web.purchase.PurchaseCreateRequest;
 import com.bh.rms.web.purchase.PurchaseUpdateRequest;
 import lombok.extern.slf4j.Slf4j;

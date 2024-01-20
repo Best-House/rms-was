@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @ToString
@@ -28,7 +29,7 @@ public class Purchase {
     }
 
     public void setPurchaseItems(List<PurchaseItem> purchaseItems) {
-        if (purchaseItems.isEmpty()) {
+        if (Objects.isNull(purchaseItems) || purchaseItems.isEmpty()) {
             throw new InvalidPurchaseException();
         }
         this.purchaseItems = purchaseItems;

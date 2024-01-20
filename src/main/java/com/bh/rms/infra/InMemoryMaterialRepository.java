@@ -67,7 +67,7 @@ public class InMemoryMaterialRepository implements MaterialRepository {
 
     @Override
     public boolean existByIds(List<String> materialIds) {
-        if (materialIds == null) {
+        if (Objects.isNull(materialIds)) {
             return false;
         }
         List<Material> materials = findByIds(materialIds);

@@ -1,7 +1,10 @@
 package com.bh.rms.domain.aggregate.purchase;
 
+import com.bh.rms.domain.aggregate.purchase.exception.InvalidPurchaseException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,4 +33,14 @@ class PurchaseTest {
                 purchase.setId(" "));
     }
 
+    @Test
+    void purchaseItemTest() {
+        Purchase purchase = new Purchase();
+
+        assertThrows(InvalidPurchaseException.class, () ->
+                purchase.setPurchaseItems(null));
+
+        assertThrows(InvalidPurchaseException.class, () ->
+                purchase.setPurchaseItems(Collections.emptyList()));
+    }
 }
