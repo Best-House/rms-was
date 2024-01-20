@@ -20,15 +20,6 @@ public class Purchase {
 
     public Purchase() {}
 
-    public Purchase(String id, List<PurchaseItem> purchaseItems) {
-        setId(id);
-        setPurchaseItems(purchaseItems);
-    }
-
-    public Purchase(List<PurchaseItem> purchaseItems) {
-        setPurchaseItems(purchaseItems);
-    }
-
     public void setId(String id) {
         if (StringUtils.isBlank(id)) {
             throw new InvalidAggregateIdException();

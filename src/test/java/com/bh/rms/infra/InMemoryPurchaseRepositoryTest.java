@@ -26,18 +26,25 @@ class InMemoryPurchaseRepositoryTest {
         long firstPurchaseDate = 100;
         long secondPurchaseDate = 200;
         long thirdPurchaseDate = 300;
-        Purchase purchase1 = new Purchase("purchase1", List.of(
+        Purchase purchase1 = new Purchase();
+        purchase1.setId("purchase1");
+        purchase1.setPurchaseItems(List.of(
                 new PurchaseItem("material1", 100, 10, firstPurchaseDate),
                 new PurchaseItem("material2", 100, 10, firstPurchaseDate))
         );
-        Purchase purchase2 = new Purchase("purchase2", List.of(
+        Purchase purchase2 = new Purchase();
+        purchase2.setId("purchase2");
+        purchase2.setPurchaseItems(List.of(
                 new PurchaseItem("material2", 200, 10, secondPurchaseDate),
                 new PurchaseItem("material3", 100, 10, secondPurchaseDate))
         );
-        Purchase purchase3 = new Purchase("purchase3", List.of(
+        Purchase purchase3 = new Purchase();
+        purchase3.setId("purchase3");
+        purchase3.setPurchaseItems(List.of(
                 new PurchaseItem("material1", 500, 10, thirdPurchaseDate),
                 new PurchaseItem("material3", 100, 10, thirdPurchaseDate))
         );
+
         purchaseRepository.create(purchase1);
         purchaseRepository.create(purchase2);
         purchaseRepository.create(purchase3);
