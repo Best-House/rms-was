@@ -31,15 +31,15 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
         Map<String, PurchaseItem> recentPurchaseItems = new HashMap<>();
         for (Purchase purchase : purchaseMap.values()) {
             Map<String, PurchaseItem> filteredMaterialIdPurchaseItems = purchase.getPurchaseItems().stream()
-                    .filter(purchaseItem -> materialIds.contains(purchaseItem.getMaterialId()))
-                    .collect(Collectors.toMap(PurchaseItem::getMaterialId, Function.identity()));
+                    .filter(purchaseItem -> materialIds.contains(purchaseItem.materialId()))
+                    .collect(Collectors.toMap(PurchaseItem::materialId, Function.identity()));
 
             recentPurchaseItems = Stream.of(recentPurchaseItems, filteredMaterialIdPurchaseItems)
                     .flatMap(map -> map.entrySet().stream())
                     .collect(Collectors.toMap(
                             Map.Entry::getKey,
                             Map.Entry::getValue,
-                            (oldVal, newVal) -> oldVal.getPurchaseDate() > newVal.getPurchaseDate() ? oldVal : newVal));
+                            (oldVal, newVal) -> oldVal.purchaseDate() > newVal.purchaseDate() ? oldVal : newVal));
         }
         return recentPurchaseItems.values()
                 .stream()

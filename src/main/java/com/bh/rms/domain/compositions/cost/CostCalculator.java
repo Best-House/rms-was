@@ -26,7 +26,7 @@ public class CostCalculator {
 
     public void putPurchaseUnitPrice(List<PurchaseItem> purchases) {
         for(PurchaseItem purchase : purchases) {
-            materialUnitPriceMap.put(purchase.getMaterialId(), purchase.getUnitPrice());
+            materialUnitPriceMap.put(purchase.materialId(), purchase.getUnitPrice());
         }
     }
 

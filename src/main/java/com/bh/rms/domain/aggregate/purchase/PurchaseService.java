@@ -26,7 +26,7 @@ public class PurchaseService {
 
     private void validateNotExistMaterialIds(Purchase purchase) {
         List<String> materialIds = purchase.getPurchaseItems().stream()
-                .map(PurchaseItem::getMaterialId)
+                .map(PurchaseItem::materialId)
                 .toList();
         if (!materialService.existByIds(materialIds)) {
             throw new MaterialNotFoundException();
@@ -36,14 +36,6 @@ public class PurchaseService {
     public void update(Purchase purchase) {
         validateNotExistMaterialIds(purchase);
         purchaseRepository.update(purchase);
-    }
-
-    private String createUnknownMaterial(PurchaseItem purchaseItem) {
-        Material material = MaterialFactory.forCreate()
-                .setUnknownName(purchaseItem.getMaterialId())
-                .setDefaultUnitPrice(null)
-                .build();
-        return materialService.create(material.getName(), material.getDefaultUnitPrice());
     }
 
     public void delete(String purchaseId) {

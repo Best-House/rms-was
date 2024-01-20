@@ -52,10 +52,10 @@ class InMemoryPurchaseRepositoryTest {
         List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(List.of("material1", "material2"));
 
         Map<String, PurchaseItem> result = purchaseItems.stream()
-                .collect(Collectors.toMap(PurchaseItem::getMaterialId, Function.identity()));
-        assertEquals(thirdPurchaseDate, result.get("material1").getPurchaseDate());
-        assertEquals(secondPurchaseDate, result.get("material2").getPurchaseDate());
-        assertEquals(500, result.get("material1").getPrice());
-        assertEquals(200, result.get("material2").getPrice());
+                .collect(Collectors.toMap(PurchaseItem::materialId, Function.identity()));
+        assertEquals(thirdPurchaseDate, result.get("material1").purchaseDate());
+        assertEquals(secondPurchaseDate, result.get("material2").purchaseDate());
+        assertEquals(500, result.get("material1").price());
+        assertEquals(200, result.get("material2").price());
     }
 }

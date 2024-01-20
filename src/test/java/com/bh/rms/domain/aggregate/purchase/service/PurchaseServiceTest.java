@@ -34,11 +34,16 @@ class PurchaseServiceTest {
     @InjectMocks
     PurchaseService purchaseService;
 
+    private Purchase createPurchase() {
+        Purchase purchase = new Purchase();
+        purchase.setPurchaseItems(List.of(new PurchaseItem("material1", 1000, 2, 10)));
+        return purchase;
+    }
+
     @Test
     void create() {
         String expect = "purchase1";
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
+        Purchase purchase = createPurchase();
         when(purchaseRepository.create(any())).thenReturn(expect);
         when(materialService.existByIds(any())).thenReturn(true);
 
@@ -49,8 +54,7 @@ class PurchaseServiceTest {
 
     @Test
     void createWithNotExistingMaterials() {
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
+        Purchase purchase = createPurchase();
         when(materialService.existByIds(any())).thenReturn(false);
 
         assertThrows(MaterialNotFoundException.class,
@@ -81,8 +85,7 @@ class PurchaseServiceTest {
 
     @Test
     void update() {
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
+        Purchase purchase = createPurchase();
         when(materialService.existByIds(any())).thenReturn(true);
 
         purchaseService.update(purchase);
@@ -92,8 +95,7 @@ class PurchaseServiceTest {
 
     @Test
     void updateWithNotExistingMaterials() {
-        Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem()));
+        Purchase purchase = createPurchase();
         when(materialService.existByIds(any())).thenReturn(false);
 
         assertThrows(MaterialNotFoundException.class,

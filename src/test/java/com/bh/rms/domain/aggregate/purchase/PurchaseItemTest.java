@@ -9,42 +9,34 @@ class PurchaseItemTest {
 
     @Test
     void materialIdTest() {
-        PurchaseItem purchaseItem = new PurchaseItem();
+        assertThrows(InvalidPurchaseException.class, () ->
+                new PurchaseItem(null, 10., 10., 10));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setMaterialId(null));
+                new PurchaseItem("", 10., 10., 10));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setMaterialId(""));
-
-        assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setMaterialId(" "));
+                new PurchaseItem(" ", 10., 10., 10));
     }
 
     @Test
     void priceTest() {
-        PurchaseItem purchaseItem = new PurchaseItem();
-
         assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setPrice(-10));
+                new PurchaseItem("material1", -10., 10., 10));
     }
 
     @Test
     void amountTest() {
-        PurchaseItem purchaseItem = new PurchaseItem();
+        assertThrows(InvalidPurchaseException.class, () ->
+                new PurchaseItem("material1", 10., 0, 10));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setAmount(0));
-
-        assertThrows(InvalidPurchaseException.class, () ->
-                purchaseItem.setAmount(-10));
+                new PurchaseItem("material1", 10., -10, 10));
     }
 
     @Test
     void getUnitPrice() throws Exception {
-        PurchaseItem purchaseItem = new PurchaseItem();
-        purchaseItem.setPrice(1000);
-        purchaseItem.setAmount(2);
+        PurchaseItem purchaseItem = new PurchaseItem("material1", 1000., 2, 10);
 
         double result = purchaseItem.getUnitPrice();
 
