@@ -1,9 +1,10 @@
-package com.bh.rms.domain.aggregate.recipe.service;
+package com.bh.rms.domain.aggregate.recipe;
 
 import com.bh.rms.domain.aggregate.material.MaterialService;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
+import com.bh.rms.domain.aggregate.recipe.RecipeService;
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
-import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
+import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ class RecipeServiceTest {
     void create() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
 
-        String createdRecipeId = recipeService.create("name", Collections.emptyList());
+        recipeService.create(new Recipe());
 
         verify(materialService).isAllExist(anyList());
         verify(recipeRepository).create(any(Recipe.class));
@@ -40,7 +41,7 @@ class RecipeServiceTest {
         when(materialService.isAllExist(anyList())).thenReturn(false);
 
         assertThrows(InvalidRecipeException.class, ()->{
-            recipeService.create("name", Collections.emptyList());
+            recipeService.create(new Recipe());
         });
 
         verify(materialService).isAllExist(anyList());
@@ -50,7 +51,7 @@ class RecipeServiceTest {
     void update() {
         when(materialService.isAllExist(anyList())).thenReturn(true);
 
-        recipeService.update("material1", "name", Collections.emptyList());
+        recipeService.update(new Recipe());
 
         verify(materialService).isAllExist(anyList());
         verify(recipeRepository).update(any(Recipe.class));
@@ -61,7 +62,7 @@ class RecipeServiceTest {
         when(materialService.isAllExist(anyList())).thenReturn(false);
 
         assertThrows(InvalidRecipeException.class, ()->{
-            recipeService.update("material1", "name", Collections.emptyList());
+            recipeService.update(new Recipe());
         });
 
         verify(materialService).isAllExist(anyList());

@@ -1,17 +1,14 @@
-package com.bh.rms.controller;
+package com.bh.rms.web.material;
 
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.MaterialService;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/api")
 @RestController
-public class MaterialController extends AbstractApiController{
+public class MaterialController{
     private final MaterialService materialService;
 
     public MaterialController(MaterialService materialService) {
@@ -20,13 +17,15 @@ public class MaterialController extends AbstractApiController{
 
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
-        String materialId = materialService.create(request.getName(), request.getDefaultUnitPrice());
-        return new MaterialCreateResponse(materialId);
+        Material material = request.makeMaterialForCreate();
+        materialService.create(material);
+        return new MaterialCreateResponse(material.getId());
     }
 
     @PutMapping("/materials/{materialId}")
     public void update(@PathVariable String materialId,@RequestBody MaterialCreateRequest request) {
-        materialService.update(materialId, request.getName(), request.getDefaultUnitPrice());
+        Material material = request.makeMaterialForUpdate(materialId);
+        materialService.update(material);
     }
 
     @DeleteMapping("/materials/{materialId}")
@@ -42,19 +41,5 @@ public class MaterialController extends AbstractApiController{
     @GetMapping("/materials")
     public List<Material> getAll() {
         return materialService.getAll();
-    }
-
-    @Data
-    public static class MaterialCreateRequest {
-        @NotBlank
-        private String name;
-        @Min(0)
-        private Double defaultUnitPrice;
-    }
-
-    @AllArgsConstructor
-    @Data
-    public static class MaterialCreateResponse {
-        private String id;
     }
 }
