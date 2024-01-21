@@ -1,17 +1,13 @@
 package com.bh.rms.domain.compositions.cost;
 
-import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
+import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CostServiceTest {

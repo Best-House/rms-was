@@ -1,0 +1,54 @@
+[[Material-API]]
+== Material API
+
+[[Material-Create]]
+=== Material-Create
+operation::materials-create[snippets='http-request,request-fields,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/materials-create/curl-request.adoc[]
+====
+
+[[Material-Update]]
+=== Material-Update
+operation::materials-update[snippets='http-request,path-parameters,request-fields,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/materials-update/curl-request.adoc[]
+====
+
+
+[[Material-Delete]]
+=== Material-Delete
+operation::materials-delete[snippets='http-request,path-parameters,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/materials-delete/curl-request.adoc[]
+====
+
+[[Material-Get]]
+=== Material-Get
+operation::materials-get[snippets='http-request,path-parameters,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/materials-get/curl-request.adoc[]
+====
+
+
+[[Material-GetAll]]
+=== Material-GetAll
+operation::materials-getAll[snippets='http-request,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/materials-getAll/curl-request.adoc[]
+====

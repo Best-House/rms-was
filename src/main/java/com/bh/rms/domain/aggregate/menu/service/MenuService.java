@@ -2,12 +2,12 @@ package com.bh.rms.domain.aggregate.menu.service;
 
 import com.bh.rms.domain.aggregate.menu.Menu;
 import com.bh.rms.domain.aggregate.menu.infra.MenuRepository;
-import com.bh.rms.domain.aggregate.menu.request.MenuCreateRequest;
-import com.bh.rms.domain.aggregate.menu.request.MenuUpdateRequest;
-import com.bh.rms.domain.aggregate.menu.response.MenuCreateResponse;
-import com.bh.rms.domain.aggregate.menu.response.MenuResponse;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.service.RecipeService;
+import com.bh.rms.domain.aggregate.recipe.RecipeService;
+import com.bh.rms.web.menu.MenuCreateRequest;
+import com.bh.rms.web.menu.MenuCreateResponse;
+import com.bh.rms.web.menu.MenuResponse;
+import com.bh.rms.web.menu.MenuUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 

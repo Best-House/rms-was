@@ -5,7 +5,6 @@ import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,47 +13,51 @@ class RecipeTest {
 
     @Test
     void entityEqualityTest() {
-        Recipe recipe1 = new Recipe("recipe1", "a", null);
-        Recipe recipe2 = new Recipe("recipe1", "b", null);
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        recipe1.setId("recipe");
+        recipe2.setId("recipe");
         assertEquals(recipe1, recipe2);
     }
 
     @Test
     void entityIdTest() {
-        new Recipe("recipe_1", "r1", null);
+        Recipe recipe = new Recipe();
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Recipe(null, "r1", null);
+            recipe.setId(null);
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Recipe("", "r1", null);
+            recipe.setId("");
         });
 
         assertThrows(InvalidAggregateIdException.class, ()->{
-            new Recipe(" ", "r1", null);
+            recipe.setId(" ");
         });
     }
 
 
     @Test
     void setName() {
-        new Recipe("r1", null);
+        Recipe recipe = new Recipe();
+        recipe.setName("recipe");
+
         assertThrows(InvalidRecipeException.class, ()->{
-            new Recipe(null, null);
+            recipe.setName(null);
         });
 
         assertThrows(InvalidRecipeException.class, ()->{
-            new Recipe("", null);
+            recipe.setName("");
         });
 
         assertThrows(InvalidRecipeException.class, ()->{
-            new Recipe(" ", null);
+            recipe.setName(" ");
         });
     }
 
     @Test
     void setIngredient() {
-        Recipe recipe1 = new Recipe("r1", null);
+        Recipe recipe1 = new Recipe();
         assertNotNull(recipe1.getIngredients());
         assertTrue(recipe1.getIngredients().isEmpty());
 
@@ -66,33 +69,33 @@ class RecipeTest {
 
     @Test
     public void validateIngredientsAmountTest() {
-        new Recipe("recipe_1", List.of(new Ingredient("material1", 1.0)));
+        Recipe recipe = new Recipe();
+
+        recipe.setIngredients(List.of(new Ingredient("material1", 1.0)));
 
         assertThrows(InvalidIngredientAmountException.class, ()->{
-            new Recipe("recipe_1", List.of(new Ingredient("material1", -1.0)));
+            recipe.setIngredients(List.of(new Ingredient("material1", -1.0)));
         });
     }
 
     @Test
     public void getMaterialIdsOfIngredients() {
-        Recipe recipe = new Recipe(
-                "recipe_1",
+        Recipe recipe = new Recipe();
+        recipe.setIngredients(
                 List.of(
                         new Ingredient("material1", 1.0),
                         new Ingredient("material2", 2.0)
-                        )
+                )
         );
+
         assertEquals(2, recipe.getMaterialIdsOfIngredients().size());
         assertTrue(recipe.getMaterialIdsOfIngredients().contains("material1"));
         assertTrue(recipe.getMaterialIdsOfIngredients().contains("material2"));
-
-        Recipe recipeWithEmptyIngredients = new Recipe("recipe_1", Collections.emptyList());
-        assertTrue(recipeWithEmptyIngredients.getMaterialIdsOfIngredients().isEmpty());
     }
 
     @Test
     public void getMaterialIdsOfIngredientsWithEmptyIngredients() {
-        Recipe recipeWithEmptyIngredients = new Recipe("recipe_1", null);
+        Recipe recipeWithEmptyIngredients = new Recipe();
         assertTrue(recipeWithEmptyIngredients.getMaterialIdsOfIngredients().isEmpty());
     }
 

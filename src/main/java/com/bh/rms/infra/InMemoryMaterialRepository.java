@@ -1,6 +1,6 @@
 package com.bh.rms.infra;
 
-import com.bh.rms.domain.aggregate.material.infra.MaterialRepository;
+import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -19,10 +19,9 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public String create(Material material) {
+    public void create(Material material) {
         material.setId(String.format("material%d", atomicInteger.incrementAndGet()));
         materialMap.put(material.getId(), material);
-        return material.getId();
     }
 
     @Override
