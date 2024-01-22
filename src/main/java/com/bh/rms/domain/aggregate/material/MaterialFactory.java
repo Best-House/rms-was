@@ -10,8 +10,6 @@ public class MaterialFactory {
     }
 
     public static class MaterialFactoryForCreate{
-        private static final String UNKNOWN_MATERIAL_NAME = "UnknownMaterialName-%s";
-
         private String name;
         private Double defaultUnitPrice;
 
@@ -25,18 +23,12 @@ public class MaterialFactory {
             return this;
         }
 
-        public MaterialFactoryForCreate setUnknownName(String materialId) {
-            this.name = String.format(UNKNOWN_MATERIAL_NAME, materialId);
-            return this;
-        }
-
         public Material build() {
             Material material = new Material();
             material.setName(name);
             material.setDefaultUnitPrice(defaultUnitPrice);
             return material;
         }
-
     }
 
     public static class MaterialFactoryForUpdate{
