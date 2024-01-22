@@ -5,6 +5,7 @@ import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,5 +43,18 @@ class PurchaseTest {
 
         assertThrows(InvalidPurchaseException.class, () ->
                 purchase.setPurchaseItems(Collections.emptyList()));
+    }
+
+    @Test
+    void getContainedMaterialIdsTest() throws Exception {
+        Purchase purchase = new Purchase();
+        purchase.setPurchaseItems(List.of(
+                new PurchaseItem("material1", 1., 1., 1),
+                new PurchaseItem("material2", 1., 1., 1)
+        ));
+
+        List<String> result = purchase.getContainedMaterialIds();
+
+        assertEquals(List.of("material1", "material2"), result);
     }
 }

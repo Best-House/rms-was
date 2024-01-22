@@ -28,10 +28,7 @@ public class PurchaseService {
     }
 
     private void validateExistMaterialIds(Purchase purchase) {
-        List<String> materialIds = purchase.getPurchaseItems().stream()
-                .map(PurchaseItem::materialId)
-                .toList();
-        if (!materialService.existByIds(materialIds)) {
+        if (!materialService.existByIds(purchase.getContainedMaterialIds())) {
             throw new MaterialNotFoundException();
         }
     }

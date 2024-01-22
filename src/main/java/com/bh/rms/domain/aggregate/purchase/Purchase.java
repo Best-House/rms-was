@@ -34,4 +34,10 @@ public class Purchase {
         }
         this.purchaseItems = purchaseItems;
     }
+
+    public List<String> getContainedMaterialIds() {
+        return purchaseItems.stream()
+                .map(PurchaseItem::materialId)
+                .toList();
+    }
 }
