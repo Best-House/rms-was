@@ -18,20 +18,11 @@ public class MaterialService {
     }
 
     // forward only
-    public String create(String name, Double defaultUnitPrice) {
-        Material material = MaterialFactory.forCreate()
-                .setName(name)
-                .setDefaultUnitPrice(defaultUnitPrice)
-                .build();
-        return materialRepository.create(material);
+    public void create(Material material) {
+        materialRepository.create(material);
     }
 
-    public void update(String materialId, String name, Double defaultUnitPrice) {
-        Material material = MaterialFactory.forUpdate()
-                .setId(materialId)
-                .setName(name)
-                .setDefaultUnitPrice(defaultUnitPrice)
-                .build();
+    public void update(Material material) {
         materialRepository.update(material);
     }
 

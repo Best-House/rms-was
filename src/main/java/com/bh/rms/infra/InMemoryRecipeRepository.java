@@ -2,7 +2,7 @@ package com.bh.rms.infra;
 
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;
-import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
+import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

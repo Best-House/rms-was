@@ -1,4 +1,4 @@
-package com.bh.rms.domain.aggregate.recipe.infra;
+package com.bh.rms.domain.aggregate.recipe;
 
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.exception.NotFoundRecipeException;

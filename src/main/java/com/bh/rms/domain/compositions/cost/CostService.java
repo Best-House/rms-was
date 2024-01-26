@@ -5,7 +5,7 @@ import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
 import com.bh.rms.domain.aggregate.purchase.PurchaseRepository;
 import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
-import com.bh.rms.domain.aggregate.recipe.infra.RecipeRepository;
+import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;

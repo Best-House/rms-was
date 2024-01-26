@@ -1,11 +1,7 @@
 package com.bh.rms.web.purchase;
 
-import com.bh.rms.controller.AbstractApiController;
 import com.bh.rms.domain.aggregate.purchase.Purchase;
 import com.bh.rms.domain.aggregate.purchase.PurchaseService;
-import com.bh.rms.web.purchase.PurchaseCreateRequest;
-import com.bh.rms.web.purchase.PurchaseCreateResponse;
-import com.bh.rms.web.purchase.PurchaseUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequestMapping("/api")
 @RestController
-public class PurchaseController extends AbstractApiController {
+public class PurchaseController {
 
     private final PurchaseService purchaseService;
 

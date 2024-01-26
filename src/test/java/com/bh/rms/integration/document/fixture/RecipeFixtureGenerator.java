@@ -1,6 +1,7 @@
 package com.bh.rms.integration.document.fixture;
 
-import com.bh.rms.controller.RecipeController;
+import com.bh.rms.web.recipe.RecipeController;
+import com.bh.rms.web.recipe.RecipeCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -33,19 +34,19 @@ public class RecipeFixtureGenerator {
         return recipeId;
     }
 
-    public RecipeController.RecipeCreateRequest getRecipeCreateRequest() {
-        RecipeController.RecipeCreateRequest request = new RecipeController.RecipeCreateRequest();
+    public RecipeCreateRequest getRecipeCreateRequest() {
+        RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("recipe" + (count++));
         request.setIngredients(getIngredientInputs());
         return request;
     }
 
-    private List<RecipeController.IngredientInput> getIngredientInputs() {
-        List<RecipeController.IngredientInput> ingredientInputs = new ArrayList<>();
+    private List<RecipeCreateRequest.IngredientInput> getIngredientInputs() {
+        List<RecipeCreateRequest.IngredientInput> ingredientInputs = new ArrayList<>();
 
         for(int i = 1; i <= 2; i++) {
             String materialId = materialFixtureGenerator.createMaterial();
-            RecipeController.IngredientInput ingredientInput = new RecipeController.IngredientInput();
+            RecipeCreateRequest.IngredientInput ingredientInput = new RecipeCreateRequest.IngredientInput();
             ingredientInput.setMaterialId(materialId);
             ingredientInput.setAmount(10.0);
             ingredientInputs.add(ingredientInput);
