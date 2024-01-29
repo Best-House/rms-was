@@ -1,6 +1,8 @@
 package com.bh.rms.domain.compositions.cost;
 
 import com.bh.rms.domain.aggregate.material.Material;
+import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
+import com.bh.rms.domain.aggregate.purchase.PurchaseRepository;
 import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
@@ -14,21 +16,26 @@ import java.util.List;
 public class CostService {
     private final RecipeRepository recipeRepository;
     private final MaterialRepository materialRepository;
+    private final PurchaseRepository purchaseRepository;
 
 
-    public CostService(RecipeRepository recipeRepository, MaterialRepository materialRepository) {
+    public CostService(RecipeRepository recipeRepository, MaterialRepository materialRepository,
+                       PurchaseRepository purchaseRepository) {
         this.recipeRepository = recipeRepository;
         this.materialRepository = materialRepository;
+        this.purchaseRepository = purchaseRepository;
     }
 
-    public CostResult getCost(String recipeId) {
+    public CostResult getRecentCost(String recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId);
         List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
 
         List<Material> materials = materialRepository.findByIds(materialIdsOfIngredients);
+        List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(materialIdsOfIngredients);
 
         CostCalculator costCalculator = new CostCalculator();
         costCalculator.putDefaultUnitPriceOf(materials);
+        costCalculator.putPurchaseUnitPrice(purchaseItems);
 
         return new CostResult(
                 recipe.getCost(costCalculator),

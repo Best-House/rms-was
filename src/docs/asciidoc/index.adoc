@@ -9,6 +9,7 @@ Restaurant Management System
 
 include::Material.adoc[]
 include::Recipe.adoc[]
+include::Purchase.adoc[]
 
 
 // template

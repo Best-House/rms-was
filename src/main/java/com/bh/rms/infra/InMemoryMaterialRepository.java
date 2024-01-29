@@ -63,4 +63,13 @@ public class InMemoryMaterialRepository implements MaterialRepository {
     public List<Material> findAll() {
         return materialMap.values().stream().toList();
     }
+
+    @Override
+    public boolean existByIds(List<String> materialIds) {
+        if (Objects.isNull(materialIds)) {
+            return false;
+        }
+        List<Material> materials = findByIds(materialIds);
+        return materials.size() == materialIds.size();
+    }
 }
