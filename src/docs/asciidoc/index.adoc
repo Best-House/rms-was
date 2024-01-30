@@ -10,11 +10,13 @@ Restaurant Management System
 == New Tab
 Use the links bellow to open a document in a new tab
 
-<</api/docs/material#Material-API,Material>>
 
-<</api/docs/recipe#Recipe-API,Recipe>>
+link:/api/docs/Material.html[Material]
 
-<</api/docs/purchase#Recipe-API,Purchase>>
+link:/api/docs/Recipe.html[Recipe]
+
+link:/api/docs/Purchase.html[Purchase]
+
 
 include::Material.adoc[]
 include::Recipe.adoc[]
