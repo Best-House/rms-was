@@ -7,9 +7,19 @@ Restaurant Management System
 :toclevels: 2
 :sectlinks:
 
+== New Tab
+Use the links bellow to open a document in a new tab
+
+<</api/docs/material#Material-API,Material>>
+
+<</api/docs/recipe#Recipe-API,Recipe>>
+
+<</api/docs/purchase#Recipe-API,Purchase>>
+
 include::Material.adoc[]
 include::Recipe.adoc[]
 include::Purchase.adoc[]
+
 
 
 // template

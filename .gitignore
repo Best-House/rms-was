@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### rest doc
-src/main/resources/static/api/docs/index.html
+src/main/resources/static/api/docs/

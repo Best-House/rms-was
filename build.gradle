@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-    asciidoctorExtensions // dependencies 에서 적용한 것 추가
+    asciidoctorExtensions
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -48,7 +48,7 @@ asciidoctor {
     inputs.dir snippetsDir
 
     sources{
-        include("**/index.adoc")
+        include("**/**.adoc")
     }
     baseDirFollowsSourceFile()
 }
