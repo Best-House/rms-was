@@ -1,0 +1,52 @@
+[[Purchase-API]]
+== Purchase API
+
+[[Purchase-Create]]
+=== Purchase-Create
+operation::purchases-create[snippets='http-request,request-fields,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/purchases-create/curl-request.adoc[]
+====
+
+[[Purchase-Update]]
+=== Purchase-Update
+operation::purchases-update[snippets='http-request,path-parameters,request-fields,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/purchases-update/curl-request.adoc[]
+====
+
+[[Purchase-Delete]]
+=== Purchase-Delete
+operation::purchases-delete[snippets='http-request,path-parameters,http-response']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/purchases-delete/curl-request.adoc[]
+====
+
+[[Purchase-Get]]
+=== Purchase-Get
+operation::purchases-get[snippets='http-request,path-parameters,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/purchases-get/curl-request.adoc[]
+====
+
+[[Purchase-GetAll]]
+=== Purchase-GetAll
+operation::purchases-getAll[snippets='http-request,http-response,response-fields']
+
+.curl
+[%collapsible]
+====
+include::{snippets}/purchases-getAll/curl-request.adoc[]
+====
