@@ -3,11 +3,13 @@ package com.bh.rms.domain.aggregate.menu;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Menu {
     private String id;
@@ -17,12 +19,6 @@ public class Menu {
 
     public Menu(String id, String name, Integer price, String recipeId) {
         setId(id);
-        setName(name);
-        setPrice(price);
-        setRecipeId(recipeId);
-    }
-
-    public Menu(String name, Integer price, String recipeId) {
         setName(name);
         setPrice(price);
         setRecipeId(recipeId);

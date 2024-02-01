@@ -1,5 +1,6 @@
 package com.bh.rms.web.menu;
 
+import com.bh.rms.domain.aggregate.menu.Menu;
 import com.bh.rms.domain.aggregate.menu.service.MenuService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +16,20 @@ public class MenuController {
 
     @PostMapping("/menu")
     public MenuCreateResponse create(@RequestBody MenuCreateRequest request) {
-        return menuService.create(request);
+        Menu menu = request.makeForCreate();
+        menuService.create(menu);
+        return new MenuCreateResponse(menu.getId());
     }
 
     @GetMapping("/menus/{menuId}")
-    public MenuResponse get(@PathVariable String menuId) {
+    public Menu get(@PathVariable String menuId) {
         return menuService.get(menuId);
     }
 
     @PutMapping("/menus/{menuId}")
     public void update(@PathVariable String menuId, @RequestBody MenuUpdateRequest request) {
-        menuService.update(menuId, request);
+        Menu menu = request.makeForUpdate(menuId);
+        menuService.update(menu);
     }
 
     @DeleteMapping("/menus/{menuId}")
@@ -34,7 +38,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus")
-    public List<MenuResponse> getAll() {
+    public List<Menu> getAll() {
         return menuService.getAll();
     }
 }

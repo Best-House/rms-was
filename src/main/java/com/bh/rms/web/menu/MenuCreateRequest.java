@@ -1,11 +1,11 @@
 package com.bh.rms.web.menu;
 
+import com.bh.rms.domain.aggregate.menu.Menu;
+import com.bh.rms.domain.aggregate.menu.MenuFactory;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
 public class MenuCreateRequest {
     @NotBlank
@@ -14,4 +14,12 @@ public class MenuCreateRequest {
     private Integer price;
     @NotBlank
     private String recipeId;
+
+    public Menu makeForCreate() {
+        return MenuFactory.forCreate()
+                .setName(name)
+                .setPrice(price)
+                .setRecipeId(recipeId)
+                .build();
+    }
 }
