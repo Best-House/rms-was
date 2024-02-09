@@ -2,6 +2,7 @@ package com.bh.rms.domain.aggregate.recipe;
 
 import com.bh.rms.domain.aggregate.recipe.exception.InvalidRecipeException;
 import com.bh.rms.domain.compositions.cost.CostCalculator;
+import com.bh.rms.domain.compositions.cost.PriceRegistry;
 import com.bh.rms.domain.exception.InvalidAggregateIdException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class Recipe { // root aggregate
                 .collect(Collectors.toList());
     }
 
-    public double getCost(CostCalculator costCalculator) {
-        return costCalculator.calculateCost(ingredients);
+    public double calculateCost(PriceRegistry priceRegistry) {
+        return CostCalculator.calculateCost(ingredients, priceRegistry);
     }
 }

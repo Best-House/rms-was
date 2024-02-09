@@ -1,7 +1,5 @@
 package com.bh.rms.domain.compositions.cost;
 
-import com.bh.rms.domain.aggregate.purchase.PurchaseRepository;
-import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,33 +11,33 @@ import static org.mockito.Mockito.*;
 
 class CostServiceTest {
     RecipeRepository recipeRepository;
-    MaterialRepository materialRepository;
-    PurchaseRepository purchaseRepository;
+    PriceRegistryFactory priceRegistryFactory;
     CostService costService;
     Recipe recipe;
+    PriceRegistry priceRegistry;
 
     @BeforeEach
     public void setup() {
         recipeRepository = mock(RecipeRepository.class);
-        materialRepository = mock(MaterialRepository.class);
-        purchaseRepository = mock(PurchaseRepository.class);
+        priceRegistryFactory = mock(PriceRegistryFactory.class);
         recipe = mock(Recipe.class);
-        costService = new CostService(recipeRepository, materialRepository, purchaseRepository);
+        priceRegistry = mock(PriceRegistry.class);
+        costService = new CostService(recipeRepository, priceRegistryFactory);
     }
 
     @Test
     void getCost() {
         when(recipeRepository.findById("recipe1")).thenReturn(recipe);
         when(recipe.getMaterialIdsOfIngredients()).thenReturn(Collections.emptyList());
-        when(materialRepository.findByIds(anyList())).thenReturn(Collections.emptyList());
-        when(purchaseRepository.findRecentPurchaseItemsBy(anyList())).thenReturn(Collections.emptyList());
+        when(priceRegistryFactory.defaultAndRecentPurchase(anyList())).thenReturn(priceRegistry);
 
         costService.getRecentCost("recipe1");
 
-        verify(recipe).getCost(any(CostCalculator.class));
+        verify(recipeRepository).findById("recipe1");
         verify(recipe).getMaterialIdsOfIngredients();
-        verify(materialRepository).findByIds(anyList());
-        verify(purchaseRepository).findRecentPurchaseItemsBy(anyList());
+        verify(priceRegistryFactory).defaultAndRecentPurchase(Collections.emptyList());
+        verify(recipe).calculateCost(priceRegistry);
+        verify(priceRegistry).getUnknownPriceOf(Collections.emptyList());
     }
 
 

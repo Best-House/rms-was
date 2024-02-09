@@ -1,9 +1,5 @@
 package com.bh.rms.domain.compositions.cost;
 
-import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
-import com.bh.rms.domain.aggregate.purchase.PurchaseRepository;
-import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.recipe.Recipe;
 import com.bh.rms.domain.aggregate.recipe.RecipeRepository;
 import lombok.AllArgsConstructor;
@@ -15,31 +11,25 @@ import java.util.List;
 @Service
 public class CostService {
     private final RecipeRepository recipeRepository;
-    private final MaterialRepository materialRepository;
-    private final PurchaseRepository purchaseRepository;
+    private final PriceRegistryFactory priceRegistryFactory;
 
 
-    public CostService(RecipeRepository recipeRepository, MaterialRepository materialRepository,
-                       PurchaseRepository purchaseRepository) {
+    public CostService(
+            RecipeRepository recipeRepository,
+            PriceRegistryFactory priceRegistryFactory
+    ) {
         this.recipeRepository = recipeRepository;
-        this.materialRepository = materialRepository;
-        this.purchaseRepository = purchaseRepository;
+        this.priceRegistryFactory = priceRegistryFactory;
     }
 
     public CostResult getRecentCost(String recipeId) {
-        Recipe recipe = recipeRepository.findById(recipeId);
-        List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
+        final Recipe recipe = recipeRepository.findById(recipeId);
+        final List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
 
-        List<Material> materials = materialRepository.findByIds(materialIdsOfIngredients);
-        List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(materialIdsOfIngredients);
-
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putDefaultUnitPriceOf(materials);
-        costCalculator.putPurchaseUnitPrice(purchaseItems);
-
+        final PriceRegistry priceRegistry = priceRegistryFactory.defaultAndRecentPurchase(materialIdsOfIngredients);
         return new CostResult(
-                recipe.getCost(costCalculator),
-                costCalculator.getUnknownPriceOf(materialIdsOfIngredients)
+                recipe.calculateCost(priceRegistry),
+                priceRegistry.getUnknownPriceOf(materialIdsOfIngredients)
         );
     }
 
