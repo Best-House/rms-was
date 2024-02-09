@@ -18,11 +18,11 @@ public class PriceRegistryFactory {
         this.purchaseRepository = purchaseRepository;
     }
 
-    public PriceRegistry defaultAndRecentPurchase(List<String> materialIds) {
+    public PriceRegistry compounded(List<String> materialIds) {
         List<Material> materials = materialRepository.findByIds(materialIds);
         List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(materialIds);
 
-        PriceRegistry priceRegistry = new PriceRegistry();
+        CompoundPriceRegistry priceRegistry = new CompoundPriceRegistry();
         priceRegistry.putDefaultUnitPriceOf(materials);
         priceRegistry.putPurchaseUnitPrice(purchaseItems);
         return priceRegistry;

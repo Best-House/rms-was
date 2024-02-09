@@ -22,11 +22,11 @@ public class CostService {
         this.priceRegistryFactory = priceRegistryFactory;
     }
 
-    public CostResult getRecentCost(String recipeId) {
+    public CostResult getCompoundedCost(String recipeId) {
         final Recipe recipe = recipeRepository.findById(recipeId);
         final List<String> materialIdsOfIngredients = recipe.getMaterialIdsOfIngredients();
 
-        final PriceRegistry priceRegistry = priceRegistryFactory.defaultAndRecentPurchase(materialIdsOfIngredients);
+        final PriceRegistry priceRegistry = priceRegistryFactory.compounded(materialIdsOfIngredients);
         return new CostResult(
                 recipe.calculateCost(priceRegistry),
                 priceRegistry.getUnknownPriceOf(materialIdsOfIngredients)

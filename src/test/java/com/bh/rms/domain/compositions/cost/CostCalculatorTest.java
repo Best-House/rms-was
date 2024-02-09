@@ -55,7 +55,7 @@ class CostCalculatorTest {
     void getCostWithEmptyPriceMapTest() {
         List<Ingredient> ingredients = makeIngredients();
 
-        double recipeCost = CostCalculator.calculateCost(ingredients, new PriceRegistry());
+        double recipeCost = CostCalculator.calculateCost(ingredients, mock(PriceRegistry.class));
 
         assertEquals(0.0, recipeCost);
     }

@@ -52,7 +52,7 @@ public class RecipeController{
 
     @GetMapping("/recipes/{recipeId}/cost")
     public CostService.CostResult getCost(@PathVariable String recipeId) {
-        return costService.getRecentCost(recipeId);
+        return costService.getCompoundedCost(recipeId);
     }
 
 }

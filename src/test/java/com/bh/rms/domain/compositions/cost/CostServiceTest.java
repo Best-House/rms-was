@@ -26,16 +26,16 @@ class CostServiceTest {
     }
 
     @Test
-    void getCost() {
+    void getCompoundedCost() {
         when(recipeRepository.findById("recipe1")).thenReturn(recipe);
         when(recipe.getMaterialIdsOfIngredients()).thenReturn(Collections.emptyList());
-        when(priceRegistryFactory.defaultAndRecentPurchase(anyList())).thenReturn(priceRegistry);
+        when(priceRegistryFactory.compounded(anyList())).thenReturn(priceRegistry);
 
-        costService.getRecentCost("recipe1");
+        costService.getCompoundedCost("recipe1");
 
         verify(recipeRepository).findById("recipe1");
         verify(recipe).getMaterialIdsOfIngredients();
-        verify(priceRegistryFactory).defaultAndRecentPurchase(Collections.emptyList());
+        verify(priceRegistryFactory).compounded(Collections.emptyList());
         verify(recipe).calculateCost(priceRegistry);
         verify(priceRegistry).getUnknownPriceOf(Collections.emptyList());
     }
