@@ -22,6 +22,6 @@ spring:
       on-profile: prod
 
 mongo:
-  connectionString: mongodb://root:rms_was@mongo:27017/
+  connectionString: mongodb://root:rms_was@localhost:27017/
   databaseName: rms
   materialCollectionName: materials
