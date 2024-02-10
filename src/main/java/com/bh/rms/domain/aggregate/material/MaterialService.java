@@ -18,8 +18,8 @@ public class MaterialService {
     }
 
     // forward only
-    public void create(Material material) {
-        materialRepository.create(material);
+    public String create(Material material) {
+        return materialRepository.create(material);
     }
 
     public void update(Material material) {
