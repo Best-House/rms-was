@@ -28,21 +28,24 @@ class InMemoryPurchaseRepositoryTest {
         long thirdPurchaseDate = 300;
         Purchase purchase1 = new Purchase();
         purchase1.setId("purchase1");
+        purchase1.setCreatedDate(firstPurchaseDate);
         purchase1.setPurchaseItems(List.of(
-                new PurchaseItem("material1", 100, 10, firstPurchaseDate),
-                new PurchaseItem("material2", 100, 10, firstPurchaseDate))
+                new PurchaseItem("material1", 100, 10),
+                new PurchaseItem("material2", 200, 10))
         );
         Purchase purchase2 = new Purchase();
         purchase2.setId("purchase2");
+        purchase2.setCreatedDate(secondPurchaseDate);
         purchase2.setPurchaseItems(List.of(
-                new PurchaseItem("material2", 200, 10, secondPurchaseDate),
-                new PurchaseItem("material3", 100, 10, secondPurchaseDate))
+                new PurchaseItem("material2", 300, 10),
+                new PurchaseItem("material3", 400, 10))
         );
         Purchase purchase3 = new Purchase();
         purchase3.setId("purchase3");
+        purchase3.setCreatedDate(thirdPurchaseDate);
         purchase3.setPurchaseItems(List.of(
-                new PurchaseItem("material1", 500, 10, thirdPurchaseDate),
-                new PurchaseItem("material3", 100, 10, thirdPurchaseDate))
+                new PurchaseItem("material1", 500, 10),
+                new PurchaseItem("material3", 600, 10))
         );
 
         purchaseRepository.create(purchase1);
@@ -51,11 +54,13 @@ class InMemoryPurchaseRepositoryTest {
 
         List<PurchaseItem> purchaseItems = purchaseRepository.findRecentPurchaseItemsBy(List.of("material1", "material2"));
 
-        Map<String, PurchaseItem> result = purchaseItems.stream()
-                .collect(Collectors.toMap(PurchaseItem::materialId, Function.identity()));
-        assertEquals(thirdPurchaseDate, result.get("material1").purchaseDate());
-        assertEquals(secondPurchaseDate, result.get("material2").purchaseDate());
-        assertEquals(500, result.get("material1").price());
-        assertEquals(200, result.get("material2").price());
+
+        assertEquals(2, purchaseItems.size());
+        assertTrue(purchaseItems.stream().anyMatch(pi -> pi.materialId().equals("material1")));
+        assertTrue(purchaseItems.stream().anyMatch(pi -> pi.materialId().equals("material2")));
+        assertTrue(purchaseItems.stream().noneMatch(pi -> pi.materialId().equals("material3")));
+
+        assertEquals(500, purchaseItems.stream().filter(pi -> pi.materialId().equals("material1")).findFirst().orElse(null).price());
+        assertEquals(300, purchaseItems.stream().filter(pi -> pi.materialId().equals("material2")).findFirst().orElse(null).price());
     }
 }

@@ -27,7 +27,7 @@ class CompoundPriceRegistryTest {
 
     @Test
     void putPurchaseUnitPrice() {
-        PurchaseItem purchaseItem = new PurchaseItem("m1", 2.0, 1.0, 0L);
+        PurchaseItem purchaseItem = new PurchaseItem("m1", 2.0, 1.0);
 
         compoundPriceRegistry.putPurchaseUnitPrice(List.of(purchaseItem));
 
@@ -41,7 +41,7 @@ class CompoundPriceRegistryTest {
         material.setId("m1");
         material.setDefaultUnitPrice(1.0);
 
-        PurchaseItem purchaseItem = new PurchaseItem("m1", 2.0, 1.0, 0L);
+        PurchaseItem purchaseItem = new PurchaseItem("m1", 2.0, 1.0);
 
         compoundPriceRegistry.putDefaultUnitPriceOf(List.of(material));
         compoundPriceRegistry.putPurchaseUnitPrice(List.of(purchaseItem));

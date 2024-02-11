@@ -6,15 +6,13 @@ import io.micrometer.common.util.StringUtils;
 public record PurchaseItem(
         String materialId,
         double price,
-        double amount,
-        long purchaseDate
+        double amount
 ) {
 
     public PurchaseItem {
         validateMaterialId(materialId);
         validatePrice(price);
         validateAmount(amount);
-        validatePurchaseDate(purchaseDate);
     }
 
     private void validateMaterialId(String materialId) {
@@ -31,12 +29,6 @@ public record PurchaseItem(
 
     private void validateAmount(double amount) {
         if (amount <= 0) {
-            throw new InvalidPurchaseException();
-        }
-    }
-
-    private void validatePurchaseDate(long purchaseDate) {
-        if (purchaseDate < 0) {
             throw new InvalidPurchaseException();
         }
     }

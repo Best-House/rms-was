@@ -18,6 +18,7 @@ public class PurchaseFactory {
 
         public Purchase build() {
             Purchase purchase = new Purchase();
+            purchase.setCreatedDate(System.currentTimeMillis());
             purchase.setPurchaseItems(purchaseItems);
             return purchase;
         }
@@ -37,6 +38,7 @@ public class PurchaseFactory {
         public Purchase build() {
             Purchase purchase = new Purchase();
             purchase.setId(id);
+            purchase.setCreatedDate(System.currentTimeMillis());
             purchase.setPurchaseItems(purchaseItems);
             return purchase;
         }
