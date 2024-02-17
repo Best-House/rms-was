@@ -16,16 +16,23 @@ import java.util.Objects;
 public class Purchase {
 
     private String id;
+    @Getter
+    private long createdDate;
 
     private List<PurchaseItem> purchaseItems;
-
-    public Purchase() {}
 
     public void setId(String id) {
         if (StringUtils.isBlank(id)) {
             throw new InvalidAggregateIdException();
         }
         this.id = id;
+    }
+
+    public void setCreatedDate(long createdDate) {
+        if (createdDate < 0) {
+            throw new InvalidPurchaseException();
+        }
+        this.createdDate = createdDate;
     }
 
     public void setPurchaseItems(List<PurchaseItem> purchaseItems) {
@@ -39,5 +46,17 @@ public class Purchase {
         return purchaseItems.stream()
                 .map(PurchaseItem::materialId)
                 .toList();
+    }
+
+    public boolean contains(String materialId) {
+        return purchaseItems.stream()
+                .anyMatch(pi -> pi.materialId().equals(materialId));
+    }
+
+    public PurchaseItem getPurchaseItemOf(String materialId) {
+        return purchaseItems.stream()
+                .filter(pi -> pi.materialId().equals(materialId))
+                .findFirst()
+                .orElse(null);
     }
 }

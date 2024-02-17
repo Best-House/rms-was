@@ -34,6 +34,18 @@ class PurchaseTest {
                 purchase.setId(" "));
     }
 
+
+    @Test
+    void createdDateTest() {
+        Purchase purchase = new Purchase();
+
+        purchase.setCreatedDate(0);
+        purchase.setCreatedDate(System.currentTimeMillis());
+        assertThrows(InvalidPurchaseException.class, () -> {
+            purchase.setCreatedDate(-1);
+        });
+    }
+
     @Test
     void purchaseItemTest() {
         Purchase purchase = new Purchase();
@@ -49,12 +61,38 @@ class PurchaseTest {
     void getContainedMaterialIdsTest() throws Exception {
         Purchase purchase = new Purchase();
         purchase.setPurchaseItems(List.of(
-                new PurchaseItem("material1", 1., 1., 1),
-                new PurchaseItem("material2", 1., 1., 1)
+                new PurchaseItem("material1", 1., 1.),
+                new PurchaseItem("material2", 1., 1.)
         ));
 
         List<String> result = purchase.getContainedMaterialIds();
 
         assertEquals(List.of("material1", "material2"), result);
+    }
+
+    @Test
+    void contains() {
+        Purchase purchase = new Purchase();
+        purchase.setPurchaseItems(List.of(
+                new PurchaseItem("material1", 1., 1.),
+                new PurchaseItem("material2", 1., 1.)
+        ));
+
+        assertTrue(purchase.contains("material1"));
+        assertTrue(purchase.contains("material2"));
+        assertFalse(purchase.contains("material3"));
+    }
+
+    @Test
+    void getPurchaseItemOf() {
+        Purchase purchase = new Purchase();
+        purchase.setPurchaseItems(List.of(
+                new PurchaseItem("material1", 1., 1.),
+                new PurchaseItem("material2", 2., 1.)
+        ));
+
+        assertEquals("material1", purchase.getPurchaseItemOf("material1").materialId());
+        assertEquals("material2", purchase.getPurchaseItemOf("material2").materialId());
+        assertNull(purchase.getPurchaseItemOf("material3"));
     }
 }

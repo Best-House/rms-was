@@ -30,13 +30,11 @@ public class PurchaseCreateRequest {
     }
 
     public Purchase makePurchaseForCreate() {
-        long purchaseDate = System.currentTimeMillis();
         List<PurchaseItem> purchaseItemList = purchaseItems.stream()
                 .map(itemDto -> new PurchaseItem(
                         itemDto.materialId,
                         itemDto.price,
-                        itemDto.amount,
-                        purchaseDate
+                        itemDto.amount
                 )).toList();
         return PurchaseFactory.forCreate()
                 .setPurchaseItems(purchaseItemList)

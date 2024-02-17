@@ -20,11 +20,11 @@ public class RecipeService {
         this.materialService = materialService;
     }
 
-    public void create(Recipe recipe) {
+    public String create(Recipe recipe) {
         if(!materialService.isAllExist(recipe.getMaterialIdsOfIngredients())) {
             throw new InvalidRecipeException();
         }
-        recipeRepository.create(recipe);
+        return recipeRepository.create(recipe);
     }
 
     public void update(Recipe recipe) {

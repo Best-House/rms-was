@@ -10,33 +10,33 @@ class PurchaseItemTest {
     @Test
     void materialIdTest() {
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem(null, 10., 10., 10));
+                new PurchaseItem(null, 10., 10.));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem("", 10., 10., 10));
+                new PurchaseItem("", 10., 10.));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem(" ", 10., 10., 10));
+                new PurchaseItem(" ", 10., 10.));
     }
 
     @Test
     void priceTest() {
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem("material1", -10., 10., 10));
+                new PurchaseItem("material1", -10., 10.));
     }
 
     @Test
     void amountTest() {
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem("material1", 10., 0, 10));
+                new PurchaseItem("material1", 10., 0));
 
         assertThrows(InvalidPurchaseException.class, () ->
-                new PurchaseItem("material1", 10., -10, 10));
+                new PurchaseItem("material1", 10., -10));
     }
 
     @Test
     void getUnitPrice() throws Exception {
-        PurchaseItem purchaseItem = new PurchaseItem("material1", 1000., 2, 10);
+        PurchaseItem purchaseItem = new PurchaseItem("material1", 1000., 2);
 
         double result = purchaseItem.getUnitPrice();
 

@@ -36,7 +36,7 @@ class PurchaseServiceTest {
 
     private Purchase createPurchase() {
         Purchase purchase = new Purchase();
-        purchase.setPurchaseItems(List.of(new PurchaseItem("material1", 1000, 2, 10)));
+        purchase.setPurchaseItems(List.of(new PurchaseItem("material1", 1000, 2)));
         return purchase;
     }
 

@@ -18,6 +18,7 @@ public class MongoMaterialRepositoryTest extends AbstractProdIntegrationTest {
     MongoMaterialRepository mongoMaterialRepository;
 
     Material material;
+    String materialId;
 
     @BeforeEach
     public void beforeEach() {
@@ -25,12 +26,12 @@ public class MongoMaterialRepositoryTest extends AbstractProdIntegrationTest {
                 .setName("material-name")
                 .setDefaultUnitPrice(1.0)
                 .build();
-        mongoMaterialRepository.create(material);
+        materialId = mongoMaterialRepository.create(material);
     }
 
     @AfterEach
     public void afterEach() {
-        mongoMaterialRepository.delete(material.getId());
+        mongoMaterialRepository.delete(materialId);
     }
 
     @Test
@@ -41,13 +42,13 @@ public class MongoMaterialRepositoryTest extends AbstractProdIntegrationTest {
 
     @Test
     void findById() {
-        Material foundMaterial = mongoMaterialRepository.findById(material.getId());
-        assertEquals(material.getId(), foundMaterial.getId());
+        Material foundMaterial = mongoMaterialRepository.findById(materialId);
+        assertEquals(materialId, foundMaterial.getId());
     }
 
     @Test
     void findByIds() {
-        List<Material> foundMaterials = mongoMaterialRepository.findByIds(List.of(material.getId()));
+        List<Material> foundMaterials = mongoMaterialRepository.findByIds(List.of(materialId));
         assertEquals(1, foundMaterials.size());
         assertEquals(material, foundMaterials.get(0));
     }
@@ -61,13 +62,13 @@ public class MongoMaterialRepositoryTest extends AbstractProdIntegrationTest {
 
     @Test
     void existByIds() {
-        boolean result = mongoMaterialRepository.existByIds(List.of(material.getId()));
+        boolean result = mongoMaterialRepository.existByIds(List.of(materialId));
         assertTrue(result);
     }
 
     @Test
     void existByIdsFailure() {
-        boolean result = mongoMaterialRepository.existByIds(List.of(material.getId(), new ObjectId().toHexString()));
+        boolean result = mongoMaterialRepository.existByIds(List.of(materialId, new ObjectId().toHexString()));
         assertFalse(result);
     }
 }

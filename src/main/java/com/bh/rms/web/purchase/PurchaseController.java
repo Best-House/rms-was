@@ -40,7 +40,7 @@ public class PurchaseController {
     }
 
     @GetMapping("/purchases/{purchaseId}")
-    public Purchase find(@PathVariable String purchaseId) {
+    public Purchase get(@PathVariable String purchaseId) {
         return purchaseService.find(purchaseId);
     }
 

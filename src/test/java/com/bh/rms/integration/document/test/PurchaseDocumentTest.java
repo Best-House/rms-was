@@ -152,11 +152,11 @@ public class PurchaseDocumentTest extends AbstractDocumentTest {
                                 getRequestPreprocessor(), getResponsePreprocessor(),
                                 responseFields(
                                         fieldWithPath("id").type(JsonFieldType.STRING).description("id of purchase"),
+                                        fieldWithPath("createdDate").type(JsonFieldType.NUMBER).description("created Date"),
                                         fieldWithPath("purchaseItems").type(JsonFieldType.ARRAY).description("purchaseItems of purchase"),
                                         fieldWithPath("purchaseItems[].materialId").type(JsonFieldType.STRING).description("materialId of purchaseItem"),
                                         fieldWithPath("purchaseItems[].price").type(JsonFieldType.NUMBER).description("price of purchaseItem"),
-                                        fieldWithPath("purchaseItems[].amount").type(JsonFieldType.NUMBER).description("amount of purchaseItem"),
-                                        fieldWithPath("purchaseItems[].purchaseDate").type(JsonFieldType.NUMBER).description("amount of purchaseItem")
+                                        fieldWithPath("purchaseItems[].amount").type(JsonFieldType.NUMBER).description("amount of purchaseItem")
                                 )
                         )
                 );
@@ -186,11 +186,11 @@ public class PurchaseDocumentTest extends AbstractDocumentTest {
                                 responseFields(
                                         fieldWithPath("[]").type(JsonFieldType.ARRAY).description("all of purchases"),
                                         fieldWithPath("[].id").type(JsonFieldType.STRING).description("id of purchase"),
+                                        fieldWithPath("[].createdDate").type(JsonFieldType.NUMBER).description("createDate of purchase"),
                                         fieldWithPath("[].purchaseItems").type(JsonFieldType.ARRAY).description("purchaseItems of purchase"),
                                         fieldWithPath("[].purchaseItems[].materialId").type(JsonFieldType.STRING).description("materialId of purchaseItem"),
                                         fieldWithPath("[].purchaseItems[].price").type(JsonFieldType.NUMBER).description("price of purchaseItem"),
-                                        fieldWithPath("[].purchaseItems[].amount").type(JsonFieldType.NUMBER).description("amount of purchaseItem"),
-                                        fieldWithPath("[].purchaseItems[].purchaseDate").type(JsonFieldType.NUMBER).description("amount of purchaseItem")
+                                        fieldWithPath("[].purchaseItems[].amount").type(JsonFieldType.NUMBER).description("amount of purchaseItem")
                                 )
                         )
                 );

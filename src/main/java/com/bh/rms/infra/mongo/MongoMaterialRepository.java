@@ -32,7 +32,7 @@ public class MongoMaterialRepository implements MaterialRepository {
     }
 
     @Override
-    public void create(Material material) {
+    public String create(Material material) {
         MongoMaterialDocument materialDocument = MongoMaterialDocument.convertForCreate(material);
 
         InsertOneResult result = materialMongoCollection.insertOne(materialDocument);
@@ -44,6 +44,7 @@ public class MongoMaterialRepository implements MaterialRepository {
         }
 
         material.setId(materialDocument.getObjectId().toHexString());
+        return material.getId();
     }
 
     @Override

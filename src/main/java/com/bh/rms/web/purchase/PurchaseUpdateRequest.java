@@ -36,8 +36,7 @@ public class PurchaseUpdateRequest {
                 .map(input -> new PurchaseItem(
                         input.materialId,
                         input.price,
-                        input.amount,
-                        input.purchaseDate
+                        input.amount
                 )).toList();
         return PurchaseFactory.forUpdate()
                 .setId(purchaseId)

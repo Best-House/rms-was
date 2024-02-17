@@ -1,107 +1,61 @@
 package com.bh.rms.domain.compositions.cost;
 
-import com.bh.rms.domain.aggregate.material.Material;
-import com.bh.rms.domain.aggregate.purchase.PurchaseItem;
-import com.bh.rms.domain.aggregate.material.MaterialFactory;
 import com.bh.rms.domain.aggregate.recipe.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CostCalculatorTest {
-    List<Material> materialList;
+    private PriceRegistry priceRegistry;
+
     @BeforeEach
-    void setUp() {
-        materialList = new ArrayList<>();
-        materialList.add(MaterialFactory.forUpdate().setId("m1").setName("m1").setDefaultUnitPrice(2.0).build());
-        materialList.add(MaterialFactory.forUpdate().setId("m2").setName("m2").setDefaultUnitPrice(3.0).build());
-        materialList.add(MaterialFactory.forUpdate().setId("m3").setName("m3").setDefaultUnitPrice(4.0).build());
+    public void setup() {
+        priceRegistry = mock(PriceRegistry.class);
+        when(priceRegistry.containsKey("m1")).thenReturn(true);
+        when(priceRegistry.getUnitPrice("m1")).thenReturn(1.0);
+        when(priceRegistry.containsKey("m2")).thenReturn(false);
+//        when(priceRegistry.getUnitPrice("m2")).thenReturn(2.0);
+        when(priceRegistry.containsKey("m3")).thenReturn(true);
+        when(priceRegistry.getUnitPrice("m3")).thenReturn(3.0);
     }
 
-    private List<Ingredient> getIngredients() {
+    private List<Ingredient> makeIngredients() {
         return List.of(
-                new Ingredient(materialList.get(0).getId(), 1.0),
-                new Ingredient(materialList.get(1).getId(), 2.0),
-                new Ingredient(materialList.get(2).getId(), 3.0)
-        );
-    }
-
-    private List<PurchaseItem> makePurchaseItems() {
-        return List.of(
-                new PurchaseItem("m1", 2.0, 2, 1),
-                new PurchaseItem("m2", 2.0, 1, 1)
+                new Ingredient("m1", 1.0),
+                new Ingredient("m2", 2.0),
+                new Ingredient("m3", 3.0)
         );
     }
 
     @Test
-    void getCostWithDefaultUnitPrice() {
-        List<Ingredient> ingredients = getIngredients();
-        List<Material> materials =  List.of(materialList.get(0), materialList.get(2));
+    void getCost() {
+        List<Ingredient> ingredients = makeIngredients();
 
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putDefaultUnitPriceOf(materials);
+        double recipeCost = CostCalculator.calculateCost(ingredients, priceRegistry);
 
-        double recipeCost = costCalculator.calculateCost(ingredients);
-
-        assertEquals(14.0, recipeCost);
+        assertEquals(10.0, recipeCost);
     }
 
-    @Test
-    void getPurchaseWithDefaultUnitPrice() {
-        List<Ingredient> ingredients = getIngredients();
-        List<PurchaseItem> purchaseItems = makePurchaseItems();
 
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putPurchaseUnitPrice(purchaseItems);
-
-        double recipeCost = costCalculator.calculateCost(ingredients);
-
-        assertEquals(5.0, recipeCost);
-    }
-
-    @Test
-    void getUnknownPriceMaterials() {
-        List<Ingredient> ingredients = getIngredients();
-        List<Material> materials = List.of(materialList.get(0), materialList.get(2));
-
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putDefaultUnitPriceOf(materials);
-
-        List<String> unknownPriceMaterials = costCalculator.getUnknownPriceOf(
-                ingredients.stream()
-                        .map(Ingredient::materialId)
-                        .collect(Collectors.toList())
-        );
-
-        assertTrue(unknownPriceMaterials.contains(materialList.get(1).getId()));
-    }
 
     @Test
     void getCostWithEmptyIngredientTest() {
-        List<Ingredient> ingredients = Collections.emptyList();
-        List<Material> materials =  List.of(materialList.get(0), materialList.get(1), materialList.get(2));
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putDefaultUnitPriceOf(materials);
-
-        double recipeCost = costCalculator.calculateCost(ingredients);
+        double recipeCost = CostCalculator.calculateCost(Collections.emptyList(), priceRegistry);
 
         assertEquals(0.0, recipeCost);
     }
 
     @Test
     void getCostWithEmptyPriceMapTest() {
-        List<Ingredient> ingredients = getIngredients();
-        List<Material> materials =  Collections.emptyList();
-        CostCalculator costCalculator = new CostCalculator();
-        costCalculator.putDefaultUnitPriceOf(materials);
+        List<Ingredient> ingredients = makeIngredients();
 
-        double recipeCost = costCalculator.calculateCost(ingredients);
+        double recipeCost = CostCalculator.calculateCost(ingredients, mock(PriceRegistry.class));
 
         assertEquals(0.0, recipeCost);
     }

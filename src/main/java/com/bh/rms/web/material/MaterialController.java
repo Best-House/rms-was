@@ -18,8 +18,8 @@ public class MaterialController{
     @PostMapping("/materials")
     public MaterialCreateResponse create(@RequestBody MaterialCreateRequest request) {
         Material material = request.makeMaterialForCreate();
-        materialService.create(material);
-        return new MaterialCreateResponse(material.getId());
+        String materialId = materialService.create(material);
+        return new MaterialCreateResponse(materialId);
     }
 
     @PutMapping("/materials/{materialId}")
