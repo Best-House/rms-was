@@ -3,11 +3,13 @@ package com.bh.rms.infra;
 import com.bh.rms.domain.aggregate.material.MaterialRepository;
 import com.bh.rms.domain.aggregate.material.Material;
 import com.bh.rms.domain.aggregate.material.exception.MaterialNotFoundException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Profile("inmemory")
 @Repository
 public class InMemoryMaterialRepository implements MaterialRepository {
     private final Map<String, Material> materialMap;
