@@ -22,7 +22,7 @@ public class InMemoryMenuRepository implements MenuRepository {
 
     @Override
     public String create(Menu menu) {
-        menu.setId(String.format("material%d", atomicInteger.incrementAndGet()));
+        menu.setId(String.format("menu%d", atomicInteger.incrementAndGet()));
         menuMap.put(menu.getId(), menu);
         return menu.getId();
     }
