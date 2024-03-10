@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/api")
 @RestController
 public class MenuController {
     private final MenuService menuService;
@@ -14,7 +15,7 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @PostMapping("/menu")
+    @PostMapping("/menus")
     public MenuCreateResponse create(@RequestBody MenuCreateRequest request) {
         Menu menu = request.makeForCreate();
         menuService.create(menu);
